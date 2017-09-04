@@ -11,6 +11,7 @@
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
     <link rel="import" href="../xtal-decorator.html">
+    <link rel="import" href="../../polymer/lib/elements/dom-bind.html">
 
     <custom-style>
       <style is="custom-style" include="demo-pages-shared-styles">
@@ -22,7 +23,20 @@
       <h3>Basic xtal-decorator demo</h3>
       <demo-snippet>
         <template>
-          <xtal-decorator></xtal-decorator>
+          <xtal-decorator>
+            <script>
+              [{
+                handleClick:() => {
+                  debugger;
+                }
+              }]
+            </script>
+          </xtal-decorator>
+          <dom-bind>
+            <template>
+              <span on-click="handleClick">Click me</span>
+            </template>
+          </dom-bind>
         </template>
       </demo-snippet>
     </div>

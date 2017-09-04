@@ -1,36 +1,3 @@
+<!DOCTYPE html>
 <link rel="import" href="../polymer/polymer-element.html">
-
-<dom-module id="xtal-decorator">
-  <template>
-    <style>
-      :host {
-        display: block;
-      }
-    </style>
-    <h2>Hello [[prop1]]!</h2>
-  </template>
-
-  <script>
-    /**
-     * `xtal-decorator`
-     * Attach event handlers, properties to a neighboring custom element.
-     *
-     * @customElement
-     * @polymer
-     * @demo demo/index.html
-     */
-    class XtalDecorator extends Polymer.Element {
-      static get is() { return 'xtal-decorator'; }
-      static get properties() {
-        return {
-          prop1: {
-            type: String,
-            value: 'xtal-decorator'
-          }
-        };
-      }
-    }
-
-    window.customElements.define(XtalDecorator.is, XtalDecorator);
-  </script>
-</dom-module>
+<script src="xtal-decorator.js"></script>
