@@ -98,14 +98,22 @@ var xtal;
                 const objectsToMerge = eval(innerText);
                 for (let i = 0, ii = targets.length; i < ii; i++) {
                     const target = targets[i];
-                    Object.defineProperty(target, 'handleClick', {
-                        enumerable: false,
-                        configurable: true,
-                        writable: true,
-                        value: function (e) {
-                            debugger;
+                    for (let j = 0, jj = objectsToMerge.length; j < jj; j++) {
+                        const objectToMerge = objectsToMerge[j];
+                        for (var key in objectToMerge) {
+                            const val = objectToMerge[key];
+                            switch (typeof val) {
+                                case 'function':
+                                    Object.defineProperty(target, key, {
+                                        enumerable: false,
+                                        configurable: true,
+                                        writable: true,
+                                        value: val,
+                                    });
+                                    break;
+                            }
                         }
-                    });
+                    }
                     // objectsToMerge.forEach(obj =>{
                     //     this.mergeDeep(target, obj);
                     // })

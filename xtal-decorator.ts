@@ -1,4 +1,4 @@
-module xtal.elements{
+module xtal.elements {
     /**
     * `xtal-decorator`
     * Dynamically load custom elements from central config file. 
@@ -7,9 +7,9 @@ module xtal.elements{
     * @polymer
     * @demo demo/index.html
     */
-    class XtalDecorator extends HTMLElement{
+    class XtalDecorator extends HTMLElement {
         _CssSelector = 'dom-bind';
-        static get is(){
+        static get is() {
             return 'xtal-decorator';
         }
         static get observedAttributes() {
@@ -27,7 +27,7 @@ module xtal.elements{
                     break;
             }
         }
-        connectedCallback(){
+        connectedCallback() {
             // let nextSibling = this.nextElementSibling;
             // while(nextSibling && nextSibling.tagName.indexOf("-") === -1){
             //     nextSibling = nextSibling.nextElementSibling;
@@ -37,22 +37,32 @@ module xtal.elements{
             const scriptTag = this.querySelector("script");
             const innerText = scriptTag.innerText;
             const objectsToMerge = eval(innerText) as any[];
-            for(let i = 0, ii = targets.length; i < ii; i++){
+            for (let i = 0, ii = targets.length; i < ii; i++) {
                 const target = targets[i];
-                Object.defineProperty(target, 'handleClick',{
-                    enumerable: false,
-                    configurable: true,
-                    writable: true,
-                    value: function(e) {
-                        debugger;
+                for (let j = 0, jj = objectsToMerge.length; j < jj; j++) {
+
+                    const objectToMerge = objectsToMerge[j];
+                    for (var key in objectToMerge) {
+                        const val = objectToMerge[key];
+                        switch (typeof val) {
+                            case 'function':
+                                Object.defineProperty(target, key, {
+                                    enumerable: false,
+                                    configurable: true,
+                                    writable: true,
+                                    value: val,
+                                });
+                                break;
+                        }
                     }
-                });
+                }
+
                 // objectsToMerge.forEach(obj =>{
                 //     this.mergeDeep(target, obj);
                 // })
             }
-            
-            
+
+
         }
 
         // /**
