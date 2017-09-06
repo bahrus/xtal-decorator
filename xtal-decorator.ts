@@ -57,14 +57,22 @@ module xtal.elements {
 
                             break;
                         case 'object':
-                            if(key === 'properties'){
-                                if(!propertiesToSet) {
-                                    propertiesToSet = val;
-                                }else{
-                                    this.mergeDeep(propertiesToSet, val);
-                                }
-                                
-                                //Object.assign(target, val);
+                            switch(key){
+                                case 'properties':
+                                    if(!propertiesToSet) {
+                                        propertiesToSet = val;
+                                    }else{
+                                        this.mergeDeep(propertiesToSet, val);
+                                    }
+                                    break;
+                                case 'polymerProperties':
+                                    for(const key in val){
+                                        const polyProp = val[key];
+                                        if(polyProp.value !== undefined){
+                                            propertiesToSet[key] = polyProp.value;
+                                        }
+                                    }
+                                    break;
                             }
                             break;
                             

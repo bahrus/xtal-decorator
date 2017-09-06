@@ -21,7 +21,8 @@ var xtal;
             static get observedAttributes() {
                 return [
                     /** @type {string}
-                     * Selector to search for within the parent element
+                     * Selector to search for within the parent element.  Default value:  dom-bind
+                     * This will select the target elements(s) to which properties and methods will be attached.
                      */
                     'selector',
                 ];
@@ -61,14 +62,23 @@ var xtal;
                                 }
                                 break;
                             case 'object':
-                                if (key === 'properties') {
-                                    if (!propertiesToSet) {
-                                        propertiesToSet = val;
-                                    }
-                                    else {
-                                        this.mergeDeep(propertiesToSet, val);
-                                    }
-                                    //Object.assign(target, val);
+                                switch (key) {
+                                    case 'properties':
+                                        if (!propertiesToSet) {
+                                            propertiesToSet = val;
+                                        }
+                                        else {
+                                            this.mergeDeep(propertiesToSet, val);
+                                        }
+                                        break;
+                                    case 'polymerProperties':
+                                        for (const key in val) {
+                                            const polyProp = val[key];
+                                            if (polyProp.value !== undefined) {
+                                                propertiesToSet[key] = polyProp.value;
+                                            }
+                                        }
+                                        break;
                                 }
                                 break;
                         }

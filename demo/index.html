@@ -36,8 +36,18 @@
               properties: {
                 iceCreamSelection: favoriteIceCreamFlavor,
               },
+              polymerProperties:{
+                numberOfConesSold:{
+                  type: Number,
+                  observer: 'observeChangeToNumberOfConesSold',
+                  value: 0
+                }
+              },
               handleClick: function (e) {
                 alert(this.iceCreamSelection + " ice cream coming right up!");
+              },
+              observeChangeToNumberOfConesSold: function(newVal, oldVal){
+                debugger;
               }
             }]
           </script>
@@ -45,7 +55,9 @@
         <dom-bind>
           <template>
             Selected Flavor: <span>[[iceCreamSelection]]</span><br>
-            <span on-click="handleClick">Click Here to Order Your Ice Cream</span>
+            <span on-click="handleClick">Click Here to Order Your Ice Cream</span><br>
+            Number of cones sold: <span>[[numberOfConesSold]]</span>
+
           </template>
         </dom-bind>
       </template>
