@@ -29,19 +29,13 @@ module xtal.elements {
             }
         }
         connectedCallback() {
-            // let nextSibling = this.nextElementSibling;
-            // while(nextSibling && nextSibling.tagName.indexOf("-") === -1){
-            //     nextSibling = nextSibling.nextElementSibling;
-            // }
-            // if(!nextSibling) return;
-            //const targets = this.parentElement.querySelectorAll(this._CssSelector);
             const targets = [].slice.call(this.parentElement.querySelectorAll(this._CssSelector));
             const scriptTag = this.querySelector("script");
             const innerText = scriptTag.innerText;
             const objectsToMerge = eval(innerText) as any[];
             let propertiesToSet;
-            objectsToMerge.forEach(objectToMerge =>{
-                
+            objectsToMerge.forEach(objectToMerge => {
+
             })
             for (let j = 0, jj = objectsToMerge.length; j < jj; j++) {
                 const objectToMerge = objectsToMerge[j];
@@ -49,7 +43,7 @@ module xtal.elements {
                     const val = objectToMerge[key];
                     switch (typeof val) {
                         case 'function':
-                            targets.forEach(target =>{
+                            targets.forEach(target => {
                                 Object.defineProperty(target, key, {
                                     enumerable: false,
                                     configurable: true,
@@ -57,49 +51,48 @@ module xtal.elements {
                                     value: val,
                                 });
                             })
-                            // for(let i = 0, ii = targets.length; i < ii; i++){
-                            //     const target = targets[i];
-                            //     Object.defineProperty(target, key, {
-                            //         enumerable: false,
-                            //         configurable: true,
-                            //         writable: true,
-                            //         value: val,
-                            //     });
-                            // }
+                            
 
                             break;
                         case 'object':
-                            switch(key){
+                            switch (key) {
                                 case 'properties':
-                                    if(!propertiesToSet) {
+                                    if (!propertiesToSet) {
                                         propertiesToSet = val;
-                                    }else{
+                                    } else {
                                         this.mergeDeep(propertiesToSet, val);
                                     }
                                     break;
                                 case 'polymerProperties':
-                                    for(const key in val){
+                                    for (const key in val) {
                                         const polyProp = val[key];
-                                        if(polyProp.value !== undefined){
+                                        if (polyProp.value !== undefined) {
                                             propertiesToSet[key] = polyProp.value;
                                         }
-                                        if(polyProp.observer !== undefined){
-
+                                        if (polyProp.observer !== undefined) {
+                                            targets.forEach(target =>{
+                                                customElements.whenDefined(target.tagName.toLowerCase()).then(() =>{
+                                                    if(target._createPropertyObserver){
+                                                        target._createPropertyObserver(key, polyProp.observer, true);
+                                                    }
+                                                })
+                                                
+                                            })
                                         }
                                     }
                                     break;
                             }
                             break;
-                            
-                        
+
+
                     }
                 }
-                                }
+            }
             for (let i = 0, ii = targets.length; i < ii; i++) {
                 const target = targets[i];
-                if(target['setProperties']){
+                if (target['setProperties']) {
                     target['setProperties'](propertiesToSet);
-                }else{
+                } else {
                     Object.assign(target, propertiesToSet);
                 }
             }
@@ -115,35 +108,35 @@ module xtal.elements {
          * 
          */
         mergeDeep(target, source) {
-            if(typeof target !== 'object') return;
-            if(typeof source !== 'object') return;
+            if (typeof target !== 'object') return;
+            if (typeof source !== 'object') return;
             for (const key in source) {
                 const sourceVal = source[key];
                 const targetVal = target[key];
-                if(!sourceVal) continue; //TODO:  null out property?
-                if(!targetVal){
+                if (!sourceVal) continue; //TODO:  null out property?
+                if (!targetVal) {
                     console.log(key);
                     target[key] = sourceVal;
                     continue;
                 }
-                if(Array.isArray(sourceVal) && Array.isArray(targetVal)){
+                if (Array.isArray(sourceVal) && Array.isArray(targetVal)) {
                     //warning!! code below not yet tested
-                    if(targetVal.length > 0 && typeof targetVal[0].id === 'undefined') continue;
-                    for(var i = 0, ii = sourceVal.length; i < ii; i++){
+                    if (targetVal.length > 0 && typeof targetVal[0].id === 'undefined') continue;
+                    for (var i = 0, ii = sourceVal.length; i < ii; i++) {
                         const srcEl = sourceVal[i];
-                        if(typeof srcEl.id === 'undefined') continue;
-                        const targetEl = targetVal.find(function(el){return el.id === srcEl.id;});
-                        if(targetEl){
+                        if (typeof srcEl.id === 'undefined') continue;
+                        const targetEl = targetVal.find(function (el) { return el.id === srcEl.id; });
+                        if (targetEl) {
                             this.mergeDeep(targetEl, srcEl);
-                        }else{
+                        } else {
                             targetVal.push(srcEl);
                         }
                     }
                     continue;
                 }
-                switch(typeof sourceVal){
+                switch (typeof sourceVal) {
                     case 'object':
-                        switch(typeof targetVal){
+                        switch (typeof targetVal) {
                             case 'object':
                                 this.mergeDeep(targetVal, sourceVal);
                                 break;

@@ -45,9 +45,10 @@
               },
               handleClick: function (e) {
                 alert(this.iceCreamSelection + " ice cream coming right up!");
+                this.numberOfConesSold++;
               },
               observeChangeToNumberOfConesSold: function(newVal, oldVal){
-                debugger;
+                alert("Number of Ice cream cones sold: " + this.numberOfConesSold);
               }
             }]
           </script>

@@ -35,12 +35,6 @@ var xtal;
                 }
             }
             connectedCallback() {
-                // let nextSibling = this.nextElementSibling;
-                // while(nextSibling && nextSibling.tagName.indexOf("-") === -1){
-                //     nextSibling = nextSibling.nextElementSibling;
-                // }
-                // if(!nextSibling) return;
-                //const targets = this.parentElement.querySelectorAll(this._CssSelector);
                 const targets = [].slice.call(this.parentElement.querySelectorAll(this._CssSelector));
                 const scriptTag = this.querySelector("script");
                 const innerText = scriptTag.innerText;
@@ -62,15 +56,6 @@ var xtal;
                                         value: val,
                                     });
                                 });
-                                // for(let i = 0, ii = targets.length; i < ii; i++){
-                                //     const target = targets[i];
-                                //     Object.defineProperty(target, key, {
-                                //         enumerable: false,
-                                //         configurable: true,
-                                //         writable: true,
-                                //         value: val,
-                                //     });
-                                // }
                                 break;
                             case 'object':
                                 switch (key) {
@@ -89,6 +74,13 @@ var xtal;
                                                 propertiesToSet[key] = polyProp.value;
                                             }
                                             if (polyProp.observer !== undefined) {
+                                                targets.forEach(target => {
+                                                    customElements.whenDefined(target.tagName.toLowerCase()).then(() => {
+                                                        if (target._createPropertyObserver) {
+                                                            target._createPropertyObserver(key, polyProp.observer, true);
+                                                        }
+                                                    });
+                                                });
                                             }
                                         }
                                         break;
