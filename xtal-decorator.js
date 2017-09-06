@@ -40,26 +40,37 @@ var xtal;
                 //     nextSibling = nextSibling.nextElementSibling;
                 // }
                 // if(!nextSibling) return;
-                const targets = this.parentElement.querySelectorAll(this._CssSelector);
+                //const targets = this.parentElement.querySelectorAll(this._CssSelector);
+                const targets = [].slice.call(this.parentElement.querySelectorAll(this._CssSelector));
                 const scriptTag = this.querySelector("script");
                 const innerText = scriptTag.innerText;
                 const objectsToMerge = eval(innerText);
                 let propertiesToSet;
+                objectsToMerge.forEach(objectToMerge => {
+                });
                 for (let j = 0, jj = objectsToMerge.length; j < jj; j++) {
                     const objectToMerge = objectsToMerge[j];
                     for (var key in objectToMerge) {
                         const val = objectToMerge[key];
                         switch (typeof val) {
                             case 'function':
-                                for (let i = 0, ii = targets.length; i < ii; i++) {
-                                    const target = targets[i];
+                                targets.forEach(target => {
                                     Object.defineProperty(target, key, {
                                         enumerable: false,
                                         configurable: true,
                                         writable: true,
                                         value: val,
                                     });
-                                }
+                                });
+                                // for(let i = 0, ii = targets.length; i < ii; i++){
+                                //     const target = targets[i];
+                                //     Object.defineProperty(target, key, {
+                                //         enumerable: false,
+                                //         configurable: true,
+                                //         writable: true,
+                                //         value: val,
+                                //     });
+                                // }
                                 break;
                             case 'object':
                                 switch (key) {
@@ -76,6 +87,8 @@ var xtal;
                                             const polyProp = val[key];
                                             if (polyProp.value !== undefined) {
                                                 propertiesToSet[key] = polyProp.value;
+                                            }
+                                            if (polyProp.observer !== undefined) {
                                             }
                                         }
                                         break;
