@@ -1,44 +1,56 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-    <title>xtal-decorator demo</title>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <title>xtal-decorator demo</title>
 
-    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
-    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
-    <link rel="import" href="../xtal-decorator.html">
-    <link rel="import" href="../../polymer/lib/elements/dom-bind.html">
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
 
-    <custom-style>
-      <style is="custom-style" include="demo-pages-shared-styles">
-      </style>
-    </custom-style>
-  </head>
-  <body>
-    <div class="vertical-section-container centered">
-      <h3>Basic xtal-decorator demo</h3>
-      <demo-snippet>
-        <template>
-          <xtal-decorator>
-            <script>
-              [{
-                handleClick: function(e){
-                  debugger;
-                }
-              }]
-            </script>
-          </xtal-decorator>
-          <dom-bind>
+  <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+  <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+  <link rel="import" href="../xtal-decorator.html">
+  <link rel="import" href="../../polymer/lib/elements/dom-bind.html">
+
+  <custom-style>
+    <style is="custom-style" include="demo-pages-shared-styles">
+
+    </style>
+  </custom-style>
+</head>
+
+<body>
+  <div class="vertical-section-container centered">
+    <h3>Basic xtal-decorator demo</h3>
+    <script>
+      var favoriteIceCreamFlavor = "Chocolate";
+    </script>
+    <demo-snippet>
+      <template>
+        <dom-bind>
             <template>
-              <span on-click="handleClick">Click me</span>
+              Selected Flavor: <span>[[iceCreamSelection]]</span>
+              <span on-click="handleClick">Click Here to Order Your Ice Cream</span>
             </template>
           </dom-bind>
-        </template>
-      </demo-snippet>
-    </div>
-  </body>
+        <xtal-decorator>
+          <script>
+            [{
+              properties: {
+                iceCreamSelection: favoriteIceCreamFlavor,
+              },
+              handleClick: function (e) {
+                alert(this.iceCreamSelection + " coming right up!");
+              }
+            }]
+          </script>
+        </xtal-decorator>
+        
+      </template>
+    </demo-snippet>
+  </div>
+</body>
+
 </html>

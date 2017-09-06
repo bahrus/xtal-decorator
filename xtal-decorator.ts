@@ -34,6 +34,7 @@ module xtal.elements {
             // }
             // if(!nextSibling) return;
             const targets = this.parentElement.querySelectorAll(this._CssSelector);
+            console.log('targets length = ' + targets.length);
             const scriptTag = this.querySelector("script");
             const innerText = scriptTag.innerText;
             const objectsToMerge = eval(innerText) as any[];
@@ -42,6 +43,7 @@ module xtal.elements {
                 for (let j = 0, jj = objectsToMerge.length; j < jj; j++) {
 
                     const objectToMerge = objectsToMerge[j];
+                    console.log({objectToMerge: objectToMerge});
                     for (var key in objectToMerge) {
                         const val = objectToMerge[key];
                         switch (typeof val) {
@@ -53,6 +55,14 @@ module xtal.elements {
                                     value: val,
                                 });
                                 break;
+                            case 'object':
+                                if(key === 'properties'){
+                                    debugger;
+                                    Object.assign(target, val);
+                                }
+                                break;
+                                
+                            
                         }
                     }
                 }
