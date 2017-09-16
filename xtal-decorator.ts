@@ -30,7 +30,12 @@ module xtal.elements {
         }
         connectedCallback() {
             const targets = [].slice.call(this.parentElement.querySelectorAll(this._CssSelector));
-            const scriptTag = this.querySelector("script");
+            let scriptTag = this.querySelector('script');
+            if(!scriptTag){
+                const templateTag = this.querySelector('template') as HTMLTemplateElement;
+                const clone = document.importNode(templateTag.content, true) as HTMLDocument;
+                scriptTag = clone.querySelector('script');
+            }
             const innerText = scriptTag.innerText;
             const objectsToMerge = eval(innerText) as any[];
             let propertiesToSet;

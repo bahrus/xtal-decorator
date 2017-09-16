@@ -27,11 +27,12 @@
 
     <demo-snippet>
       <template>
-        <script>
+        <script type="text/ecmascript">
           var favoriteIceCreamFlavor = "Chocolate";
         </script>
         <xtal-decorator>
-          <script>
+          <template>
+          <script type="text/ecmascript">
             [{
               properties: {
                 iceCreamSelection: favoriteIceCreamFlavor,
@@ -51,12 +52,13 @@
                 alert("Number of Ice cream cones sold: " + this.numberOfConesSold);
               }
             }]
-          </script>
+         </script>
+         </template>
         </xtal-decorator>
         <dom-bind>
           <template>
             Selected Flavor: <span>[[iceCreamSelection]]</span><br>
-            <span on-click="handleClick">Click Here to Order Your Ice Cream</span><br>
+            <span on-click="handleClick">Click <span style="color:red;cursor:pointer">Here</span> to Order Your Ice Cream</span><br>
             Number of cones sold: <span>[[numberOfConesSold]]</span>
 
           </template>
