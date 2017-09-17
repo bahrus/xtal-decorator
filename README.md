@@ -53,13 +53,13 @@ Essentially, it allows you to define an anomymous, "non-reusable" "web component
 
 - Coming up with a unique, meaningful name for the custom element
 - Wrapping the logic into a class, calling customElements.define
-- Separating the custom element into a separate file so it can be referenced repeatedly.  And with the absence of support for HTML Imports, that also means you don't need to turn the whole thing into a non-biodegradable, difficult to digest (by the browser and search engines, for now) JavaScript thing.
+- Separating the custom element into a separate file so it can be referenced repeatedly.  And with the absence of support for HTML Imports, that also means you don't need to turn the whole thing into a non-biodegradable, difficult to digest (by the browser and search engines, for now) JavaScript or WASM thing.
 
 The template tag surrounding the script tag is optional -- without that tag, the browser will instantly evaluate the expression, and do nothing with it, as it isn't stored anywhere.  The expression will be evaluated again when the _xtal-decorator_ tag is upgraded.  So that's a waste of processing, and, potentially, a source of unexpected side effects.
 
-Note that the contents inside the script tag is, at the top most level an array.  This allows you to merge properties together from various location, and override previous methods (which makes sense if some of the array elements are referncing common definitions).  I.e. you get some semblance of inheritance by using an array.
+Note that the contents inside the script tag is, at the top most level, an array.  This allows you to merge properties together from various locations, and override previous methods (which makes sense if some of the array elements are referencing common definitions).  I.e. you get some semblance of inheritance by using an array.
 
-By default, _xtal-decorator_ searches for the all dom-bind element it can find in its vicinity.  But you can specify any css selector you'd like via the CssSelector property.  The logic to find the element to attach its behavior to is as follows
+By default, _xtal-decorator_ searches for the all the dom-bind elements it can find in its vicinity.  But you can specify any css selector you'd like via the CssSelector property.  The logic to find the elements, to attach its behavior to, is as follows:
 
 ```JavaScript
 this.parentElement.querySelectorAll(this.CssSelector)
