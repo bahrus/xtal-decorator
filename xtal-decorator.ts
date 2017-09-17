@@ -1,7 +1,7 @@
-module xtal.elements {
+(function () {
     /**
     * `xtal-decorator`
-    * Dynamically load custom elements from central config file. 
+    * Attach methods, properties, observing behavior to an instance of another custom element, like <dom-bind></dom-bind> 
     *
     * @customElement
     * @polymer
@@ -160,4 +160,4 @@ module xtal.elements {
         }
     }
     customElements.define(XtalDecorator.is, XtalDecorator);
-}
+})();
