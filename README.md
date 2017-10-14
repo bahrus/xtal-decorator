@@ -11,7 +11,7 @@ Attach event handlers, properties to a neighboring custom element.
 <custom-element-demo>
   <template>
   <link rel="import" href="https://rawgit.com/bahrus/xtal/master/bower_components/polymer/lib/elements/dom-bind.html">
-    <link rel="import" href="xtal-link-decorator.html">
+    <link rel="import" href="xtal-decorator.html">
             <xtal-decorator>
           <template>
           <script type="text/ecmascript">
