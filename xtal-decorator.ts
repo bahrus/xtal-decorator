@@ -9,6 +9,8 @@
     */
     class XtalDecorator extends HTMLElement {
         _CssSelector = 'dom-bind';
+        _domObserver: MutationObserver;
+        _previousEvaluatedText: string;
         static get is() {
             return 'xtal-decorator';
         }
@@ -28,16 +30,31 @@
                     break;
             }
         }
-        connectedCallback() {
+        disconnectedCallback() {
+            this._domObserver.disconnect();
+        }
+
+        evaluateCode() {
+            const errRoot = 'XtalDecorator::evalutateCode:  ';
             const targets = [].slice.call(this.parentElement.querySelectorAll(this._CssSelector));
+            if(!targets || targets.length === 0){
+                console.error(errRoot + 'No targets found with selector ' + this._CssSelector);
+                return;
+            }
             let scriptTag = this.querySelector('script');
-            if(!scriptTag){
+            if (!scriptTag) {
                 const templateTag = this.querySelector('template') as HTMLTemplateElement;
                 const clone = document.importNode(templateTag.content, true) as HTMLDocument;
                 scriptTag = clone.querySelector('script');
             }
+            if(!scriptTag){
+                console.error(errRoot + 'No script tag found to evaluate.' + this._CssSelector);
+                return;
+            }
             const innerText = scriptTag.innerText;
+            if(innerText === this._previousEvaluatedText) return;
             const objectsToMerge = eval(innerText) as any[];
+            this._previousEvaluatedText = innerText;
             let propertiesToSet;
             objectsToMerge.forEach(objectToMerge => {
 
@@ -56,7 +73,7 @@
                                     value: val,
                                 });
                             })
-                            
+
 
                             break;
                         case 'object':
@@ -75,13 +92,13 @@
                                             propertiesToSet[key] = polyProp.value;
                                         }
                                         if (polyProp.observer !== undefined) {
-                                            targets.forEach(target =>{
-                                                customElements.whenDefined(target.tagName.toLowerCase()).then(() =>{
-                                                    if(target._createPropertyObserver){
+                                            targets.forEach(target => {
+                                                customElements.whenDefined(target.tagName.toLowerCase()).then(() => {
+                                                    if (target._createPropertyObserver) {
                                                         target._createPropertyObserver(key, polyProp.observer, true);
                                                     }
                                                 })
-                                                
+
                                             })
                                         }
                                     }
@@ -101,8 +118,18 @@
                     Object.assign(target, propertiesToSet);
                 }
             }
-
-
+        }
+        connectedCallback() {
+            this._domObserver = new MutationObserver(mutations => {
+                mutations.forEach(function (mutation) {
+                    this.evaluateCode();
+                });
+            });
+            // configuration of the observer:
+            const mutationConfig = { childList: true, subtree: true } as MutationObserverInit;
+            // pass in the target node, as well as the observer options
+            this._domObserver.observe(this, mutationConfig);
+            this.evaluateCode();
         }
 
         /**

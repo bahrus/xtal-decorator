@@ -31,16 +31,31 @@
                     break;
             }
         }
-        connectedCallback() {
+        disconnectedCallback() {
+            this._domObserver.disconnect();
+        }
+        evaluateCode() {
+            const errRoot = 'XtalDecorator::evalutateCode:  ';
             const targets = [].slice.call(this.parentElement.querySelectorAll(this._CssSelector));
+            if (!targets || targets.length === 0) {
+                console.error(errRoot + 'No targets found with selector ' + this._CssSelector);
+                return;
+            }
             let scriptTag = this.querySelector('script');
             if (!scriptTag) {
                 const templateTag = this.querySelector('template');
                 const clone = document.importNode(templateTag.content, true);
                 scriptTag = clone.querySelector('script');
             }
+            if (!scriptTag) {
+                console.error(errRoot + 'No script tag found to evaluate.' + this._CssSelector);
+                return;
+            }
             const innerText = scriptTag.innerText;
+            if (innerText === this._previousEvaluatedText)
+                return;
             const objectsToMerge = eval(innerText);
+            this._previousEvaluatedText = innerText;
             let propertiesToSet;
             objectsToMerge.forEach(objectToMerge => {
             });
@@ -100,6 +115,18 @@
                     Object.assign(target, propertiesToSet);
                 }
             }
+        }
+        connectedCallback() {
+            this._domObserver = new MutationObserver(mutations => {
+                mutations.forEach(function (mutation) {
+                    this.evaluateCode();
+                });
+            });
+            // configuration of the observer:
+            const mutationConfig = { childList: true, subtree: true };
+            // pass in the target node, as well as the observer options
+            this._domObserver.observe(this, mutationConfig);
+            this.evaluateCode();
         }
         /**
          * Deep merge two objects.
