@@ -130,6 +130,24 @@ By default, _xtal-decorator_ searches for the all the dom-bind elements it can f
 this.parentElement.querySelectorAll(this.CssSelector)
 ``` 
 
+Since this component can be use to "hack" the behavior of a custom element without properly subclassing it, might as well go all the way.  You can also "pierce" into the shadow DOM, and set properties / attach methods.  And you can set styles.
+
+Why would you want to set styles deep within some elements shadow DOM, when there things like CSS Properties and parts?  Have you ever been under a tight deadline, and you don't have time to read through all the documentation / definitions to find what variable you need to set to change a color?  If so, this component is for you.  It uses the old deprecated >>> Shadoe DOM piercing selector:
+
+```html
+  <xtal-decorator selector="paper-input>>>paper-input-container>label">
+    <template>
+      <script type="text/ecmascript">
+        [{
+            style: {
+              color: 'green'
+            }
+          }]
+      </script>
+    </template>
+  </xtal-decorator>
+```
+
 ## Referencing the component
 
 _xtal-decorator_ has no dependencies.  As such it can be referenced via the classic script tag:

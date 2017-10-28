@@ -15,10 +15,9 @@
   <script async src="../xtal-decorator.js"></script>
   <!-- <script async type="module" src="../xtal-decorator.js"></script> -->
   <link rel="import" href="../../polymer/lib/elements/dom-bind.html">
-
+  <link rel="import" href="../../paper-input/paper-input.html">
   <custom-style>
     <style is="custom-style" include="demo-pages-shared-styles">
-
     </style>
   </custom-style>
 </head>
@@ -34,34 +33,54 @@
         </script>
         <xtal-decorator>
           <template>
-          <script type="text/ecmascript">
-            [{
-              properties: {
-                iceCreamSelection: favoriteIceCreamFlavor,
-              },
-              polymerProperties:{
-                numberOfConesSold:{
-                  type: Number,
-                  observer: 'observeChangeToNumberOfConesSold',
-                  value: 0
+            <script type="text/ecmascript">
+              [{
+                properties: {
+                  iceCreamSelection: favoriteIceCreamFlavor,
+                },
+                polymerProperties: {
+                  numberOfConesSold: {
+                    type: Number,
+                    observer: 'observeChangeToNumberOfConesSold',
+                    value: 0
+                  }
+                },
+                handleClick: function (e) {
+                  alert(this.iceCreamSelection + " ice cream coming right up!");
+                  this.numberOfConesSold++;
+                },
+                observeChangeToNumberOfConesSold: function (newVal, oldVal) {
+                  if(this.numberOfConesSold > 0){
+                    alert("Number of Ice cream cones sold: " + this.numberOfConesSold);
+                  }
+                  
                 }
-              },
-              handleClick: function (e) {
-                alert(this.iceCreamSelection + " ice cream coming right up!");
-                this.numberOfConesSold++;
-              },
-              observeChangeToNumberOfConesSold: function(newVal, oldVal){
-                alert("Number of Ice cream cones sold: " + this.numberOfConesSold);
-              }
-            }]
-         </script>
-         </template>
+              }]
+            </script>
+          </template>
+        </xtal-decorator>
+        <xtal-decorator selector="paper-input>>>paper-input-container>label">
+          <template>
+            <script type="text/ecmascript">
+              [{
+                  style: {
+                    color: 'green'
+                  }
+                }]
+            </script>
+          </template>
         </xtal-decorator>
         <dom-bind>
           <template>
-            Selected Flavor: <span>[[iceCreamSelection]]</span><br>
-            <span on-click="handleClick">Click <span style="color:red;cursor:pointer">Here</span> to Order Your Ice Cream</span><br>
-            Number of cones sold: <span>[[numberOfConesSold]]</span>
+            <span>
+              <paper-input label="Selected Flavor" value="{{iceCreamSelection}}"></paper-input>
+            </span>
+            <br>
+            <span>Click <span style="color:red;cursor:pointer" on-click="handleClick">here</span>
+              to order your ice cream.
+            </span>
+            <br> Number of cones sold:
+            <span>[[numberOfConesSold]]</span>
 
           </template>
         </dom-bind>

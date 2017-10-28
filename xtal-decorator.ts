@@ -46,17 +46,24 @@
         getShadowSubTargets(targets: any[], selector){
             const newTargets = [];
             targets.forEach(target =>{
-                const childTargets = [].slice.call(target.shadowRoot.querySelectorAll(selector));
+                const shadowRoot = target.shadowRoot;
+                const targets1 = shadowRoot.querySelectorAll(selector);
+                const childTargets = [].slice.call(targets1);
+                // console.log({
+                //     selector: selector,
+                //     target: target,
+                //     childTargets: childTargets
+                // })
                 childTargets.forEach(childTarget => newTargets.push(childTarget));
             })
-            return targets;
+            return newTargets;
         }
         getTargets(){
             const shadowSplitSelector = this._CssSelector.split('>>>');
             let targets = [].slice.call(this.parentElement.querySelectorAll(shadowSplitSelector[0]));
             
             for(let i = 1, ii = shadowSplitSelector.length; i < ii; i++){
-                targets = this.getShadowSubTargets(targets, shadowSplitSelector[i]);    
+                targets = this.getShadowSubTargets(targets, shadowSplitSelector[i]);  
             }
             return targets;
         }
@@ -72,6 +79,7 @@
                 setTimeout(() =>{
                     this.evaluateCode()
                 }, 100);
+                return;
             }
             let scriptTag = this.querySelector('script');
             if (!scriptTag) {
@@ -110,6 +118,13 @@
                             break;
                         case 'object':
                             switch (key) {
+                                case 'style':
+                                    for (const key in val) {
+                                        targets.forEach(target => {
+                                            target.style[key] = val[key];
+                                        });
+                                    }
+                                    break;
                                 case 'properties':
                                     if (!propertiesToSet) {
                                         propertiesToSet = val;
@@ -142,14 +157,13 @@
                     }
                 }
             }
-            for (let i = 0, ii = targets.length; i < ii; i++) {
-                const target = targets[i];
+            targets.forEach(target =>{
                 if (target['setProperties']) {
                     target['setProperties'](propertiesToSet);
                 } else {
                     Object.assign(target, propertiesToSet);
                 }
-            }
+            })
         }
         connectedCallback() {
             this._domObserver = new MutationObserver(mutations => {
@@ -179,7 +193,6 @@
                 const targetVal = target[key];
                 if (!sourceVal) continue; //TODO:  null out property?
                 if (!targetVal) {
-                    console.log(key);
                     target[key] = sourceVal;
                     continue;
                 }
@@ -205,13 +218,11 @@
                                 this.mergeDeep(targetVal, sourceVal);
                                 break;
                             default:
-                                console.log(key);
                                 target[key] = sourceVal;
                                 break;
                         }
                         break;
                     default:
-                        console.log(key);
                         target[key] = sourceVal;
                 }
             }
