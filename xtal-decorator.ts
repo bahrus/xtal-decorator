@@ -9,6 +9,8 @@
     */
     class XtalDecorator extends HTMLElement {
         _CssSelector = 'dom-bind';
+        _minElementCount = 1;
+        _retries = 0;
         _domObserver: MutationObserver;
         _previousEvaluatedText: string;
         static get is() {
@@ -21,12 +23,20 @@
                  * This will select the target elements(s) to which properties and methods will be attached.
                  */
                 'selector',
+                /** @type {number}
+                 * When target may be dynamically generated, wait for this number of elements to be
+                 * found via the selector before acting
+                 */
+                'min-element-count'
             ];
         }
         attributeChangedCallback(name, oldValue, newValue) {
             switch (name) {
                 case 'selector':
                     this._CssSelector = newValue;
+                    break;
+                case 'min-element-count':
+                    this._minElementCount = parseInt(newValue);
                     break;
             }
         }
@@ -53,9 +63,15 @@
         evaluateCode() {
             const errRoot = 'XtalDecorator::evalutateCode:  ';
             const targets = this.getTargets();
-            if(!targets || targets.length === 0){
-                console.error(errRoot + 'No targets found with selector ' + this._CssSelector);
-                return;
+            if(!targets || targets.length < this._minElementCount){
+                this._retries++;
+                if(this._retries > 100){
+                    console.error(errRoot + 'No targets found with selector ' + this._CssSelector);
+                    return;
+                }
+                setTimeout(() =>{
+                    this.evaluateCode()
+                }, 100);
             }
             let scriptTag = this.querySelector('script');
             if (!scriptTag) {
