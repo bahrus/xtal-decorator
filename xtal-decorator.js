@@ -34,9 +34,25 @@
         disconnectedCallback() {
             this._domObserver.disconnect();
         }
+        getShadowSubTargets(targets, selector) {
+            const newTargets = [];
+            targets.forEach(target => {
+                const childTargets = [].slice.call(target.shadowRoot.querySelectorAll(selector));
+                childTargets.forEach(childTarget => newTargets.push(childTarget));
+            });
+            return targets;
+        }
+        getTargets() {
+            const shadowSplitSelector = this._CssSelector.split('>>>');
+            let targets = [].slice.call(this.parentElement.querySelectorAll(shadowSplitSelector[0]));
+            for (let i = 1, ii = shadowSplitSelector.length; i < ii; i++) {
+                targets = this.getShadowSubTargets(targets, shadowSplitSelector[i]);
+            }
+            return targets;
+        }
         evaluateCode() {
             const errRoot = 'XtalDecorator::evalutateCode:  ';
-            const targets = [].slice.call(this.parentElement.querySelectorAll(this._CssSelector));
+            const targets = this.getTargets();
             if (!targets || targets.length === 0) {
                 console.error(errRoot + 'No targets found with selector ' + this._CssSelector);
                 return;
