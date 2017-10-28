@@ -2,9 +2,9 @@
 
 # \<xtal-decorator\>
 
-Attach event handlers, properties to a neighboring custom element.
+Attach event handlers, properties to a neighboring custom element.  Even modify styles within the shadow DOM.
 
-\<xtal-decorator\> provides the ability to "decorate" neighboring custom element instances.  It is most focused on being able to latch custom element behavior onto a Polymer JS dom-bind element instance, but it can generally be used for customizing, or extending, the behavior of any custom element "inline," without formally subclassing the custom element.  Methods can be attached, where "this" refers to the actual custom element it is attached to.  Properties can also be attached, including specific Polymer JS properties with referenced method observers.  They can also pull in data from the global scope.
+\<xtal-decorator\> provides the ability to "decorate" neighboring custom element instances.  It is most focused on being able to latch custom element behavior onto a Polymer JS dom-bind element instance, but it can generally be used for customizing, or extending, the behavior of any custom element instance "inline," without formally subclassing the custom element.  Methods can be attached, where "this" refers to the actual custom element it is attached to.  Properties can also be attached, including specific Polymer JS properties with referenced method observers.  They can also pull in data from the global scope.
 
 <!--
 ```
@@ -130,9 +130,11 @@ By default, _xtal-decorator_ searches for the all the dom-bind elements it can f
 this.parentElement.querySelectorAll(this.CssSelector)
 ``` 
 
-Since this component can be use to "hack" the behavior of a custom element without properly subclassing it, might as well go all the way.  You can also "pierce" into the shadow DOM, and set properties / attach methods.  And you can set styles.
+Since this component can be use to "hack" the behavior of a custom element without properly subclassing it, we might as well go all the way.  You can also "pierce" into the shadow DOM, and set properties / attach methods.  And you can set styles.
 
-Why would you want to set styles deep within some elements shadow DOM, when there things like CSS Properties and parts?  Have you ever been under a tight deadline, and you don't have time to read through all the documentation / definitions to find what variable you need to set to change a color?  If so, this component is for you.  It uses the old deprecated >>> Shadoe DOM piercing selector:
+Why would you want to set styles deep within some element's shadow DOM, when there are things like CSS Properties and parts?  
+
+Have you ever been under a tight deadline, and you don't have time to read through all the documentation / definitions to find what variable you need to set to change a color?  If so, this component is for you.  It uses the old deprecated >>> Shadoe DOM piercing selector:
 
 ```html
   <xtal-decorator selector="paper-input>>>paper-input-container>label">
