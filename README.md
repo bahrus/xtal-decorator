@@ -124,6 +124,8 @@ The template tag surrounding the script tag is optional -- without that tag, the
 
 Note that the contents inside the script tag is, at the top most level, an array.  This allows you to merge properties together from various locations, and override previous methods (which makes sense if some of the array elements are referencing common definitions).  I.e. you get some semblance of inheritance by using an array.
 
+Note that the script contained inside the script tag must be compatible with whatever browser you are targeting.  Since we don't need to define a class (see above) it is quite possible to target IE11 browsers with no build step.
+
 By default, _xtal-decorator_ searches for the all the dom-bind elements it can find in its vicinity.  But you can specify any css selector you'd like via the CssSelector property.  The logic to find the elements, to attach its behavior to, is as follows:
 
 ```JavaScript
