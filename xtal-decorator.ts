@@ -143,6 +143,17 @@
                 }
             })
         }
+        applyStyle(styleTag: HTMLStyleElement, targets: any){
+            if(!styleTag) return;
+            targets.forEach(target => {
+                if(target.shadowRoot){
+                    console.log(styleTag.innerText);
+                    const cn = styleTag.cloneNode(true) as HTMLElement;
+                    console.log(cn.innerText);
+                    target.shadowRoot.appendChild(cn);
+                }
+            });
+        }
         evaluateCode() {
             const errRoot = 'XtalDecorator::evalutateCode:  ';
             const targets = this.getTargets();
@@ -175,7 +186,7 @@
                 return;
             }
             this.applyScript(scriptTag, targets);
-
+            this.applyStyle(styleTag, targets);
         }
         connectedCallback() {
             this._domObserver = new MutationObserver(mutations => {

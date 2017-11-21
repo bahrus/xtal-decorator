@@ -50,13 +50,14 @@
                   this.numberOfConesSold++;
                 },
                 observeChangeToNumberOfConesSold: function (newVal, oldVal) {
-                  if(this.numberOfConesSold > 0){
+                  if (this.numberOfConesSold > 0) {
                     alert("Number of Ice cream cones sold: " + this.numberOfConesSold);
                   }
-                  
+
                 }
               }]
             </script>
+
           </template>
         </xtal-decorator>
         <xtal-decorator selector="paper-input>>>paper-input-container>label">
@@ -68,21 +69,27 @@
                   }
                 }]
             </script>
+
+          </template>
+        </xtal-decorator>
+        <xtal-decorator selector="paper-input">
+          <template>
             <style>
-              span {
-                color: orange;
+              label {
+                background-color: orange;
               }
             </style>
           </template>
         </xtal-decorator>
         <dom-bind>
           <template>
-            
+
             <span>
               <paper-input label="Selected Flavor" value="{{iceCreamSelection}}"></paper-input>
             </span>
             <br>
-            <span>Click <span style="color:red;cursor:pointer" on-click="handleClick">here</span>
+            <span>Click
+              <span style="color:red;cursor:pointer" on-click="handleClick">here</span>
               to order your ice cream.
             </span>
             <br> Number of cones sold:
