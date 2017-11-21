@@ -67,38 +67,17 @@
             }
             return targets;
         }
-        evaluateCode() {
-            const errRoot = 'XtalDecorator::evalutateCode:  ';
-            const targets = this.getTargets();
-            if (!targets || targets.length < this._minElementCount) {
-                this._retries++;
-                if (this._retries > 100) {
-                    console.error(errRoot + 'No targets found with selector ' + this._CssSelector);
-                    return;
-                }
-                setTimeout(() => {
-                    this.evaluateCode();
-                }, 100);
+        applyScript(scriptTag, targets) {
+            if (!scriptTag)
                 return;
-            }
-            let scriptTag = this.querySelector('script');
-            if (!scriptTag) {
-                const templateTag = this.querySelector('template');
-                const clone = document.importNode(templateTag.content, true);
-                scriptTag = clone.querySelector('script');
-            }
-            if (!scriptTag) {
-                console.error(errRoot + 'No script tag found to evaluate.' + this._CssSelector);
-                return;
-            }
             const innerText = scriptTag.innerText;
             if (innerText === this._previousEvaluatedText)
                 return;
             const objectsToMerge = eval(innerText);
             this._previousEvaluatedText = innerText;
             let propertiesToSet;
-            objectsToMerge.forEach(objectToMerge => {
-            });
+            // objectsToMerge.forEach(objectToMerge => {
+            // })
             for (let j = 0, jj = objectsToMerge.length; j < jj; j++) {
                 const objectToMerge = objectsToMerge[j];
                 for (var key in objectToMerge) {
@@ -161,6 +140,39 @@
                     Object.assign(target, propertiesToSet);
                 }
             });
+        }
+        evaluateCode() {
+            const errRoot = 'XtalDecorator::evalutateCode:  ';
+            const targets = this.getTargets();
+            if (!targets || targets.length < this._minElementCount) {
+                this._retries++;
+                if (this._retries > 100) {
+                    console.error(errRoot + 'No targets found with selector ' + this._CssSelector);
+                    return;
+                }
+                setTimeout(() => {
+                    this.evaluateCode();
+                }, 100);
+                return;
+            }
+            const templateTag = this.querySelector('template');
+            let clone;
+            if (templateTag) {
+                clone = document.importNode(templateTag.content, true);
+            }
+            let scriptTag = this.querySelector('script');
+            if (!scriptTag && clone) {
+                scriptTag = clone.querySelector('script');
+            }
+            let styleTag = this.querySelector('style');
+            if (!styleTag && clone) {
+                styleTag = clone.querySelector('style');
+            }
+            if (!scriptTag && !styleTag) {
+                console.error(errRoot + 'No script tag or style tag found to apply.' + this._CssSelector);
+                return;
+            }
+            this.applyScript(scriptTag, targets);
         }
         connectedCallback() {
             this._domObserver = new MutationObserver(mutations => {
