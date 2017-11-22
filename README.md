@@ -134,6 +134,8 @@ By default, _xtal-decorator_ searches for the all the dom-bind elements it can f
 this.parentElement.querySelectorAll(this.CssSelector)
 ``` 
 
+There are special values of the CssSelector where finding the target is done differently:  "_host" means find the containing element that has a shadow root, and apply the decorations to that element.
+
 Since this component can be use to "hack" the behavior of a custom element without properly subclassing it, we might as well go all the way.  You can also "pierce" into the shadow DOM, and set properties / attach methods.  And you can set styles.
 
 Why would you want to set styles deep within some element's shadow DOM, when there are things like CSS Properties and parts?  

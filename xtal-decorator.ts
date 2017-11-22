@@ -58,14 +58,28 @@
             })
             return newTargets;
         }
-        getTargets() {
-            const shadowSplitSelector = this._CssSelector.split('>>>');
-            let targets = [].slice.call(this.parentElement.querySelectorAll(shadowSplitSelector[0]));
-
-            for (let i = 1, ii = shadowSplitSelector.length; i < ii; i++) {
-                targets = this.getShadowSubTargets(targets, shadowSplitSelector[i]);
+        getHost(){
+            let parentElement = this.parentElement;
+            while(parentElement){
+                if(parentElement.shadowRoot) return parentElement;
+                parentElement = parentElement.parentElement;
             }
-            return targets;
+        }
+        getTargets() {
+            switch(this._CssSelector){
+                case '_host':
+                    const host = this.getHost();
+                    return host ? [host] : null;
+                default:
+                    const shadowSplitSelector = this._CssSelector.split('>>>');
+                    let targets = [].slice.call(this.parentElement.querySelectorAll(shadowSplitSelector[0]));
+        
+                    for (let i = 1, ii = shadowSplitSelector.length; i < ii; i++) {
+                        targets = this.getShadowSubTargets(targets, shadowSplitSelector[i]);
+                    }
+                    return targets;
+            }
+
         }
         applyScript(scriptTag: HTMLScriptElement, targets: any) {
             if (!scriptTag) return;
@@ -147,9 +161,7 @@
             if(!styleTag) return;
             targets.forEach(target => {
                 if(target.shadowRoot){
-                    console.log(styleTag.innerText);
                     const cn = styleTag.cloneNode(true) as HTMLElement;
-                    console.log(cn.innerText);
                     target.shadowRoot.appendChild(cn);
                 }
             });
