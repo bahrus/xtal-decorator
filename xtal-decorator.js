@@ -200,15 +200,15 @@
             this.applyStyle(styleTag, targets);
         }
         connectedCallback() {
-            this._domObserver = new MutationObserver(mutations => {
-                mutations.forEach(function (mutation) {
-                    this.evaluateCode();
-                });
-            });
-            // configuration of the observer:
-            const mutationConfig = { childList: true, subtree: true };
-            // pass in the target node, as well as the observer options
-            this._domObserver.observe(this, mutationConfig);
+            // this._domObserver = new MutationObserver(mutations => {
+            //     mutations.forEach(function (mutation) {
+            //         this.evaluateCode();
+            //     });
+            // });
+            // // configuration of the observer:
+            // const mutationConfig = { childList: true, subtree: true } as MutationObserverInit;
+            // // pass in the target node, as well as the observer options
+            // this._domObserver.observe(this, mutationConfig);
             this.evaluateCode();
         }
         /**

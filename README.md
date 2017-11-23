@@ -156,6 +156,16 @@ Have you ever been under a tight deadline, and you don't have time to read throu
   </xtal-decorator>
 ```
 
+## Timing
+
+A key aspect of this component is being able to select targets to apply the decorations too.  However, the DOM nodes can change quite a bit over the course of time -- tags might upgrade to custom elements in an unpredictable amount of time, and DOM nodes may be created dynamically, which this component may want to respond to.
+
+By default, *xtal-decorator* will search for matching nodes during the connectedCallback lifecycle event.  Often, this will be all you need.
+
+However, especially if searching for _host or using the deprecated pierce selector ( ">>>" ), the timing for when the shadowRoot will be be attached to parents / sibling / child nodes is unpredictable.  
+
+To address this concern one can add the attribute "validate-targets."  If this is present, then the decorator won't apply elements until the targets is finds passes the test specified by functional propert targetValidator. 
+
 ## Referencing the component
 
 _xtal-decorator_ has no dependencies.  As such it can be referenced via the classic script tag:
