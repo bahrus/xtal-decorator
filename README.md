@@ -168,7 +168,7 @@ However, there are two validations one can configure before *xtal-decorator* wil
 
 The simplest validation is to specify the minimum number of targets the selector should locate before attaching the behavior.  This is done via the min-element-count attribute.
 
-To achieve a much higher level of validation, one can add the attribute "validate-targets."  If this is present,then the decorator won't apply elements until the targets is finds passes the test specified by functional propert targetValidator. 
+To achieve a much higher level of validation, one can add the attribute "validate-targets."  If this is present,then the decorator won't apply elements until the targets is finds passes the test specified by functional property *targetValidator*. 
 
 ## Referencing the component
 
