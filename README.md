@@ -164,7 +164,11 @@ By default, *xtal-decorator* will search for matching nodes during the connected
 
 However, especially if searching for _host or using the deprecated pierce selector ( ">>>" ), the timing for when the shadowRoot will be be attached to parents / sibling / child nodes is unpredictable.  
 
-To address this concern one can add the attribute "validate-targets."  If this is present, then the decorator won't apply elements until the targets is finds passes the test specified by functional propert targetValidator. 
+However, there are two validations one can configure before *xtal-decorator* will process.
+
+The simplest validation is to specify the minimum number of targets the selector should locate before attaching the behavior.  This is done via the min-element-count attribute.
+
+To achieve a much higher level of validation, one can add the attribute "validate-targets."  If this is present,then the decorator won't apply elements until the targets is finds passes the test specified by functional propert targetValidator. 
 
 ## Referencing the component
 

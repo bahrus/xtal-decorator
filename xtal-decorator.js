@@ -17,6 +17,17 @@
         static get is() {
             return 'xtal-decorator';
         }
+        set validateTargets(val) {
+            if (val) {
+                this.setAttribute('validate-targets', '');
+            }
+            else {
+                this.removeAttribute('validate-targets');
+            }
+        }
+        set targetValidator(val) {
+            this._targetValidator = val;
+        }
         static get observedAttributes() {
             return [
                 /** @type {string}
@@ -28,7 +39,11 @@
                  * When target may be dynamically generated, wait for this number of elements to be
                  * found via the selector before acting
                  */
-                'min-element-count'
+                'min-element-count',
+                /** @type {boolean}
+                 * When true, processing will wait for targetValidator property function to be defined
+                 */
+                'validate-targets'
             ];
         }
         attributeChangedCallback(name, oldValue, newValue) {
@@ -38,6 +53,9 @@
                     break;
                 case 'min-element-count':
                     this._minElementCount = parseInt(newValue);
+                    break;
+                case 'validate-targets':
+                    this._validateTargets = (newValue !== null);
                     break;
             }
         }
@@ -165,19 +183,32 @@
                 }
             });
         }
-        evaluateCode() {
+        waitForLater() {
             const errRoot = 'XtalDecorator::evalutateCode:  ';
+            this._retries++;
+            if (this._retries > 100) {
+                console.error(errRoot + 'Could not find the right targets ' + this._CssSelector);
+                return;
+            }
+            setTimeout(() => {
+                this.evaluateCode();
+            }, 100);
+        }
+        evaluateCode() {
+            if (this._validateTargets && !this._targetValidator) {
+                this.waitForLater();
+                return;
+            }
             const targets = this.getTargets();
             if (!targets || targets.length < this._minElementCount) {
-                this._retries++;
-                if (this._retries > 100) {
-                    console.error(errRoot + 'No targets found with selector ' + this._CssSelector);
+                this.waitForLater();
+                return;
+            }
+            if (this._targetValidator) {
+                if (!this._targetValidator(targets, this)) {
+                    this.waitForLater();
                     return;
                 }
-                setTimeout(() => {
-                    this.evaluateCode();
-                }, 100);
-                return;
             }
             const templateTag = this.querySelector('template');
             let clone;
