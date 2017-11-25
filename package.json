@@ -1,6 +1,6 @@
 {
   "name": "xtal-decorator",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Extend or Apply methods / properties onto neighboring elements specified by CssSelector (default is dom-bind)",
   "main": "xtal-decorator.js",
   "repository": "https://github.com/bahrus/xtal-decorator",
