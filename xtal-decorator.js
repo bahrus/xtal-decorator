@@ -184,7 +184,7 @@
             });
         }
         waitForLater() {
-            const errRoot = 'XtalDecorator::evalutateCode:  ';
+            const errRoot = 'XtalDecorator::waitForLater:  ';
             this._retries++;
             if (this._retries > 100) {
                 console.error(errRoot + 'Could not find the right targets ' + this._CssSelector);
@@ -195,6 +195,7 @@
             }, 100);
         }
         evaluateCode() {
+            const errRoot = 'XtalDecorator::evaluateCode:  ';
             if (this._validateTargets && !this._targetValidator) {
                 this.waitForLater();
                 return;
