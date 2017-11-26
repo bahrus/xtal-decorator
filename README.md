@@ -184,6 +184,13 @@ or you can use ES6 modules:
 <script async type="module" src="../xtal-decorator.js"></script>
 ```
 
+You can also use a cdn like unpkg or jsdelivr:
+
+<script async src="https://cdn.jsdelivr.net/npm/xtal-decorator/build/ES6/xtal-decorator.js"></script>
+
+For IE11, use the ES5-compatible reference:
+
+<script async src="https://cdn.jsdelivr.net/npm/xtal-decorator/build/ES5/xtal-decorator.js"></script>
 
 ## Install the Polymer-CLI
 
