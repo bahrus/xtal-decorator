@@ -12,7 +12,7 @@ Style tags can be appended as well, assuming the target has a shadow root.
 ```
 <custom-element-demo>
   <template>
-  <link rel="import" href="https://rawgit.com/bahrus/xtal/master/bower_components/polymer/lib/elements/dom-bind.html">
+  <link rel="import" href="../polymer/lib/elements/dom-bind.html">
     <link rel="import" href="xtal-decorator.html">
             <xtal-decorator>
           <template>
