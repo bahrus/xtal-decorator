@@ -8,21 +8,19 @@
   <title>xtal-decorator demo</title>
 
   <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-
+  <script type="text/ecmascript">
+    var favoriteIceCreamFlavor = "Chocolate";
+  </script>
   <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
   <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
-  <!-- <link rel="import" href="../xtal-decorator.html"> -->
-  <script async src="../xtal-decorator.js"></script>
-  <!-- <script async type="module" src="../xtal-decorator.js"></script> -->
+  <link rel="import" href="../xtal-decorator.html">
   <link rel="import" href="../../polymer/lib/elements/dom-bind.html">
   <link rel="import" href="../../paper-input/paper-input.html">
   <custom-style>
     <style is="custom-style" include="demo-pages-shared-styles">
     </style>
   </custom-style>
-  <script type="text/ecmascript">
-    var favoriteIceCreamFlavor = "Chocolate";
-  </script>
+  
 </head>
 
 <body>
@@ -31,10 +29,9 @@
 
     <demo-snippet>
       <template>
-
-        <xtal-decorator>
-          <template>
-            <script type="text/ecmascript">
+        <div>
+          <xtal-decorator min-element-count="1">
+            <script type="text/ecmascript ish">
               [{
                 properties: {
                   iceCreamSelection: favoriteIceCreamFlavor,
@@ -58,55 +55,51 @@
                 }
               }]
             </script>
-
-          </template>
         </xtal-decorator>
-        <xtal-decorator selector="paper-input>>>paper-input-container>label">
-          <template>
-            <script type="text/ecmascript">
-              [{
-                  style: {
-                    color: 'green'
-                  }
-                }]
-            </script>
-
-          </template>
-        </xtal-decorator>
-        <xtal-decorator selector="paper-input">
-          <template>
-            <style>
-              label {
-                background-color: orange;
-              }
-            </style>
-          </template>
-        </xtal-decorator>
-        <xtal-decorator selector="_host">
+        <xtal-decorator selector="paper-input>>>paper-input-container>label" min-element-count="1">
+              <script type="text/ecmascript ish">
+                [{
+                    style: {
+                      color: 'green'
+                    }
+                  }]
+              </script>
+          </xtal-decorator>
+          <xtal-decorator selector="paper-input" min-element-count="1">
             <template>
               <style>
-                .demo{
-                  background-color:aqua;
+                label {
+                  background-color: orange;
                 }
               </style>
             </template>
           </xtal-decorator>
-        <dom-bind>
-          <template>
+          <xtal-decorator selector="_host" min-element-count="1">
+              <template>
+                <style>
+                  .demo{
+                    background-color:aqua;
+                  }
+                </style>
+              </template>
+            </xtal-decorator>
+          <dom-bind>
+            <template>
 
-            <span>
-              <paper-input label="Selected Flavor" value="{{iceCreamSelection}}"></paper-input>
-            </span>
-            <br>
-            <span>Click
-              <span style="color:red;cursor:pointer" on-click="handleClick">here</span>
-              to order your ice cream.
-            </span>
-            <br> Number of cones sold:
-            <span>[[numberOfConesSold]]</span>
+              <span>
+                <paper-input label="Selected Flavor" value="{{iceCreamSelection}}"></paper-input>
+              </span>
+              <br>
+              <span>Click
+                <span style="color:red;cursor:pointer" on-click="handleClick">here</span>
+                to order your ice cream.
+              </span>
+              <br> Number of cones sold:
+              <span>[[numberOfConesSold]]</span>
 
-          </template>
-        </dom-bind>
+            </template>
+          </dom-bind>
+        </div>
       </template>
     </demo-snippet>
   </div>

@@ -66,6 +66,7 @@
             const newTargets = [];
             targets.forEach(target => {
                 const shadowRoot = target.shadowRoot;
+                if(!shadowRoot) return;
                 const targets1 = shadowRoot.querySelectorAll(selector);
                 const childTargets = [].slice.call(targets1);
                 // console.log({
