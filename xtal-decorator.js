@@ -145,6 +145,8 @@
                                     }
                                     break;
                                 case 'polymerProperties':
+                                    if (!propertiesToSet)
+                                        propertiesToSet = {};
                                     for (const key in val) {
                                         const polyProp = val[key];
                                         if (polyProp.value !== undefined) {
