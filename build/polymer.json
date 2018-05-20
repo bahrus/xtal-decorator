@@ -1,0 +1,33 @@
+{
+  "entrypoint": "index.html",
+  "fragments": [],
+  "sources": [
+    "xtal-decorator.js",
+    "index.html"
+  ],
+  "extraDependencies": [
+    "bower_components/webcomponentsjs/*.js"
+  ],
+  "builds": [
+    {
+      "name": "ES5",
+      "js": {
+        "minify": true,
+        "compile": true
+      }
+    },
+    {
+      "name": "ES6",
+      "js": {
+        "minify": true,
+        "compile": false
+      }
+    }
+  ],
+  "lint": {
+    "rules": [
+      "polymer-3"
+    ]
+  },
+  "moduleResolution": "node"
+}
