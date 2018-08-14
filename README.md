@@ -6,6 +6,28 @@
 
 Extend or Apply methods / properties onto neighboring elements
 
+
+Syntax:
+
+
+```html
+<xtal-deco>
+  <script nomodule>
+    ({
+      on:{
+        click: function(e){
+          alert(this.iceCreamSelection + ' ice cream coming right up!');
+          this.numberOfConesSold++;
+        }
+      },
+
+    })
+  </script>
+</xtal-deco>
+<button>Click me to Order Your Ice Cream</button>
+
+```
+
 \<xtal-decorator\> provides the ability to "decorate" neighboring custom element instances.  It is most focused on being able to latch custom element behavior onto a Polymer JS dom-bind element instance, but it can generally be used for customizing, or extending, the behavior of any custom element instance "inline," without formally subclassing the custom element.  Methods can be attached, where "this" refers to the actual custom element it is attached to.  Properties can also be attached, including specific Polymer JS properties with referenced method observers.  They can also pull in data from the global scope.
 
 Style tags can be appended as well, assuming the target has a shadow root.
