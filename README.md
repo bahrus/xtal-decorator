@@ -4,83 +4,46 @@
 
 <a href="https://nodei.co/npm/xtal-decorator/"><img src="https://nodei.co/npm/xtal-decorator.png"></a>
 
-Extend or Apply methods / properties onto neighboring elements
+Extend or Apply methods / properties onto the next element
 
+xtal-deco and xtal-decorator provide a way of adding or overriding behavior of the next element -- "decorating" the element.  That next element can be a native DOM element, or a custom element. xtal-decorator extends xtal-deco with additional functionality
 
 Syntax:
 
 
 ```html
-<xtal-deco>
-  <script nomodule>
-    ({
-      on:{
-        click: function(e){
-          alert(this.iceCreamSelection + ' ice cream coming right up!');
-          this.numberOfConesSold++;
-        }
-      },
-      props:{
-        numberOfConesSold: 0
-      }
-      onPropsChange: function(name, newVal){
-
-      }
-    })
-  </script>
-</xtal-deco>
-<button>Click me to Order Your Ice Cream</button>
-
-```
-
-\<xtal-decorator\> provides the ability to "decorate" neighboring custom element instances.  It is most focused on being able to latch custom element behavior onto a Polymer JS dom-bind element instance, but it can generally be used for customizing, or extending, the behavior of any custom element instance "inline," without formally subclassing the custom element.  Methods can be attached, where "this" refers to the actual custom element it is attached to.  Properties can also be attached, including specific Polymer JS properties with referenced method observers.  They can also pull in data from the global scope.
-
-Style tags can be appended as well, assuming the target has a shadow root.
-
-<!--
-```
-<custom-element-demo>
-  <template>
-  <link rel="import" href="../polymer/lib/elements/dom-bind.html">
-    <link rel="import" href="xtal-decorator.html">
-            <xtal-decorator>
-          <template>
-          <script type="text/ecmascript">
-            [{
-              properties: {
-                iceCreamSelection: 'Vanilla',
-              },
-              polymerProperties:{
-                numberOfConesSold:{
-                  type: Number,
-                  observer: 'observeChangeToNumberOfConesSold',
-                  value: 0
+    <xtal-deco>
+        <script nomodule>
+            ({
+                on: {
+                    click: function (e) {
+                        alert(this.dataset.iceCreamSelection + ' ice cream coming right up!');
+                        this.numberOfConesSold++;
+                    }
+                },
+                props:{
+                    numberOfConesSold: 0,
+                },
+                onPropsChange: function(){
+                    console.log('i am here');
                 }
-              },
-              handleClick: function (e) {
-                alert(this.iceCreamSelection + " ice cream coming right up!");
-                this.numberOfConesSold++;
-              },
-              observeChangeToNumberOfConesSold: function(newVal, oldVal){
-                alert("Number of Ice cream cones sold: " + this.numberOfConesSold);
-              }
-            }]
-         </script>
-         </template>
-        </xtal-decorator>
-        <dom-bind>
-          <template>
-            Selected Flavor: <span>[[iceCreamSelection]]</span><br>
-            <span on-click="handleClick">Click <span style="color:red;cursor:pointer">Here</span> to Order Your Ice Cream</span><br>
-            Number of cones sold: <span>[[numberOfConesSold]]</span>
-
-          </template>
-        </dom-bind>
+            })
+        </script>
+    </xtal-deco>
     
-  </template
-</custom-element-demo>
+    <button data-ice-cream-selection="Chocolate">Click me to Order Your Ice Cream</button>
+    <p-d-x on="numberOfConesSold-changed" skip-init to="{innerText:target.numberOfConesSold}"></p-d-x>
+    <span></span> cones sold.
+
 ```
--->
+
+xtal-deco is ~760 bytes (minified / gzipped).
+
+## Style hacking [TODO]
+
+\<xtal-decorator\> extends xtal-deco, by allowing style tags can be appended as well, assuming the target has a shadow root.
+
+
 
 ## Install the Polymer-CLI
 
