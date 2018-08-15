@@ -9,6 +9,7 @@
 </head>
 
 <body>
+    <div>
     <script type="module" src="../xtal-deco.js"></script>
     <xtal-deco>
         <script nomodule>
@@ -21,11 +22,19 @@
                 },
                 props:{
                     numberOfConesSold: 0,
+                },
+                onPropsChange: function(){
+                    console.log('i am here');
                 }
             })
         </script>
     </xtal-deco>
+    
     <button data-ice-cream-selection="Chocolate">Click me to Order Your Ice Cream</button>
+    <p-d-x on="numberOfConesSold-changed" skip-init to="{innerText}"></p-d-x>
+    <span>0</span> cones sold.
+    <script type="module" src="https://unpkg.com/p-d.p-u@0.0.61/p-d-x.js?module"></script>
+    </div>
 </body>
 
 </html>

@@ -20,8 +20,11 @@ Syntax:
           this.numberOfConesSold++;
         }
       },
-      onPropsChange(name, oldVal, newVal){
-        
+      props:{
+        numberOfConesSold: 0
+      }
+      onPropsChange: function(name, newVal){
+
       }
     })
   </script>

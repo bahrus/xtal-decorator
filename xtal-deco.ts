@@ -54,7 +54,7 @@ export class XtalDeco extends HTMLElement {
                                     composed: false,
                                 } as CustomEventInit);
                                 this.dispatchEvent(newEvent);
-                                //incAttr
+                                if(this.onPropsChange) this.onPropsChange(key, val);
                             },
                             enumerable: true,
                             configurable: true,
