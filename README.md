@@ -20,7 +20,9 @@ Syntax:
           this.numberOfConesSold++;
         }
       },
-
+      onPropsChange(name, oldVal, newVal){
+        
+      }
     })
   </script>
 </xtal-deco>
