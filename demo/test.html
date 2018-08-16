@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <style>
+        /* set up the keyframes; remember to create prefixed keyframes too! */
+        @keyframes nodeInserted {
+            from {
+                opacity: 0.99;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* #parentElement>li {
+            animation-duration: 0.001s;
+            animation-name: nodeInserted;
+        } */
+        li{
+            animation-duration: 0.001s;
+            animation-name: nodeInserted;
+        }
+    </style>
+    <!--
+        https://davidwalsh.name/detect-node-insertion
+    -->
+    <script>
+        var insertListener = function (event) {
+            if (event.animationName == "nodeInserted") {
+                // This is the debug for knowing our listener worked!
+                // event.target is the new node!
+                console.warn("Another node has been inserted! ", event, event.target);
+            }
+        }
+        document.addEventListener("animationstart", insertListener, false); // standard + firefox
+        document.addEventListener("MSAnimationStart", insertListener, false); // IE
+        document.addEventListener("webkitAnimationStart", insertListener, false); // Chrome + Safari
+    </script>
+    <script>
+        function test(){
+            const li = document.createElement('li');
+            li.innerText = 'hello';
+            parentElement.appendChild(li);
+        }
+    </script>
+    <button onclick="test()">Click here</button>
+    <ul id="parentElement">
+
+    </ul>
+</body>
+
+</html>
