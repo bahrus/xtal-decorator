@@ -6,7 +6,7 @@
 
 Extend or Apply methods / properties onto the next element
 
-xtal-deco and xtal-decorator provide a way of adding or overriding behavior of the next element -- "decorating" the element.  That next element can be a native DOM element, or a custom element. xtal-decorator extends xtal-deco with additional functionality
+xtal-deco, xtal-decor and xtal-decorator provide a way of adding or overriding behavior of the next element -- "decorating" the element.  That next element can be a native DOM element, or a custom element. xtal-decorator extends xtal-deco with additional functionality
 
 ## Adding behavior to an element instance with xtal-deco
 
@@ -43,16 +43,16 @@ xtal-deco is ~830 bytes (minified / gzipped).
 
 
 
-## xtal-decorator
+## xtal-decor, xtal-decorator
 
-\<xtal-decorator\> extends xtal-deco, and is kind of the Knockturn Alley of web components.
+\<xtal-decorator\> extends \<xtal-decor\> which extends xtal-deco, and they are kind of the Knockturn Alley of web components.
 
 ### Attach Script
 
 xtal-decorator can also attach properties and functions to the next element, but you need to be more explicit:
 
 ```html
-    <xtal-decorator attach-script></xtal-decorator
+    <xtal-decor attach-script></xtal-decorator
 ```
 
 ###  Template insertion into neighboring web component's Shadow DOM.
@@ -60,7 +60,7 @@ xtal-decorator can also attach properties and functions to the next element, but
 Syntax:
 
 ```html
-<xtal-decorator insert-template into-next-element>
+<xtal-decor insert-template into-next-element>
     <template>
         <style>
             label {
@@ -68,30 +68,48 @@ Syntax:
             }
         </style>
     </template>
-</xtal-decorator>
+</xtal-decor>
 <paper-input label="Shop" value="Fledermaus and Tanner Bats & Skins"></paper-input>
 ```
 
-### Template insertion deep inside neighboring web component's Shadow DOM 
+### Template insertion deep inside neighboring web component's Shadow DOM [Not fully tested]
 
-xtal-decorator can also target elements within its Shadow DOM realm, rather than just the next element.
+xtal-decor can also target elements within its Shadow DOM realm, rather than just the next element.
 
 ```html
-<xtal-decorator insert-template into-next-element>
-    <template data-path="paper-input-container/iron-input">
+<xtal-decor insert-template attach-script into-next-element>
+    <template>
         <style>
-            input{
-                color:puking-pastille;
+            label {
+                background-color: blood-red;
             }
         </style>
     </template>
+    <template data-path="paper-input-container/iron-input">
+        <tom-riddles-diary></tom-riddles-diary>
+    </template>
+    <script nomodule data-path="paper-input-container/iron-input/input">
+       ({
+           on: {
+                    click: function (e) {
+                        alert('Up to no good, are we?');
+                    }
+                }
+       })
+    </script>
+</xtal-decor>
+<paper-input label="Shop" value="Fledermaus and Tanner Bats & Skins"></paper-input>
+```
+
+
+### xtal-decorator -- Extra Restricted Section [TODO]
+
+xtal-decorator extends xtal-decor, but rather than just target the next element, it targets all elements within the shadow DOM realm matching a selector:
+
+<xtal-decorator target-selector="paper-input" attach-script into-next-element>
+...
 </xtal-decorator>
-```
 
-
-```html
-<xtal-decorator attach-script insert-template where-css-matches="paper-input"></xtal-decorator>
-```
 
 ## Install the Polymer-CLI
 

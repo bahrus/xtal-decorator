@@ -5,7 +5,7 @@ export class $hell{
         return dash.replace($hell.DASH_TO_CAMEL, m =>m[1].toUpperCase());
     }
     static $0: HTMLElement;
-    static pathHistory: string[];
+    static pathHistory: string[] = [];
     static get pwd(){
         return this.pathHistory.join('/');
     }

@@ -39,18 +39,19 @@
         <span></span> cones sold.
         <script type="module" src="https://unpkg.com/p-d.p-u@0.0.61/p-d-x.js?module"></script>
 
-        <xtal-decorator import-template into-next-element>
+        <xtal-decor import-template into-next-element>
             <template>
                 <style>
                     label {
                         background-color: orange;
                     }
-                    input{
-                        color: green;
-                    }
                 </style>
+                
             </template>
-        </xtal-decorator>
+            <template data-path="paper-input-container/iron-input">
+                <button>I am here</button>
+            </template>
+        </xtal-decor>
         <paper-input label="testing"></paper-input>
     </div>
 </body>

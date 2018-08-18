@@ -194,4 +194,5 @@ export class $hell {
     }
 }
 $hell.DASH_TO_CAMEL = /-[a-z]/g;
+$hell.pathHistory = [];
 //# sourceMappingURL=$hell.js.map

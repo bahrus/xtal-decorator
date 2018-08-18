@@ -10,26 +10,26 @@ export class XtalDeco extends HTMLElement {
     }
     _nextSibling: HTMLElement;
     _script: HTMLScriptElement;
-    attachBehavior(evalObj) {
+    attachBehavior(evalObj, target) {
         for (const topKey in evalObj) {
             const subObj = evalObj[topKey];
             switch (topKey) {
                 case 'on':
                     for (const key in subObj) {
                         const handlerKey = key + '_decoHandler';
-                        const prop = Object.defineProperty(this._nextSibling, handlerKey, {
+                        const prop = Object.defineProperty(target, handlerKey, {
                             enumerable: false,
                             configurable: true,
                             writable: true,
                             value: subObj[key],
                         });
-                        this._nextSibling.addEventListener(key, this._nextSibling[handlerKey]);
+                        target.addEventListener(key, target[handlerKey]);
                     }
                     break;
                 case 'props':
                     for (const key in subObj) {
                         const propVal = subObj[key];
-                        Object.defineProperty(this._nextSibling, key, {
+                        Object.defineProperty(target, key, {
                             get: function () {
                                 return this['_' + key];
                             },
@@ -49,13 +49,13 @@ export class XtalDeco extends HTMLElement {
                             enumerable: true,
                             configurable: true,
                         });
-                        this._nextSibling[key] = propVal;
+                        target[key] = propVal;
                     }
                     break;
                 default:
                     switch (typeof (subObj)) {
                         case 'function':
-                            const prop = Object.defineProperty(this._nextSibling, topKey, {
+                            const prop = Object.defineProperty(target, topKey, {
                                 enumerable: false,
                                 configurable: true,
                                 writable: true,
@@ -63,7 +63,7 @@ export class XtalDeco extends HTMLElement {
                             });
                             break;
                         case 'object':
-                            this._nextSibling[topKey] = subObj;
+                            target[topKey] = subObj;
                             break;
                     }
             }
@@ -81,16 +81,16 @@ export class XtalDeco extends HTMLElement {
         }
         this.onDecoPropsChange();
     }
-    evaluateCode() {
+    evaluateCode(scriptElement: HTMLScriptElement, target: HTMLElement) {
         //this.attachBehavior(XtallatX)
-        const evalObj = eval(this._script.innerHTML);
-        this.attachBehavior(evalObj);
+        const evalObj = eval(scriptElement.innerHTML);
+        this.attachBehavior(evalObj, target);
         this._nextSibling.removeAttribute('disabled');
     }
 
     onDecoPropsChange(){
         if(!this._nextSibling || !this._script) return;
-        this.evaluateCode();
+        this.evaluateCode(this._script, this._nextSibling);
     }
 
 }
