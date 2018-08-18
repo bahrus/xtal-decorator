@@ -8,6 +8,8 @@ Extend or Apply methods / properties onto the next element
 
 xtal-deco and xtal-decorator provide a way of adding or overriding behavior of the next element -- "decorating" the element.  That next element can be a native DOM element, or a custom element. xtal-decorator extends xtal-deco with additional functionality
 
+## Adding behavior to an element instance with xtal-deco
+
 Syntax:
 
 
@@ -17,33 +19,66 @@ Syntax:
             ({
                 on: {
                     click: function (e) {
-                        alert(this.dataset.iceCreamSelection + ' ice cream coming right up!');
-                        this.numberOfConesSold++;
+                        alert(this.dataset.drinkSelection + ' butterbeer coming right up!');
+                        this.numberOfDrinksSold++;
                     }
                 },
                 props:{
                     numberOfConesSold: 0,
                 },
                 onPropsChange: function(){
-                    console.log('i am here');
+                    console.log('Thanks, Rosmerta');
                 }
             })
         </script>
     </xtal-deco>
     
-    <button data-ice-cream-selection="Chocolate">Click me to Order Your Ice Cream</button>
-    <p-d-x on="numberOfConesSold-changed" skip-init to="{innerText:target.numberOfConesSold}"></p-d-x>
+    <button data-drink-selection="Butterbeer">Click me to Order Your Butterbeer</button>
+    <p-d-x on="numberOfDrinksSold-changed" skip-init to="{innerText:target.numberOfDrinksSold}"></p-d-x>
     <span></span> cones sold.
 
 ```
 
-xtal-deco is ~760 bytes (minified / gzipped).
-
-## Style hacking [TODO]
-
-\<xtal-decorator\> extends xtal-deco, by allowing style tags can be appended as well, assuming the target has a shadow root.
+xtal-deco is ~830 bytes (minified / gzipped).
 
 
+
+## xtal-decorator
+
+\<xtal-decorator\> extends xtal-deco, and is kind of the Knockturn Alley of web components.
+
+### Attach Script
+
+xtal-decorator can also attach properties and functions to the next element, but you need to be more explicit:
+
+```html
+    <xtal-decorator attach-script></xtal-decorator
+```
+
+###  Template insertion into neighboring web component's Shadow DOM.
+
+Syntax:
+
+```html
+<xtal-decorator insert-template>
+    <template>
+        <style>
+            label {
+                background-color: blood-red;
+            }
+        </style>
+    </template>
+</xtal-decorator>
+<paper-input label="Shop" value="Fledermaus and Tanner Bats & Skins"></paper-input>
+```
+
+### Template insertion deep inside neighboring web component's Shadow DOM 
+
+xtal-decorator can also target elements within its Shadow DOM realm, rather than just the next element
+
+```html
+<xtal-decorator attach-script insert-template where-css-matches="paper-input"></xtal-decorator>
+```
 
 ## Install the Polymer-CLI
 

@@ -1,8 +1,12 @@
-//import { XtallatX } from 'xtal-latx/xtal-latx.js';
 export class XtalDeco extends HTMLElement {
+    constructor() {
+        super();
+        this.style.display = 'none';
+    }
     static get is() { return 'xtal-deco'; }
     connectedCallback() {
-        this.evaluateCode();
+        this.getElement('_nextSibling', t => t.nextElementSibling);
+        this.getElement('_script', t => t.querySelector('script'));
     }
     attachBehavior(evalObj) {
         for (const topKey in evalObj) {
@@ -28,19 +32,6 @@ export class XtalDeco extends HTMLElement {
                                 return this['_' + key];
                             },
                             set: function (val) {
-                                // function to$(number){
-                                //     const mod = number % 2;
-                                //     return (number - mod) / 2 + '-' + mod;
-                                // }
-                                // function incAttr(target, name){
-                                //     const ec = target._evCount;
-                                //     if(name in ec) {
-                                //         ec[name]++;
-                                //     }else{
-                                //         ec[name] = 0;
-                                //     }
-                                //     target.setAttribute('data-' + name, to$(ec[name]));
-                                // }
                                 this['_' + key] = val;
                                 const eventName = key + '-changed';
                                 const newEvent = new CustomEvent(eventName, {
@@ -77,25 +68,28 @@ export class XtalDeco extends HTMLElement {
             }
         }
     }
-    evaluateCode() {
-        if (!this._nextSibling) {
-            this._nextSibling = this.nextElementSibling;
-        }
-        if (!this._script) {
-            this._script = this.querySelector('script');
-        }
-        //Object.assign(this._nextSibling, XtallatX);
-        if (!this._script || !this._nextSibling) {
+    getElement(fieldName, getter) {
+        this[fieldName] = getter(this);
+        if (!this[fieldName]) {
             setTimeout(() => {
-                this.evaluateCode();
-            }, 50);
+                this.getElement(fieldName, getter);
+            });
             return;
         }
+        this.onDecoPropsChange();
+    }
+    evaluateCode() {
         //this.attachBehavior(XtallatX)
         const evalObj = eval(this._script.innerHTML);
         this.attachBehavior(evalObj);
         this._nextSibling.removeAttribute('disabled');
     }
+    onDecoPropsChange() {
+        if (!this._nextSibling || !this._script)
+            return;
+        this.evaluateCode();
+    }
 }
-customElements.define(XtalDeco.is, XtalDeco);
+if (!customElements.get(XtalDeco.is))
+    customElements.define(XtalDeco.is, XtalDeco);
 //# sourceMappingURL=xtal-deco.js.map

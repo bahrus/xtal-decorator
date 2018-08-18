@@ -1,9 +1,12 @@
-//import { XtallatX } from 'xtal-latx/xtal-latx.js';
-
 export class XtalDeco extends HTMLElement {
+    constructor(){
+        super();
+        this.style.display = 'none';
+    }
     static get is() { return 'xtal-deco'; }
     connectedCallback() {
-        this.evaluateCode();
+        this.getElement('_nextSibling', t => (t.nextElementSibling as HTMLElement));
+        this.getElement('_script', t => t.querySelector('script'));
     }
     _nextSibling: HTMLElement;
     _script: HTMLScriptElement;
@@ -31,19 +34,6 @@ export class XtalDeco extends HTMLElement {
                                 return this['_' + key];
                             },
                             set: function (val) {
-                                // function to$(number){
-                                //     const mod = number % 2;
-                                //     return (number - mod) / 2 + '-' + mod;
-                                // }
-                                // function incAttr(target, name){
-                                //     const ec = target._evCount;
-                                //     if(name in ec) {
-                                //         ec[name]++;
-                                //     }else{
-                                //         ec[name] = 0;
-                                //     }
-                                //     target.setAttribute('data-' + name, to$(ec[name]));
-                                // }
                                 this['_' + key] = val;
                                 const eventName = key + '-changed';
                                 const newEvent = new CustomEvent(eventName, {
@@ -80,24 +70,28 @@ export class XtalDeco extends HTMLElement {
         }
 
     }
-    evaluateCode() {
-        if (!this._nextSibling) {
-            this._nextSibling = this.nextElementSibling as HTMLElement;
-        }
-        if (!this._script) {
-            this._script = this.querySelector('script') as HTMLScriptElement;
-        }
-        //Object.assign(this._nextSibling, XtallatX);
-        if (!this._script || !this._nextSibling) {
-            setTimeout(() => {
-                this.evaluateCode();
-            }, 50);
+
+    getElement(fieldName: string, getter: (t: XtalDeco) => HTMLElement){
+        this[fieldName] = getter(this);
+        if(!this[fieldName]){
+            setTimeout(() =>{
+                this.getElement(fieldName, getter);
+            })
             return;
         }
+        this.onDecoPropsChange();
+    }
+    evaluateCode() {
         //this.attachBehavior(XtallatX)
         const evalObj = eval(this._script.innerHTML);
         this.attachBehavior(evalObj);
         this._nextSibling.removeAttribute('disabled');
     }
+
+    onDecoPropsChange(){
+        if(!this._nextSibling || !this._script) return;
+        this.evaluateCode();
+    }
+
 }
-customElements.define(XtalDeco.is, XtalDeco);
+if(!customElements.get(XtalDeco.is)) customElements.define(XtalDeco.is, XtalDeco);

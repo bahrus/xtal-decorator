@@ -10,30 +10,45 @@
 
 <body>
     <div>
-    <script type="module" src="../xtal-deco.js"></script>
-    <xtal-deco>
-        <script nomodule>
-            ({
-                on: {
-                    click: function (e) {
-                        alert(this.dataset.iceCreamSelection + ' ice cream coming right up!');
-                        this.numberOfConesSold++;
-                    }
-                },
-                props:{
-                    numberOfConesSold: 0,
-                },
-                onPropsChange: function(){
-                    console.log('i am here');
-                }
-            })
+        <script type="module" src="../xtal-deco.js"></script>
+        <script type="module" src="../xtal-decorator2.js"></script>
+        <script type="module">
+            import '@polymer/paper-input/paper-input.js';
         </script>
-    </xtal-deco>
-    
-    <button data-ice-cream-selection="Chocolate">Click me to Order Your Ice Cream</button>
-    <p-d-x on="numberOfConesSold-changed" to="{innerText:target.numberOfConesSold}"></p-d-x>
-    <span></span> cones sold.
-    <script type="module" src="https://unpkg.com/p-d.p-u@0.0.61/p-d-x.js?module"></script>
+        <xtal-deco>
+            <script nomodule>
+                ({
+                    on: {
+                        click: function (e) {
+                            alert(this.dataset.iceCreamSelection + ' ice cream coming right up!');
+                            this.numberOfConesSold++;
+                        }
+                    },
+                    props: {
+                        numberOfConesSold: 0,
+                    },
+                    onPropsChange: function () {
+                        console.log('i am here');
+                    }
+                })
+            </script>
+        </xtal-deco>
+
+        <button data-ice-cream-selection="Chocolate">Click me to Order Your Ice Cream</button>
+        <p-d-x on="numberOfConesSold-changed" to="{innerText:target.numberOfConesSold}"></p-d-x>
+        <span></span> cones sold.
+        <script type="module" src="https://unpkg.com/p-d.p-u@0.0.61/p-d-x.js?module"></script>
+
+        <xtal-decorator import-template into-next-element>
+            <template>
+                <style>
+                    label {
+                        background-color: orange;
+                    }
+                </style>
+            </template>
+        </xtal-decorator>
+        <paper-input label="testing"></paper-input>
     </div>
 </body>
 
