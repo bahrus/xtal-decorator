@@ -60,7 +60,7 @@ xtal-decorator can also attach properties and functions to the next element, but
 Syntax:
 
 ```html
-<xtal-decorator insert-template>
+<xtal-decorator insert-template into-next-element>
     <template>
         <style>
             label {
@@ -74,7 +74,20 @@ Syntax:
 
 ### Template insertion deep inside neighboring web component's Shadow DOM 
 
-xtal-decorator can also target elements within its Shadow DOM realm, rather than just the next element
+xtal-decorator can also target elements within its Shadow DOM realm, rather than just the next element.
+
+```html
+<xtal-decorator insert-template into-next-element>
+    <template data-path="paper-input-container/iron-input">
+        <style>
+            input{
+                color:puking-pastille;
+            }
+        </style>
+    </template>
+</xtal-decorator>
+```
+
 
 ```html
 <xtal-decorator attach-script insert-template where-css-matches="paper-input"></xtal-decorator>

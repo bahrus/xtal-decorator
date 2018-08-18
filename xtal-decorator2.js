@@ -1,5 +1,8 @@
 import { XtalDeco } from './xtal-deco.js';
 import { XtallatX } from 'xtal-latx/xtal-latx.js';
+export function qsa(css, from) {
+    return [].slice.call((from ? from : this).querySelectorAll(css));
+}
 const where_css_matches = 'where-css-matches';
 const into_next_element = 'into-next-element';
 const import_template = 'import-template';
@@ -61,34 +64,51 @@ export class XtalDecorator extends XtallatX(XtalDeco) {
         this._upgradeProperties(['disabled', 'attachScript', 'importTemplate', 'intoNextElement', 'whereCSSMatches']);
         this._connected = true;
         this.onDecoPropsChange();
+        this.addMutationObserver();
+    }
+    disconnectedCallback() {
+        if (this._mutationObserver)
+            this._mutationObserver.disconnect();
+    }
+    addMutationObserver() {
+        this._mutationObserver = new MutationObserver((mutationsList) => {
+            this.getTemplatesAndScripts();
+            this.appendTemplates();
+        });
+        this.getTemplatesAndScripts();
+        this.appendTemplates();
+        this._mutationObserver.observe(this, { childList: true });
+    }
+    getTemplatesAndScripts() {
+        this._templates = qsa('template', this);
+        this._scripts = qsa('script', this);
     }
     onDecoPropsChange() {
         if (!this._connected || this.disabled)
             return;
-        if (this._importTemplate && !this._template) {
-            this.getElement('_template', t => t.querySelector('template'));
-            return;
-        }
-        if (this._attachScript && !this._script) {
-            this.getElement('_script', t => t.querySelector('script'));
-            return;
-        }
         if (this._intoNextElement && !this._nextSibling) {
             this.getElement('_nextSibling', t => t.nextElementSibling);
             return;
         }
-        if (this._importTemplate && this._intoNextElement && !this._nextSibling.dataset.xtalTemplInserted) {
-            customElements.whenDefined(this._nextSibling.tagName.toLowerCase()).then(() => {
-                this.appendTemplate(this._nextSibling);
-            });
-        }
+        this.appendTemplates();
         if (this._attachScript && this._intoNextElement)
             this.evaluateCode();
     }
-    appendTemplate(target) {
-        const clone = document.importNode(this._template.content, true);
-        target.shadowRoot.appendChild(clone);
-        target.dataset.xtalTemplInserted = true;
+    appendTemplates() {
+        if (!this._templates)
+            return;
+        if (this._importTemplate && this._intoNextElement && this._nextSibling) {
+            customElements.whenDefined(this._nextSibling.tagName.toLowerCase()).then(() => {
+                const target = this._nextSibling;
+                this._templates.forEach((template) => {
+                    if (template.dataset.xtalTemplInserted)
+                        return;
+                    const clone = document.importNode(template.content, true);
+                    target.shadowRoot.appendChild(clone);
+                    template.dataset.xtalTemplInserted = 'true';
+                });
+            });
+        }
     }
 }
 XtalDecorator._addedNodeInsertionStyle = false;
