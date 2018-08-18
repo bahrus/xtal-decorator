@@ -1,6 +1,6 @@
 import { XtalDeco } from './xtal-deco.js';
 import { XtallatX } from 'xtal-latx/xtal-latx.js';
-import { $hell } from './$hell.js';
+import { cd } from 'xtal-shell/cd.js';
 export function qsa(css, from) {
     return [].slice.call((from ? from : this).querySelectorAll(css));
 }
@@ -107,8 +107,9 @@ export class XtalDecor extends XtallatX(XtalDeco) {
                     let subTarget = target;
                     const path = template.dataset.path;
                     if (path) {
-                        $hell.$0 = target;
-                        subTarget = $hell.cd(path);
+                        subTarget = cd(target, path);
+                        // $hell.$0 = target;
+                        // subTarget = $hell.cd(path);
                     }
                     const clone = document.importNode(template.content, true);
                     subTarget.shadowRoot.appendChild(clone);
@@ -129,8 +130,7 @@ export class XtalDecor extends XtallatX(XtalDeco) {
                     let subTarget = target;
                     const path = script.dataset.path;
                     if (path) {
-                        $hell.$0 = target;
-                        subTarget = $hell.cd(path);
+                        subTarget = cd(target, path);
                     }
                     this.evaluateCode(script, subTarget);
                 });
@@ -139,6 +139,6 @@ export class XtalDecor extends XtallatX(XtalDeco) {
     }
 }
 XtalDecor._addedNodeInsertionStyle = false;
-if (!customElements.get(XtalDecorator.is))
-    customElements.define(XtalDecorator.is, XtalDecorator);
+if (!customElements.get(XtalDecor.is))
+    customElements.define(XtalDecor.is, XtalDecor);
 //# sourceMappingURL=xtal-decor.js.map
