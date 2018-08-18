@@ -45,7 +45,7 @@ xtal-deco is ~830 bytes (minified / gzipped).
 
 ## xtal-decor, xtal-decorator
 
-\<xtal-decorator\> extends \<xtal-decor\> which extends xtal-deco, and they are kind of the Knockturn Alley of web components.
+\<xtal-decorator\> extends \<xtal-decor\> which extends \<xtal-deco\>, and they are kind of the Knockturn Alley of web components.
 
 ### Attach Script
 
@@ -77,7 +77,7 @@ Syntax:
 xtal-decor can also target elements within its Shadow DOM realm, rather than just the next element.
 
 ```html
-<xtal-decor insert-template attach-script into-next-element>
+<xtal-decor insert-template and attach-script into-next-element>
     <template>
         <style>
             label {
@@ -101,14 +101,17 @@ xtal-decor can also target elements within its Shadow DOM realm, rather than jus
 <paper-input label="Shop" value="Fledermaus and Tanner Bats & Skins"></paper-input>
 ```
 
+The word "and" is optional and does no harm.
 
 ### xtal-decorator -- Extra Restricted Section [TODO]
 
 xtal-decorator extends xtal-decor, but rather than just target the next element, it targets all elements within the shadow DOM realm matching a selector:
 
-<xtal-decorator target-selector="paper-input" attach-script into-next-element>
+```html
+<xtal-decorator insert-template and attach-script where-target-selector="paper-input" >
 ...
 </xtal-decorator>
+```
 
 
 ## Install the Polymer-CLI
