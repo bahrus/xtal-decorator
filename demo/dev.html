@@ -58,8 +58,10 @@
 
 
         <h3>xtal-decorator example</h3>
-        <xtal-decorator id="myDecorator" where-target-selector="paper-input">
-
+        <xtal-decorator id="myDecorator" import-template where-target-selector="paper-input">
+            <template data-path="paper-input-container/iron-input">
+                <button>Hi</button>
+            </template>
         </xtal-decorator>
     </div>
 </body>

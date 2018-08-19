@@ -4,11 +4,11 @@
 
 <a href="https://nodei.co/npm/xtal-decorator/"><img src="https://nodei.co/npm/xtal-decorator.png"></a>
 
-Extend or Apply methods / properties onto the next element
+Extend or Apply methods / properties onto other elements
 
-xtal-deco, xtal-decor and xtal-decorator provide a way of adding or overriding behavior of the next element -- "decorating" the element.  That next element can be a native DOM element, or a custom element. xtal-decorator extends xtal-deco with additional functionality
+xtal-deco, xtal-decor and xtal-decorator provide a way of adding or overriding behavior of other elements -- "decorating" the element.  The affected elements can be a native DOM elements, or custom element instances. xtal-decorator extends xtal-decor, which extends xtal-deco, each extension adding more functionality. xtal-deco and xtal-decor only affect the next sibling element.  xtal-decorator can apply to multiple elmenents.
 
-## Adding behavior to an element instance with xtal-deco
+## Adding behavior to the next element instance with xtal-deco
 
 Syntax:
 
@@ -45,14 +45,14 @@ xtal-deco is ~830 bytes (minified / gzipped).
 
 ## xtal-decor, xtal-decorator
 
-\<xtal-decorator\> extends \<xtal-decor\> which extends \<xtal-deco\>, and they are kind of the Knockturn Alley of web components.
+xtal-decor and xtal-decorator are the kind of web components you would find hanging out in Knockturn Alley.
 
 ### Attach Script
 
-xtal-decorator can also attach properties and functions to the next element, but you need to be more explicit:
+xtal-decor, like xtal-deco, can also attach properties and functions to the next element, but you need to be more explicit:
 
 ```html
-    <xtal-decor attach-script></xtal-decorator
+    <xtal-decor attach-script into-next-element></xtal-decorator
 ```
 
 ###  Template insertion into neighboring web component's Shadow DOM.
@@ -74,7 +74,6 @@ Syntax:
 
 ### Template insertion deep inside neighboring web component's Shadow DOM [Not fully tested]
 
-xtal-decor can also target elements within its Shadow DOM realm, rather than just the next element.
 
 ```html
 <xtal-decor insert-template and attach-script into-next-element>
@@ -101,11 +100,11 @@ xtal-decor can also target elements within its Shadow DOM realm, rather than jus
 <paper-input label="Shop" value="Fledermaus and Tanner Bats & Skins"></paper-input>
 ```
 
-The word "and" is optional and does no harm.
+The word "and" is optional and doesn't do anything other than make the markup more readable.
 
-### xtal-decorator -- Extra Restricted Section [TODO]
+### xtal-decorator -- Extra Restricted Section [More tests needed]
 
-xtal-decorator extends xtal-decor, but rather than just target the next element, it targets all elements within the shadow DOM realm matching a selector:
+xtal-decorator extends xtal-decor, but rather than just target the next element, it can target all elements within the shadow DOM realm matching a selector:
 
 ```html
 <xtal-decorator insert-template and attach-script where-target-selector="paper-input" >

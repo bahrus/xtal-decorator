@@ -26,10 +26,13 @@ export class XtalDecorator extends XtalDecor {
         if (e.animationName === this.id) {
             // This is the debug for knowing our listener worked!
             // event.target is the new node!
-            console.warn("Another node has been inserted! ", event, event.target);
+            //console.warn("Another node has been inserted! ", event, event.target);
+            this.appendTemplates(event.target);
+            this.attachScripts(event.target);
         }
     }
     addEventListener() {
+        // See https://davidwalsh.name/detect-node-insertion
         if (this._boundInsertListener)
             return;
         const styleInner = /* css */ `

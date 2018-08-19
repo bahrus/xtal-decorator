@@ -80,12 +80,14 @@ export class XtalDecor extends XtallatX(XtalDeco) {
         if (this._attachScript && this._intoNextElement)
             this.evaluateCode();
     }
-    appendTemplates() {
+    appendTemplates(target) {
         if (!this._templates)
             return;
-        if (this._importTemplate && this._intoNextElement && this._nextSibling) {
-            customElements.whenDefined(this._nextSibling.tagName.toLowerCase()).then(() => {
-                const target = this._nextSibling;
+        if (!target && this._intoNextElement)
+            target = this._nextSibling;
+        if (this._importTemplate && target) {
+            customElements.whenDefined(target.tagName.toLowerCase()).then(() => {
+                //const target = this._nextSibling;
                 this._templates.forEach((template) => {
                     if (template.dataset.xtalTemplInserted)
                         return;
@@ -103,12 +105,14 @@ export class XtalDecor extends XtallatX(XtalDeco) {
             });
         }
     }
-    attachScripts() {
+    attachScripts(target) {
         if (!this._scripts)
             return;
-        if (this._attachScript && this._intoNextElement && this._nextSibling) {
-            customElements.whenDefined(this._nextSibling.tagName.toLowerCase()).then(() => {
-                const target = this._nextSibling;
+        if (!target && this._intoNextElement)
+            target = this._nextSibling;
+        if (this._attachScript && target) {
+            customElements.whenDefined(target.tagName.toLowerCase()).then(() => {
+                //const target = this._nextSibling;
                 this._scripts.forEach((script) => {
                     if (script.dataset.xtalScriptAttached)
                         return;
