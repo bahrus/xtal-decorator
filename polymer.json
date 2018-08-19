@@ -1,7 +1,9 @@
 {
   "sources":[
     "xtal-deco.js",
-    "xtal-decorator.js"
+    "xtal-decor.js",
+    "xtal-decorator.js",
+    "xtal-decorator.iife.js"
   ],
   "lint": {
     "rules": [

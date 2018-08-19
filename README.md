@@ -112,6 +112,7 @@ xtal-decorator extends xtal-decor, but rather than just target the next element,
 </xtal-decorator>
 ```
 
+All three of these components together weigh about 2.7kb minifed and gzipped.
 
 ## Install the Polymer-CLI
 
