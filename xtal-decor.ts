@@ -6,7 +6,7 @@ export function qsa(css, from?: HTMLElement | Document | DocumentFragment): HTML
     return [].slice.call((from ? from : this).querySelectorAll(css));
 }
 
-const where_css_matches = 'where-css-matches';
+//const where_css_matches = 'where-css-matches';
 const into_next_element = 'into-next-element';
 const import_template = 'import-template';
 const attach_script = 'attach-script';
@@ -16,19 +16,7 @@ export class XtalDecor extends XtallatX(XtalDeco) {
 
     static get is() { return 'xtal-decor'; }
 
-    _whereCSSMatches: string;
-    /** @type {string} 
-     * Selector to search for within the parent element. 
-     * This will select the target elements(s) to which properties and methods will be attached.
-    */
-    get whereCSSMatches() {
-        return this._whereCSSMatches;
-    }
-
-    set whereCSSMatches(val) {
-        if (this._whereCSSMatches && this._whereCSSMatches !== val) throw 'Only supports one value';
-        this.attr(where_css_matches, val);
-    }
+   
 
     _intoNextElement: boolean;
     get intoNextElement() {
@@ -55,15 +43,12 @@ export class XtalDecor extends XtallatX(XtalDeco) {
     }
 
     static get observedAttributes() {
-        return super.observedAttributes.concat([where_css_matches, into_next_element, import_template, attach_script]);
+        return super.observedAttributes.concat([into_next_element, import_template, attach_script]);
     }
 
     attributeChangedCallback(name: string, oldVal: string, newVal: string) {
         super.attributeChangedCallback(name, oldVal, newVal);
         switch (name) {
-            case where_css_matches:
-                this._whereCSSMatches = newVal;
-                break;
             case import_template:
                 this._importTemplate = newVal !== null;
                 break;
