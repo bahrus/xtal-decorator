@@ -24,7 +24,7 @@ Syntax:
                     }
                 },
                 props:{
-                    numberOfConesSold: 0,
+                    numberOfDrinksSold: 0,
                 },
                 onPropsChange: function(){
                     console.log('Thanks, Rosmerta');
@@ -35,7 +35,7 @@ Syntax:
     
     <button data-drink-selection="Butterbeer">Click me to Order Your Butterbeer</button>
     <p-d-x on="numberOfDrinksSold-changed" skip-init to="{innerText:target.numberOfDrinksSold}"></p-d-x>
-    <span></span> cones sold.
+    <span></span> drinks sold.
 
 ```
 
