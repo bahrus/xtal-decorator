@@ -1,4 +1,5 @@
 import { XtalDeco } from './xtal-deco.js';
+import { define } from 'xtal-latx/define.js';
 import { XtallatX } from 'xtal-latx/xtal-latx.js';
 import { cd } from 'xtal-shell/cd.js';
 export function qsa(css, from) {
@@ -128,6 +129,5 @@ export class XtalDecor extends XtallatX(XtalDeco) {
     }
 }
 XtalDecor._addedNodeInsertionStyle = false;
-if (!customElements.get(XtalDecor.is))
-    customElements.define(XtalDecor.is, XtalDecor);
+define(XtalDecor);
 //# sourceMappingURL=xtal-decor.js.map

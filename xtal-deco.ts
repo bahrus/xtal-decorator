@@ -1,3 +1,4 @@
+import {define} from 'xtal-latx/define.js';
 export class XtalDeco extends HTMLElement {
     constructor(){
         super();
@@ -94,4 +95,4 @@ export class XtalDeco extends HTMLElement {
     }
 
 }
-if(!customElements.get(XtalDeco.is)) customElements.define(XtalDeco.is, XtalDeco);
+define(XtalDeco);

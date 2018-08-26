@@ -1,4 +1,5 @@
 import { XtalDeco } from './xtal-deco.js';
+import { define } from 'xtal-latx/define.js';
 import { XtallatX } from 'xtal-latx/xtal-latx.js';
 import { cd } from 'xtal-shell/cd.js';
 
@@ -143,4 +144,4 @@ export class XtalDecor extends XtallatX(XtalDeco) {
         }
     }
 }
-if (!customElements.get(XtalDecor.is)) customElements.define(XtalDecor.is, XtalDecor);
+define(XtalDecor);

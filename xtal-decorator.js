@@ -1,4 +1,5 @@
 import { XtalDecor } from './xtal-decor.js';
+import { define } from 'xtal-latx/define.js';
 const where_target_selector = 'where-target-selector';
 export class XtalDecorator extends XtalDecor {
     constructor() {
@@ -89,6 +90,5 @@ export class XtalDecorator extends XtalDecor {
         this.addEventListener();
     }
 }
-if (!customElements.get(XtalDecorator.is))
-    customElements.define(XtalDecorator.is, XtalDecorator);
+define(XtalDecorator);
 //# sourceMappingURL=xtal-decorator.js.map
