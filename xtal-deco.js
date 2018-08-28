@@ -1,11 +1,8 @@
 import { define } from 'xtal-latx/define.js';
 export class XtalDeco extends HTMLElement {
-    constructor() {
-        super();
-        this.style.display = 'none';
-    }
     static get is() { return 'xtal-deco'; }
     connectedCallback() {
+        this.style.display = 'none';
         this.getElement('_nextSibling', t => t.nextElementSibling);
         this.getElement('_script', t => t.querySelector('script'));
     }

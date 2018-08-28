@@ -47,12 +47,9 @@ function getChildFromSinglePath(el, token) {
     return matchingNodes[idx];
 }
 class XtalDeco extends HTMLElement {
-    constructor() {
-        super();
-        this.style.display = 'none';
-    }
     static get is() { return 'xtal-deco'; }
     connectedCallback() {
+        this.style.display = 'none';
         this.getElement('_nextSibling', t => t.nextElementSibling);
         this.getElement('_script', t => t.querySelector('script'));
     }
@@ -138,8 +135,15 @@ class XtalDeco extends HTMLElement {
         this.evaluateCode(this._script, this._nextSibling);
     }
 }
-if (!customElements.get(XtalDeco.is))
-    customElements.define(XtalDeco.is, XtalDeco);
+define(XtalDeco);
+function define(custEl) {
+    let tagName = custEl.is;
+    if (customElements.get(tagName)) {
+        console.warn('Already registered ' + tagName);
+        return;
+    }
+    customElements.define(tagName, custEl);
+}
 const disabled = 'disabled';
 function XtallatX(superClass) {
     return class extends superClass {
@@ -157,12 +161,8 @@ function XtallatX(superClass) {
             this.attr(disabled, val, '');
         }
         attr(name, val, trueVal) {
-            if (val) {
-                this.setAttribute(name, trueVal || val);
-            }
-            else {
-                this.removeAttribute(name);
-            }
+            const setOrRemove = val ? 'set' : 'remove';
+            this[setOrRemove + 'Attribute'](name, trueVal || val);
         }
         to$(number) {
             const mod = number % 2;
@@ -334,8 +334,7 @@ class XtalDecor extends XtallatX(XtalDeco) {
     }
 }
 XtalDecor._addedNodeInsertionStyle = false;
-if (!customElements.get(XtalDecor.is))
-    customElements.define(XtalDecor.is, XtalDecor);
+define(XtalDecor);
 const where_target_selector = 'where-target-selector';
 class XtalDecorator extends XtalDecor {
     constructor() {
@@ -426,7 +425,6 @@ class XtalDecorator extends XtalDecor {
         this.addEventListener();
     }
 }
-if (!customElements.get(XtalDecorator.is))
-    customElements.define(XtalDecorator.is, XtalDecorator);
+define(XtalDecorator);
     })();  
         
