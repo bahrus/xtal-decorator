@@ -13,6 +13,8 @@
         <script type="module" src="../xtal-deco.js"></script>
         <script type="module" src="../xtal-decor.js"></script>
         <script type="module" src="../xtal-decorator.js"></script>
+        <script type="module" src="https://unpkg.com/p-d.p-u@0.0.67/p-d-x.js?module"></script>
+        <script type="module" src="https://unpkg.com/carbon-copy@0.1.40/b-c-c.js?module"></script>
         <script type="module">
             import '@polymer/paper-input/paper-input.js';
         </script>
@@ -38,8 +40,7 @@
         <button data-ice-cream-selection="Chocolate">Click me to Order Your Ice Cream</button>
         <p-d-x on="numberOfConesSold-changed" to="{innerText:target.numberOfConesSold}"></p-d-x>
         <span></span> cones sold.
-        <script type="module" src="https://unpkg.com/p-d.p-u@0.0.61/p-d-x.js?module"></script>
-
+        
         <xtal-decor import-template into-next-element>
             <template>
                 <style>
@@ -63,6 +64,17 @@
                 <button>Hi</button>
             </template>
         </xtal-decorator>
+
+
+        <template id="shadowedTest">
+            <paper-input label="testing2"></paper-input>
+
+            <template data-path="paper-input-container/iron-input">
+                <button>Hi</button>
+            </template>
+        </template>
+
+        <b-c-c copy from="/shadowedTest"></b-c-c>
     </div>
 </body>
 
