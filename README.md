@@ -102,7 +102,7 @@ Syntax:
 
 The word "and" is optional and doesn't do anything other than make the markup more readable.
 
-### xtal-decorator -- Extra Restricted Section [More tests needed]
+### xtal-decorator -- Extra Restricted Section
 
 xtal-decorator extends xtal-decor, but rather than just target the next element, it can target all elements within the shadow DOM realm matching a selector:
 
