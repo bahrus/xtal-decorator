@@ -69,9 +69,11 @@
         <template id="shadowedTest">
             <paper-input label="testing2"></paper-input>
 
-            <template data-path="paper-input-container/iron-input">
-                <button>Hi</button>
-            </template>
+            <xtal-decorator id="Hi2" import-template where-target-selector="paper-input">
+                <template data-path="paper-input-container/iron-input">
+                    <button>Hi2</button>
+                </template>
+            </xtal-decorator>
         </template>
 
         <b-c-c copy from="/shadowedTest"></b-c-c>

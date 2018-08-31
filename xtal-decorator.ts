@@ -29,8 +29,8 @@ export class XtalDecorator extends XtalDecor{
             // This is the debug for knowing our listener worked!
             // event.target is the new node!
             //console.warn("Another node has been inserted! ", event, event.target);
-            this.appendTemplates(event.target as HTMLElement);
-            this.attachScripts(event.target as HTMLElement);
+            this.appendTemplates(e.target as HTMLElement);
+            this.attachScripts(e.target as HTMLElement);
         }
     }
     _boundInsertListener;
@@ -54,11 +54,19 @@ export class XtalDecorator extends XtalDecor{
         `;
         const style = document.createElement('style');
         style.innerHTML = styleInner;
-        document.body.appendChild(style);
+        const host = this.getHost((<any>this as HTMLElement));
+        if(host !== null){
+            host.shadowRoot.appendChild(style);
+        }else{
+            document.body.appendChild(style);
+        }
+        
         this._boundInsertListener = this.insertListener.bind(this);
-        document.addEventListener("animationstart", this._boundInsertListener, false); // standard + firefox
-        document.addEventListener("MSAnimationStart", this._boundInsertListener, false); // IE
-        document.addEventListener("webkitAnimationStart", this._boundInsertListener, false); // Chrome + Safari
+        const container = host ? host.shadowRoot : document;
+        //const container = host || document;
+        container.addEventListener("animationstart", this._boundInsertListener, false); // standard + firefox
+        container.addEventListener("MSAnimationStart", this._boundInsertListener, false); // IE
+        container.addEventListener("webkitAnimationStart", this._boundInsertListener, false); // Chrome + Safari
     }
 
     attributeChangedCallback(name: string, oldVal: string, newVal: string) {
@@ -69,6 +77,18 @@ export class XtalDecorator extends XtalDecor{
 
         }
         super.attributeChangedCallback(name, oldVal, newVal);
+    }
+
+    getHost(el: HTMLElement) : HTMLElement | null {
+        let parent : any = el;
+        while (parent = (parent.parentNode)) {
+            if (parent.nodeType === 11) {
+                return (<any>parent)['host'] as HTMLElement;
+            } else if (parent.tagName === 'HTML') {
+                return null;
+            }
+        }
+        return null;
     }
 
     connectedCallback(){

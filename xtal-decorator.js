@@ -28,8 +28,8 @@ export class XtalDecorator extends XtalDecor {
             // This is the debug for knowing our listener worked!
             // event.target is the new node!
             //console.warn("Another node has been inserted! ", event, event.target);
-            this.appendTemplates(event.target);
-            this.attachScripts(event.target);
+            this.appendTemplates(e.target);
+            this.attachScripts(e.target);
         }
     }
     addEventListener() {
@@ -53,11 +53,19 @@ export class XtalDecorator extends XtalDecor {
         `;
         const style = document.createElement('style');
         style.innerHTML = styleInner;
-        document.body.appendChild(style);
+        const host = this.getHost(this);
+        if (host !== null) {
+            host.shadowRoot.appendChild(style);
+        }
+        else {
+            document.body.appendChild(style);
+        }
         this._boundInsertListener = this.insertListener.bind(this);
-        document.addEventListener("animationstart", this._boundInsertListener, false); // standard + firefox
-        document.addEventListener("MSAnimationStart", this._boundInsertListener, false); // IE
-        document.addEventListener("webkitAnimationStart", this._boundInsertListener, false); // Chrome + Safari
+        const container = host ? host.shadowRoot : document;
+        //const container = host || document;
+        container.addEventListener("animationstart", this._boundInsertListener, false); // standard + firefox
+        container.addEventListener("MSAnimationStart", this._boundInsertListener, false); // IE
+        container.addEventListener("webkitAnimationStart", this._boundInsertListener, false); // Chrome + Safari
     }
     attributeChangedCallback(name, oldVal, newVal) {
         switch (name) {
@@ -66,6 +74,18 @@ export class XtalDecorator extends XtalDecor {
                 break;
         }
         super.attributeChangedCallback(name, oldVal, newVal);
+    }
+    getHost(el) {
+        let parent = el;
+        while (parent = (parent.parentNode)) {
+            if (parent.nodeType === 11) {
+                return parent['host'];
+            }
+            else if (parent.tagName === 'HTML') {
+                return null;
+            }
+        }
+        return null;
     }
     connectedCallback() {
         this._upgradeProperties(['whereTargetSelector']);
