@@ -34,41 +34,7 @@ export class XtalDecorator extends observeCssSelector(XtalDecor){
             this.attachScripts(e.target as HTMLElement);
         }
     }
-    //_boundInsertListener;
-    // addEventListener(){
-    //     // See https://davidwalsh.name/detect-node-insertion
-    //     if(this._boundInsertListener) return;
-    //     const styleInner = /* css */`
-    //     @keyframes ${this.id} {
-    //         from {
-    //             opacity: 0.99;
-    //         }
-    //         to {
-    //             opacity: 1;
-    //         }
-    //     }
 
-    //     ${this._whereTargetSelector}{
-    //         animation-duration: 0.001s;
-    //         animation-name: ${this.id};
-    //     }
-    //     `;
-    //     const style = document.createElement('style');
-    //     style.innerHTML = styleInner;
-    //     const host = this.getHost((<any>this as HTMLElement));
-    //     if(host !== null){
-    //         host.shadowRoot.appendChild(style);
-    //     }else{
-    //         document.body.appendChild(style);
-    //     }
-        
-    //     this._boundInsertListener = this.insertListener.bind(this);
-    //     const container = host ? host.shadowRoot : document;
-    //     //const container = host || document;
-    //     container.addEventListener("animationstart", this._boundInsertListener, false); // standard + firefox
-    //     container.addEventListener("MSAnimationStart", this._boundInsertListener, false); // IE
-    //     container.addEventListener("webkitAnimationStart", this._boundInsertListener, false); // Chrome + Safari
-    // }
 
     attributeChangedCallback(name: string, oldVal: string, newVal: string) {
         switch(name){
@@ -80,17 +46,7 @@ export class XtalDecorator extends observeCssSelector(XtalDecor){
         super.attributeChangedCallback(name, oldVal, newVal);
     }
 
-    // getHost(el: HTMLElement) : HTMLElement | null {
-    //     let parent : any = el;
-    //     while (parent = (parent.parentNode)) {
-    //         if (parent.nodeType === 11) {
-    //             return (<any>parent)['host'] as HTMLElement;
-    //         } else if (parent.tagName === 'HTML') {
-    //             return null;
-    //         }
-    //     }
-    //     return null;
-    // }
+
 
     connectedCallback(){
 
@@ -98,13 +54,7 @@ export class XtalDecorator extends observeCssSelector(XtalDecor){
         super.connectedCallback();
     }
 
-    // disconnectedCallback(){
-    //     if(this._boundInsertListener){
-    //         document.removeEventListener("animationstart", this._boundInsertListener); // standard + firefox
-    //         document.removeEventListener("MSAnimationStart", this._boundInsertListener); // IE
-    //         document.removeEventListener("webkitAnimationStart", this._boundInsertListener); // Chrome + Safari
-    //     }
-    // }
+
 
 
     onDecoPropsChange(){

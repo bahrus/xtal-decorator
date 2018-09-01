@@ -46,6 +46,14 @@ function getChildFromSinglePath(el, token) {
     });
     return matchingNodes[idx];
 }
+/**
+ * `xtal-deco`
+ *  Attach / override behavior to the next element
+ *
+ * @customElement
+ * @polymer
+ * @demo demo/index.html
+ */
 class XtalDeco extends HTMLElement {
     static get is() { return 'xtal-deco'; }
     connectedCallback() {
@@ -161,12 +169,12 @@ function XtallatX(superClass) {
             this.attr(disabled, val, '');
         }
         attr(name, val, trueVal) {
-            const setOrRemove = val ? 'set' : 'remove';
-            this[setOrRemove + 'Attribute'](name, trueVal || val);
+            const v = val ? 'set' : 'remove'; //verb
+            this[v + 'Attribute'](name, trueVal || val);
         }
-        to$(number) {
-            const mod = number % 2;
-            return (number - mod) / 2 + '-' + mod;
+        to$(n) {
+            const mod = n % 2;
+            return (n - mod) / 2 + '-' + mod;
         }
         incAttr(name) {
             const ec = this._evCount;
@@ -207,6 +215,62 @@ function XtallatX(superClass) {
         }
     };
 }
+function observeCssSelector(superClass) {
+    const eventNames = ["animationstart", "MSAnimationStart", "webkitAnimationStart"];
+    return class extends superClass {
+        addEventListener(id, targetSelector, insertListener) {
+            // See https://davidwalsh.name/detect-node-insertion
+            if (this._boundInsertListener)
+                return;
+            const styleInner = /* css */ `
+            @keyframes ${this.id} {
+                from {
+                    opacity: 0.99;
+                }
+                to {
+                    opacity: 1;
+                }
+            }
+    
+            ${targetSelector}{
+                animation-duration: 0.001s;
+                animation-name: ${id};
+            }
+            `;
+            const style = document.createElement('style');
+            style.innerHTML = styleInner;
+            const host = getHost(this);
+            if (host !== null) {
+                host.shadowRoot.appendChild(style);
+            }
+            else {
+                document.body.appendChild(style);
+            }
+            this._boundInsertListener = insertListener.bind(this);
+            const container = host ? host.shadowRoot : document;
+            eventNames.forEach(name => {
+                container.addEventListener(name, this._boundInsertListener, false);
+            });
+            // container.addEventListener("animationstart", this._boundInsertListener, false); // standard + firefox
+            // container.addEventListener("MSAnimationStart", this._boundInsertListener, false); // IE
+            // container.addEventListener("webkitAnimationStart", this._boundInsertListener, false); // Chrome + Safari
+        }
+        disconnectedCallback() {
+            if (this._boundInsertListener) {
+                const host = getHost(this);
+                const container = host ? host.shadowRoot : document;
+                eventNames.forEach(name => {
+                    container.removeEventListener(name, this._boundInsertListener);
+                });
+                // document.removeEventListener("animationstart", this._boundInsertListener); // standard + firefox
+                // document.removeEventListener("MSAnimationStart", this._boundInsertListener); // IE
+                // document.removeEventListener("webkitAnimationStart", this._boundInsertListener); // Chrome + Safari
+            }
+            if (super.disconnectedCallback)
+                super.disconnectedCallback();
+        }
+    };
+}
 function qsa(css, from) {
     return [].slice.call((from ? from : this).querySelectorAll(css));
 }
@@ -214,20 +278,39 @@ function qsa(css, from) {
 const into_next_element = 'into-next-element';
 const import_template = 'import-template';
 const attach_script = 'attach-script';
+/**
+ * `xtal-decor`
+ * Attach / override behavior in next element.  Insert template elements
+ * @attribute: into-next-element:  boolean -- Modify behavior of next element.
+ * @attribute: import-template: boolean -- Indicates there's at least one template to insert.
+ * @attribute: attach-script: boolean -- Indicates there's script to attach.
+ * @customElement
+ * @polymer
+ * @demo demo/index.html
+ */
 class XtalDecor extends XtallatX(XtalDeco) {
     static get is() { return 'xtal-decor'; }
+    /**
+     * Modify behavior of next element.
+     */
     get intoNextElement() {
         return this._intoNextElement;
     }
     set intoNextElement(val) {
         this.attr(into_next_element, val, '');
     }
+    /**
+     * Indicates there's at least one template to insert.
+     */
     get importTemplate() {
         return this._importTemplate;
     }
     set importTemplate(val) {
         this.attr(import_template, val, '');
     }
+    /**
+     * Indicates there's script to attach.
+     */
     get attachScript() {
         return this._attachScript;
     }
@@ -235,7 +318,14 @@ class XtalDecor extends XtallatX(XtalDeco) {
         this.attr(attach_script, val, '');
     }
     static get observedAttributes() {
-        return super.observedAttributes.concat([into_next_element, import_template, attach_script]);
+        return super.observedAttributes.concat([
+            /**
+            * Indicates there's at least one template to insert.
+            */
+            into_next_element,
+            import_template,
+            attach_script
+        ]);
     }
     attributeChangedCallback(name, oldVal, newVal) {
         super.attributeChangedCallback(name, oldVal, newVal);
@@ -336,7 +426,7 @@ class XtalDecor extends XtallatX(XtalDeco) {
 XtalDecor._addedNodeInsertionStyle = false;
 define(XtalDecor);
 const where_target_selector = 'where-target-selector';
-class XtalDecorator extends XtalDecor {
+class XtalDecorator extends observeCssSelector(XtalDecor) {
     constructor() {
         super(...arguments);
         /** Add watcher for  */
@@ -363,36 +453,9 @@ class XtalDecorator extends XtalDecor {
             // This is the debug for knowing our listener worked!
             // event.target is the new node!
             //console.warn("Another node has been inserted! ", event, event.target);
-            this.appendTemplates(event.target);
-            this.attachScripts(event.target);
+            this.appendTemplates(e.target);
+            this.attachScripts(e.target);
         }
-    }
-    addEventListener() {
-        // See https://davidwalsh.name/detect-node-insertion
-        if (this._boundInsertListener)
-            return;
-        const styleInner = /* css */ `
-        @keyframes ${this.id} {
-            from {
-                opacity: 0.99;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        ${this._whereTargetSelector}{
-            animation-duration: 0.001s;
-            animation-name: ${this.id};
-        }
-        `;
-        const style = document.createElement('style');
-        style.innerHTML = styleInner;
-        document.body.appendChild(style);
-        this._boundInsertListener = this.insertListener.bind(this);
-        document.addEventListener("animationstart", this._boundInsertListener, false); // standard + firefox
-        document.addEventListener("MSAnimationStart", this._boundInsertListener, false); // IE
-        document.addEventListener("webkitAnimationStart", this._boundInsertListener, false); // Chrome + Safari
     }
     attributeChangedCallback(name, oldVal, newVal) {
         switch (name) {
@@ -406,13 +469,6 @@ class XtalDecorator extends XtalDecor {
         this._upgradeProperties(['whereTargetSelector']);
         super.connectedCallback();
     }
-    disconnectedCallback() {
-        if (this._boundInsertListener) {
-            document.removeEventListener("animationstart", this._boundInsertListener); // standard + firefox
-            document.removeEventListener("MSAnimationStart", this._boundInsertListener); // IE
-            document.removeEventListener("webkitAnimationStart", this._boundInsertListener); // Chrome + Safari
-        }
-    }
     onDecoPropsChange() {
         if (!this._whereTargetSelector) {
             super.onDecoPropsChange();
@@ -422,7 +478,7 @@ class XtalDecorator extends XtalDecor {
             console.error('xtal-decorator requires an id');
             return;
         }
-        this.addEventListener();
+        this.addEventListener(this.id, this._whereTargetSelector, this.insertListener);
     }
 }
 define(XtalDecorator);
