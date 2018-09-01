@@ -12,14 +12,27 @@ const into_next_element = 'into-next-element';
 const import_template = 'import-template';
 const attach_script = 'attach-script';
 
+/**
+ * `xtal-decor`
+ * Attach / override behavior in next element.  Insert template elements
+ * @attribute: into-next-element:  boolean -- Modify behavior of next element.
+ * @attribute: import-template: boolean -- Indicates there's at least one template to insert.
+ * @attribute: attach-script: boolean -- Indicates there's script to attach.
+ * @customElement
+ * @polymer
+ * @demo demo/index.html
+ */
 export class XtalDecor extends XtallatX(XtalDeco) {
     static _addedNodeInsertionStyle = false;
 
     static get is() { return 'xtal-decor'; }
 
-   
+
 
     _intoNextElement: boolean;
+    /**
+     * Modify behavior of next element.
+     */
     get intoNextElement() {
         return this._intoNextElement;
     }
@@ -28,6 +41,9 @@ export class XtalDecor extends XtallatX(XtalDeco) {
     }
 
     _importTemplate: boolean;
+    /**
+     * Indicates there's at least one template to insert.
+     */
     get importTemplate() {
         return this._importTemplate;
     }
@@ -36,6 +52,9 @@ export class XtalDecor extends XtallatX(XtalDeco) {
     }
 
     _attachScript: boolean;
+    /**
+     * Indicates there's script to attach.
+     */
     get attachScript() {
         return this._attachScript;
     }
@@ -44,7 +63,14 @@ export class XtalDecor extends XtallatX(XtalDeco) {
     }
 
     static get observedAttributes() {
-        return super.observedAttributes.concat([into_next_element, import_template, attach_script]);
+        return super.observedAttributes.concat([
+            /**
+            * Indicates there's at least one template to insert.
+            */
+            into_next_element,
+            import_template,
+            attach_script
+        ]);
     }
 
     attributeChangedCallback(name: string, oldVal: string, newVal: string) {
@@ -77,16 +103,16 @@ export class XtalDecor extends XtallatX(XtalDeco) {
     addMutationObserver() {
         this._mutationObserver = new MutationObserver((mutationsList: MutationRecord[]) => {
             this.getTemplatesAndScripts();
-            this.appendTemplates();                      
+            this.appendTemplates();
         });
         this.getTemplatesAndScripts();
         this.appendTemplates();
         this._mutationObserver.observe((<any>this as Node), { childList: true });
 
     }
-    getTemplatesAndScripts(){
+    getTemplatesAndScripts() {
         this._templates = qsa('template', <any>this) as HTMLTemplateElement[];
-        this._scripts = qsa('script', this as any) as HTMLScriptElement[];  
+        this._scripts = qsa('script', this as any) as HTMLScriptElement[];
     }
     _templates: HTMLTemplateElement[];
     _scripts: HTMLScriptElement[];
@@ -101,16 +127,16 @@ export class XtalDecor extends XtallatX(XtalDeco) {
     }
 
     appendTemplates(target?: HTMLElement) {
-        if(!this._templates) return;
-        if(!target && this._intoNextElement) target = this._nextSibling;
+        if (!this._templates) return;
+        if (!target && this._intoNextElement) target = this._nextSibling;
         if (this._importTemplate && target) {
             customElements.whenDefined(target.tagName.toLowerCase()).then(() => {
                 //const target = this._nextSibling;
-                this._templates.forEach((template: HTMLTemplateElement) =>{
-                    if(template.dataset.xtalTemplInserted) return;
+                this._templates.forEach((template: HTMLTemplateElement) => {
+                    if (template.dataset.xtalTemplInserted) return;
                     let subTarget = target;
                     const path = template.dataset.path;
-                    if(path){
+                    if (path) {
                         subTarget = cd(target, path);
                         // $hell.$0 = target;
                         // subTarget = $hell.cd(path);
@@ -119,27 +145,27 @@ export class XtalDecor extends XtallatX(XtalDeco) {
                     subTarget.shadowRoot.appendChild(clone);
                     template.dataset.xtalTemplInserted = 'true';
                 })
-                
+
             })
         }
-        
+
     }
-    attachScripts(target?: HTMLElement){
-        if(!this._scripts) return;
-        if(!target && this._intoNextElement) target = this._nextSibling;
-        if(this._attachScript &&  target){
+    attachScripts(target?: HTMLElement) {
+        if (!this._scripts) return;
+        if (!target && this._intoNextElement) target = this._nextSibling;
+        if (this._attachScript && target) {
             customElements.whenDefined(target.tagName.toLowerCase()).then(() => {
                 //const target = this._nextSibling;
-                this._scripts.forEach((script: HTMLScriptElement) =>{
-                    if(script.dataset.xtalScriptAttached) return;
+                this._scripts.forEach((script: HTMLScriptElement) => {
+                    if (script.dataset.xtalScriptAttached) return;
                     let subTarget = target;
                     const path = script.dataset.path;
-                    if(path){
+                    if (path) {
                         subTarget = cd(target, path);
                     }
                     this.evaluateCode(script, subTarget);
                 })
-                
+
             })
         }
     }

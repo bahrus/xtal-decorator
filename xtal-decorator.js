@@ -1,7 +1,8 @@
 import { XtalDecor } from './xtal-decor.js';
 import { define } from 'xtal-latx/define.js';
+import { observeCssSelector } from 'xtal-latx/observeCssSelector.js';
 const where_target_selector = 'where-target-selector';
-export class XtalDecorator extends XtalDecor {
+export class XtalDecorator extends observeCssSelector(XtalDecor) {
     constructor() {
         super(...arguments);
         /** Add watcher for  */
@@ -32,41 +33,39 @@ export class XtalDecorator extends XtalDecor {
             this.attachScripts(e.target);
         }
     }
-    addEventListener() {
-        // See https://davidwalsh.name/detect-node-insertion
-        if (this._boundInsertListener)
-            return;
-        const styleInner = /* css */ `
-        @keyframes ${this.id} {
-            from {
-                opacity: 0.99;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        ${this._whereTargetSelector}{
-            animation-duration: 0.001s;
-            animation-name: ${this.id};
-        }
-        `;
-        const style = document.createElement('style');
-        style.innerHTML = styleInner;
-        const host = this.getHost(this);
-        if (host !== null) {
-            host.shadowRoot.appendChild(style);
-        }
-        else {
-            document.body.appendChild(style);
-        }
-        this._boundInsertListener = this.insertListener.bind(this);
-        const container = host ? host.shadowRoot : document;
-        //const container = host || document;
-        container.addEventListener("animationstart", this._boundInsertListener, false); // standard + firefox
-        container.addEventListener("MSAnimationStart", this._boundInsertListener, false); // IE
-        container.addEventListener("webkitAnimationStart", this._boundInsertListener, false); // Chrome + Safari
-    }
+    //_boundInsertListener;
+    // addEventListener(){
+    //     // See https://davidwalsh.name/detect-node-insertion
+    //     if(this._boundInsertListener) return;
+    //     const styleInner = /* css */`
+    //     @keyframes ${this.id} {
+    //         from {
+    //             opacity: 0.99;
+    //         }
+    //         to {
+    //             opacity: 1;
+    //         }
+    //     }
+    //     ${this._whereTargetSelector}{
+    //         animation-duration: 0.001s;
+    //         animation-name: ${this.id};
+    //     }
+    //     `;
+    //     const style = document.createElement('style');
+    //     style.innerHTML = styleInner;
+    //     const host = this.getHost((<any>this as HTMLElement));
+    //     if(host !== null){
+    //         host.shadowRoot.appendChild(style);
+    //     }else{
+    //         document.body.appendChild(style);
+    //     }
+    //     this._boundInsertListener = this.insertListener.bind(this);
+    //     const container = host ? host.shadowRoot : document;
+    //     //const container = host || document;
+    //     container.addEventListener("animationstart", this._boundInsertListener, false); // standard + firefox
+    //     container.addEventListener("MSAnimationStart", this._boundInsertListener, false); // IE
+    //     container.addEventListener("webkitAnimationStart", this._boundInsertListener, false); // Chrome + Safari
+    // }
     attributeChangedCallback(name, oldVal, newVal) {
         switch (name) {
             case where_target_selector:
@@ -75,29 +74,28 @@ export class XtalDecorator extends XtalDecor {
         }
         super.attributeChangedCallback(name, oldVal, newVal);
     }
-    getHost(el) {
-        let parent = el;
-        while (parent = (parent.parentNode)) {
-            if (parent.nodeType === 11) {
-                return parent['host'];
-            }
-            else if (parent.tagName === 'HTML') {
-                return null;
-            }
-        }
-        return null;
-    }
+    // getHost(el: HTMLElement) : HTMLElement | null {
+    //     let parent : any = el;
+    //     while (parent = (parent.parentNode)) {
+    //         if (parent.nodeType === 11) {
+    //             return (<any>parent)['host'] as HTMLElement;
+    //         } else if (parent.tagName === 'HTML') {
+    //             return null;
+    //         }
+    //     }
+    //     return null;
+    // }
     connectedCallback() {
         this._upgradeProperties(['whereTargetSelector']);
         super.connectedCallback();
     }
-    disconnectedCallback() {
-        if (this._boundInsertListener) {
-            document.removeEventListener("animationstart", this._boundInsertListener); // standard + firefox
-            document.removeEventListener("MSAnimationStart", this._boundInsertListener); // IE
-            document.removeEventListener("webkitAnimationStart", this._boundInsertListener); // Chrome + Safari
-        }
-    }
+    // disconnectedCallback(){
+    //     if(this._boundInsertListener){
+    //         document.removeEventListener("animationstart", this._boundInsertListener); // standard + firefox
+    //         document.removeEventListener("MSAnimationStart", this._boundInsertListener); // IE
+    //         document.removeEventListener("webkitAnimationStart", this._boundInsertListener); // Chrome + Safari
+    //     }
+    // }
     onDecoPropsChange() {
         if (!this._whereTargetSelector) {
             super.onDecoPropsChange();
@@ -107,7 +105,7 @@ export class XtalDecorator extends XtalDecor {
             console.error('xtal-decorator requires an id');
             return;
         }
-        this.addEventListener();
+        this.addEventListener(this.id, this._whereTargetSelector, this.insertListener);
     }
 }
 define(XtalDecorator);

@@ -1,4 +1,12 @@
 import { define } from 'xtal-latx/define.js';
+/**
+ * `xtal-deco`
+ *  Attach / override behavior to the next element
+ *
+ * @customElement
+ * @polymer
+ * @demo demo/index.html
+ */
 export class XtalDeco extends HTMLElement {
     static get is() { return 'xtal-deco'; }
     connectedCallback() {
