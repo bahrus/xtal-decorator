@@ -23,8 +23,6 @@ export class XtalDecorator extends observeCssSelector(XtalDecor){
         this.attr(where_target_selector, val);
     }
 
-    /** Add watcher for  */
-    _host = document;
     insertListener(e: any){
         if (e.animationName === this.id) {
             // This is the debug for knowing our listener worked!
@@ -66,7 +64,7 @@ export class XtalDecorator extends observeCssSelector(XtalDecor){
             console.error('xtal-decorator requires an id');
             return;
         }
-        this.addEventListener(this.id, this._whereTargetSelector, this.insertListener);
+        this.addCSSListener(this.id, this._whereTargetSelector, this.insertListener);
     }
 }
 define(XtalDecorator);

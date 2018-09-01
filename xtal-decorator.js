@@ -3,11 +3,6 @@ import { define } from 'xtal-latx/define.js';
 import { observeCssSelector } from 'xtal-latx/observeCssSelector.js';
 const where_target_selector = 'where-target-selector';
 export class XtalDecorator extends observeCssSelector(XtalDecor) {
-    constructor() {
-        super(...arguments);
-        /** Add watcher for  */
-        this._host = document;
-    }
     static get is() { return 'xtal-decorator'; }
     static get observedAttributes() {
         return super.observedAttributes.concat([where_target_selector]);
@@ -54,7 +49,7 @@ export class XtalDecorator extends observeCssSelector(XtalDecor) {
             console.error('xtal-decorator requires an id');
             return;
         }
-        this.addEventListener(this.id, this._whereTargetSelector, this.insertListener);
+        this.addCSSListener(this.id, this._whereTargetSelector, this.insertListener);
     }
 }
 define(XtalDecorator);

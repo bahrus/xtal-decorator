@@ -218,12 +218,12 @@ function XtallatX(superClass) {
 function observeCssSelector(superClass) {
     const eventNames = ["animationstart", "MSAnimationStart", "webkitAnimationStart"];
     return class extends superClass {
-        addEventListener(id, targetSelector, insertListener) {
+        addCSSListener(id, targetSelector, insertListener) {
             // See https://davidwalsh.name/detect-node-insertion
             if (this._boundInsertListener)
                 return;
             const styleInner = /* css */ `
-            @keyframes ${this.id} {
+            @keyframes ${id} {
                 from {
                     opacity: 0.99;
                 }
@@ -427,11 +427,6 @@ XtalDecor._addedNodeInsertionStyle = false;
 define(XtalDecor);
 const where_target_selector = 'where-target-selector';
 class XtalDecorator extends observeCssSelector(XtalDecor) {
-    constructor() {
-        super(...arguments);
-        /** Add watcher for  */
-        this._host = document;
-    }
     static get is() { return 'xtal-decorator'; }
     static get observedAttributes() {
         return super.observedAttributes.concat([where_target_selector]);
@@ -478,7 +473,7 @@ class XtalDecorator extends observeCssSelector(XtalDecor) {
             console.error('xtal-decorator requires an id');
             return;
         }
-        this.addEventListener(this.id, this._whereTargetSelector, this.insertListener);
+        this.addCSSListener(this.id, this._whereTargetSelector, this.insertListener);
     }
 }
 define(XtalDecorator);
