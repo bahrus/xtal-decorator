@@ -6,7 +6,7 @@
 
 Extend or Apply methods / properties onto other elements
 
-xtal-deco, xtal-decor and xtal-decorator provide a way of adding or overriding behavior of other elements -- "decorating" the element.  The affected elements can be a native DOM elements, or custom element instances. xtal-decorator extends xtal-decor, which extends xtal-deco, each extension adding more functionality. xtal-deco and xtal-decor only affect the next sibling element.  xtal-decorator can apply to multiple elmenents.
+xtal-deco, xtal-decor and xtal-decorator provide a way of adding or overriding behavior of other elements -- "decorating" the element.  The affected elements can be native DOM elements, or custom element instances. xtal-decorator extends xtal-decor, which extends xtal-deco, each extension adding more functionality. xtal-deco and xtal-decor only affect the next sibling element.  xtal-decorator can apply to multiple elements.
 
 ## Adding behavior to the next element instance with xtal-deco
 
@@ -19,7 +19,7 @@ Syntax:
             ({
                 on: {
                     click: function (e) {
-                        alert(this.dataset.drinkSelection + ' butterbeer coming right up!');
+                        alert(this.dataset.drinkSelection + ' coming right up!');
                         this.numberOfDrinksSold++;
                     }
                 },
@@ -33,15 +33,13 @@ Syntax:
         </script>
     </xtal-deco>
     
-    <button data-drink-selection="Butterbeer">Click me to Order Your Butterbeer</button>
+    <button data-drink-selection="Butterbeer">Click me to order your drink</button>
     <p-d-x on="numberOfDrinksSold-changed" skip-init to="{innerText:target.numberOfDrinksSold}"></p-d-x>
     <span></span> drinks sold.
 
 ```
 
 xtal-deco is ~830 bytes (minified / gzipped).
-
-
 
 ## xtal-decor, xtal-decorator
 
@@ -124,10 +122,4 @@ First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polyme
 $ polymer serve
 ```
 
-## Running Tests
 
-```
-$ polymer test
-```
-
-Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.

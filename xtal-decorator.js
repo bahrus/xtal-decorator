@@ -21,11 +21,11 @@ export class XtalDecorator extends observeCssSelector(XtalDecor) {
     }
     insertListener(e) {
         if (e.animationName === this.id) {
-            // This is the debug for knowing our listener worked!
-            // event.target is the new node!
-            //console.warn("Another node has been inserted! ", event, event.target);
-            this.appendTemplates(e.target);
-            this.attachScripts(e.target);
+            const target = e.target;
+            setTimeout(() => {
+                this.appendTemplates(target);
+                this.attachScripts(target);
+            }, 0);
         }
     }
     attributeChangedCallback(name, oldVal, newVal) {
