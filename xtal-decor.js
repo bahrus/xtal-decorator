@@ -83,13 +83,17 @@ export class XtalDecor extends XtallatX(XtalDeco) {
         if (this._mutationObserver)
             this._mutationObserver.disconnect();
     }
+    do() {
+        this.appendTemplates();
+        this.attachScripts();
+    }
     addMutationObserver() {
         this._mutationObserver = new MutationObserver((mutationsList) => {
             this.getTemplatesAndScripts();
-            this.appendTemplates();
+            this.do();
         });
         this.getTemplatesAndScripts();
-        this.appendTemplates();
+        this.do();
         this._mutationObserver.observe(this, { childList: true });
     }
     getTemplatesAndScripts() {
@@ -103,9 +107,10 @@ export class XtalDecor extends XtallatX(XtalDeco) {
             this.getElement('_nextSibling', t => t.nextElementSibling);
             return;
         }
-        this.appendTemplates();
-        if (this._attachScript && this._intoNextElement)
-            this.evaluateCode();
+        this.do();
+        // this.appendTemplates();
+        // this.attachScripts();
+        //if (this._attachScript && this._intoNextElement) this.attachScripts();
     }
     appendTemplates(target) {
         if (!this._templates)
@@ -132,25 +137,34 @@ export class XtalDecor extends XtallatX(XtalDeco) {
             });
         }
     }
+    doScripts(target) {
+        this._scripts.forEach((script) => {
+            if (script.dataset.xtalScriptAttached)
+                return;
+            let subTarget = target;
+            const path = script.dataset.path;
+            if (path) {
+                subTarget = cd(target, path);
+            }
+            this.evaluateCode(script, subTarget);
+        });
+    }
     attachScripts(target) {
         if (!this._scripts)
             return;
         if (!target && this._intoNextElement)
             target = this._nextSibling;
         if (this._attachScript && target) {
-            customElements.whenDefined(target.tagName.toLowerCase()).then(() => {
-                //const target = this._nextSibling;
-                this._scripts.forEach((script) => {
-                    if (script.dataset.xtalScriptAttached)
-                        return;
-                    let subTarget = target;
-                    const path = script.dataset.path;
-                    if (path) {
-                        subTarget = cd(target, path);
-                    }
-                    this.evaluateCode(script, subTarget);
+            const ln = target.localName;
+            if (ln.indexOf('-') > -1) {
+                customElements.whenDefined(target.tagName.toLowerCase()).then(() => {
+                    //const target = this._nextSibling;
+                    this.doScripts(target);
                 });
-            });
+            }
+            else {
+                this.doScripts(target);
+            }
         }
     }
 }

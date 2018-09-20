@@ -18,7 +18,7 @@
         <script type="module">
             import '@polymer/paper-input/paper-input.js';
         </script>
-        <xtal-deco>
+        <xtal-decorator attach-script into-next-element>
             <script nomodule>
                 ({
                     on: {
@@ -29,19 +29,22 @@
                     },
                     props: {
                         numberOfConesSold: 0,
+                        test: function(param1, param2, param3){
+                            return param1 + param2 + param3;
+                        },
                     },
                     onPropsChange: function () {
                         console.log('i am here');
                     }
                 })
             </script>
-        </xtal-deco>
+        </xtal-decorator>
 
         <button data-ice-cream-selection="Chocolate">Click me to Order Your Ice Cream</button>
         <p-d-x on="numberOfConesSold-changed" to="{innerText:target.numberOfConesSold}"></p-d-x>
         <span></span> cones sold.
         
-        <xtal-decor import-template into-next-element>
+        <!-- <xtal-decor import-template into-next-element>
             <template>
                 <style>
                     label {
@@ -76,7 +79,7 @@
             </xtal-decorator>
         </template>
 
-        <b-c-c copy from="/shadowedTest"></b-c-c>
+        <b-c-c copy from="/shadowedTest"></b-c-c> -->
     </div>
 </body>
 
