@@ -1,6 +1,6 @@
 {
   "name": "xtal-decorator",
-  "version": "0.0.26",
+  "version": "0.0.27",
   "description": "Extend or Apply methods / properties onto neighboring elements",
   "main": "xtal-decorator.js",
   "repository": "https://github.com/bahrus/xtal-decorator",
