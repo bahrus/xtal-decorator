@@ -1,5 +1,6 @@
 import {define} from 'xtal-latx/define.js';
 
+const spKey = '__xtal_deco_onPropsChange'; //special key
 /**
  * `xtal-deco`
  *  Attach / override behavior to the next element
@@ -52,7 +53,7 @@ export class XtalDeco extends HTMLElement {
                                     composed: false,
                                 } as CustomEventInit);
                                 this.dispatchEvent(newEvent);
-                                if(this.onPropsChange) this.onPropsChange(key, val);
+                                if(this[spKey]) this[spKey](key, val);
                             },
                             enumerable: true,
                             configurable: true,
@@ -63,7 +64,8 @@ export class XtalDeco extends HTMLElement {
                 default:
                     switch (typeof (subObj)) {
                         case 'function':
-                            const prop = Object.defineProperty(target, topKey, {
+                            const fnKey = (topKey === 'onPropsChange') ? spKey : topKey; 
+                            const prop = Object.defineProperty(target, fnKey, {
                                 enumerable: false,
                                 configurable: true,
                                 writable: true,
