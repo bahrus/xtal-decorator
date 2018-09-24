@@ -46,6 +46,7 @@ function getChildFromSinglePath(el, token) {
     });
     return matchingNodes[idx];
 }
+const spKey = '__xtal_deco_onPropsChange'; //special key
 /**
  * `xtal-deco`
  *  Attach / override behavior to the next element
@@ -95,8 +96,8 @@ class XtalDeco extends HTMLElement {
                                     composed: false,
                                 });
                                 this.dispatchEvent(newEvent);
-                                if (this.onPropsChange)
-                                    this.onPropsChange(key, val);
+                                if (this[spKey])
+                                    this[spKey](key, val);
                             },
                             enumerable: true,
                             configurable: true,
@@ -107,7 +108,8 @@ class XtalDeco extends HTMLElement {
                 default:
                     switch (typeof (subObj)) {
                         case 'function':
-                            const prop = Object.defineProperty(target, topKey, {
+                            const fnKey = (topKey === 'onPropsChange') ? spKey : topKey;
+                            const prop = Object.defineProperty(target, fnKey, {
                                 enumerable: false,
                                 configurable: true,
                                 writable: true,
@@ -266,7 +268,7 @@ function observeCssSelector(superClass) {
                 // document.removeEventListener("MSAnimationStart", this._boundInsertListener); // IE
                 // document.removeEventListener("webkitAnimationStart", this._boundInsertListener); // Chrome + Safari
             }
-            if (super.disconnectedCallback)
+            if (super.disconnectedCallback !== undefined)
                 super.disconnectedCallback();
         }
     };
@@ -352,13 +354,17 @@ class XtalDecor extends XtallatX(XtalDeco) {
         if (this._mutationObserver)
             this._mutationObserver.disconnect();
     }
+    do() {
+        this.appendTemplates();
+        this.attachScripts();
+    }
     addMutationObserver() {
         this._mutationObserver = new MutationObserver((mutationsList) => {
             this.getTemplatesAndScripts();
-            this.appendTemplates();
+            this.do();
         });
         this.getTemplatesAndScripts();
-        this.appendTemplates();
+        this.do();
         this._mutationObserver.observe(this, { childList: true });
     }
     getTemplatesAndScripts() {
@@ -372,9 +378,10 @@ class XtalDecor extends XtallatX(XtalDeco) {
             this.getElement('_nextSibling', t => t.nextElementSibling);
             return;
         }
-        this.appendTemplates();
-        if (this._attachScript && this._intoNextElement)
-            this.evaluateCode();
+        this.do();
+        // this.appendTemplates();
+        // this.attachScripts();
+        //if (this._attachScript && this._intoNextElement) this.attachScripts();
     }
     appendTemplates(target) {
         if (!this._templates)
@@ -401,25 +408,34 @@ class XtalDecor extends XtallatX(XtalDeco) {
             });
         }
     }
+    doScripts(target) {
+        this._scripts.forEach((script) => {
+            if (script.dataset.xtalScriptAttached)
+                return;
+            let subTarget = target;
+            const path = script.dataset.path;
+            if (path) {
+                subTarget = cd(target, path);
+            }
+            this.evaluateCode(script, subTarget);
+        });
+    }
     attachScripts(target) {
         if (!this._scripts)
             return;
         if (!target && this._intoNextElement)
             target = this._nextSibling;
         if (this._attachScript && target) {
-            customElements.whenDefined(target.tagName.toLowerCase()).then(() => {
-                //const target = this._nextSibling;
-                this._scripts.forEach((script) => {
-                    if (script.dataset.xtalScriptAttached)
-                        return;
-                    let subTarget = target;
-                    const path = script.dataset.path;
-                    if (path) {
-                        subTarget = cd(target, path);
-                    }
-                    this.evaluateCode(script, subTarget);
+            const ln = target.localName;
+            if (ln.indexOf('-') > -1) {
+                customElements.whenDefined(target.tagName.toLowerCase()).then(() => {
+                    //const target = this._nextSibling;
+                    this.doScripts(target);
                 });
-            });
+            }
+            else {
+                this.doScripts(target);
+            }
         }
     }
 }
