@@ -28,6 +28,11 @@ Syntax:
                 },
                 onPropsChange: function(){
                     console.log('Thanks, Rosmerta');
+                },
+                setters:{
+                    someNativeButtonProp:{ //are there any?
+                        foo:'bar'
+                    }
                 }
             })
         </script>
@@ -40,6 +45,8 @@ Syntax:
 ```
 
 xtal-deco is ~830 bytes (minified / gzipped).
+
+
 
 ## xtal-decor, xtal-decorator
 
