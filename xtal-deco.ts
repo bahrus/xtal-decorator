@@ -61,6 +61,12 @@ export class XtalDeco extends HTMLElement {
                         target[key] = propVal;
                     }
                     break;
+                case 'setters':
+                    for (const key in subObj) {
+                        const propVal = subObj[key];
+                        target[key]= propVal;
+                    }
+                    break;
                 default:
                     switch (typeof (subObj)) {
                         case 'function':
