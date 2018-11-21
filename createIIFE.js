@@ -1,8 +1,13 @@
 const jiife = require('jiife');
-jiife.processFiles(['node_modules/xtal-shell/dashToCamelCase.js', 'node_modules/xtal-shell/getChildren.js', 'node_modules/xtal-shell/getChildFromSinglePath.js', 
-                    'xtal-deco.js','node_modules/xtal-latx/define.js', 'node_modules/xtal-latx/xtal-latx.js', 'node_modules/xtal-latx/observeCssSelector.js',
+const xs = 'node_modules/xtal-shell/';
+const xl = 'node_modules/xtal-latx/';
+const def = xl + 'define.js';
+jiife.processFiles([xs + 'dashToCamelCase.js', xs + '/getChildren.js', xs + 'getChildFromSinglePath.js', 
+                    'xtal-deco.js', def, xl + 'xtal-latx.js', xl + 'observeCssSelector.js',
                     'xtal-decor.js', 'xtal-decorator.js'], 
-                    'xtal-decorator.iife.js');
+                    'dist/xtal-decorator.iife.js');
+jiife.processFiles([def, 'xtal-deco.js'], 'dist/xtal-deco.iife.js');
+
 
 
 

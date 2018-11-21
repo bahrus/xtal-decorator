@@ -4,6 +4,8 @@
 
 <a href="https://nodei.co/npm/xtal-decorator/"><img src="https://nodei.co/npm/xtal-decorator.png"></a>
 
+<img src="http://img.badgesize.io/https://cdn.jsdelivr.net/npm/xtal-decorator@0.0.30/dist/xtal-deco.iife.min.js?compression=gzip">
+
 Extend or Apply methods / properties onto other elements
 
 xtal-deco, xtal-decor and xtal-decorator provide a way of adding or overriding behavior of other elements -- "decorating" the element.  The affected elements can be native DOM elements, or custom element instances. xtal-decorator extends xtal-decor, which extends xtal-deco, each extension adding more functionality. xtal-deco and xtal-decor only affect the next sibling element.  xtal-decorator can apply to multiple elements.
@@ -44,7 +46,6 @@ Syntax:
 
 ```
 
-xtal-deco is ~830 bytes (minified / gzipped).
 
 
 
