@@ -16,29 +16,27 @@ Syntax:
 
 
 ```html
-    <xtal-deco>
-        <script nomodule>
-            ({
-                on: {
-                    click: function (e) {
-                        alert(this.dataset.drinkSelection + ' coming right up!');
-                        this.numberOfDrinksSold++;
-                    }
-                },
-                props:{
-                    numberOfDrinksSold: 0,
-                },
-                onPropsChange: function(){
-                    console.log('Thanks, Rosmerta');
-                },
-                setters:{
-                    someNativeButtonProp:{ //are there any?
-                        foo:'bar'
-                    }
-                }
-            })
-        </script>
-    </xtal-deco>
+    <xtal-deco><script nomodule>
+    ({
+        on: {
+            click: function (e) {
+                alert(this.dataset.drinkSelection + ' coming right up!');
+                this.numberOfDrinksSold++;
+            }
+        },
+        props:{
+            numberOfDrinksSold: 0,
+        },
+        onPropsChange: function(){
+            console.log('Thanks, Rosmerta');
+        },
+        setters:{
+            someNativeButtonProp:{ //are there any?
+                foo:'bar'
+            }
+        }
+    })
+    </script></xtal-deco>
     
     <button data-drink-selection="Butterbeer">Click me to order your drink</button>
     <p-d-x on="numberOfDrinksSold-changed" skip-init to="{innerText:target.numberOfDrinksSold}"></p-d-x>
