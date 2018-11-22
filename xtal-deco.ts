@@ -19,7 +19,7 @@ export class XtalDeco extends HTMLElement {
     }
     _nextSibling: HTMLElement;
     _script: HTMLScriptElement;
-    attachBehavior(evalObj, target) {
+    static attachBehavior(target, evalObj) {
         for (const topKey in evalObj) {
             const subObj = evalObj[topKey];
             switch (topKey) {
@@ -100,7 +100,7 @@ export class XtalDeco extends HTMLElement {
     evaluateCode(scriptElement: HTMLScriptElement, target: HTMLElement) {
         //this.attachBehavior(XtallatX)
         const evalObj = eval(scriptElement.innerHTML);
-        this.attachBehavior(evalObj, target);
+        XtalDeco.attachBehavior(target, evalObj);
         this._nextSibling.removeAttribute('disabled');
     }
 

@@ -5,7 +5,7 @@
     "xtal-deco.js",
     "xtal-decor.js",
     "xtal-decorator.js",
-    "xtal-decorator.iife.js",
+    "dist/xtal-decorator.iife.js",
     "index.html"
   ],
   "extraDependencies": [

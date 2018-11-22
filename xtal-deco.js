@@ -15,7 +15,7 @@ export class XtalDeco extends HTMLElement {
         this.getElement('_nextSibling', t => t.nextElementSibling);
         this.getElement('_script', t => t.querySelector('script'));
     }
-    attachBehavior(evalObj, target) {
+    static attachBehavior(target, evalObj) {
         for (const topKey in evalObj) {
             const subObj = evalObj[topKey];
             switch (topKey) {
@@ -95,7 +95,7 @@ export class XtalDeco extends HTMLElement {
     evaluateCode(scriptElement, target) {
         //this.attachBehavior(XtallatX)
         const evalObj = eval(scriptElement.innerHTML);
-        this.attachBehavior(evalObj, target);
+        XtalDeco.attachBehavior(target, evalObj);
         this._nextSibling.removeAttribute('disabled');
     }
     onDecoPropsChange() {
