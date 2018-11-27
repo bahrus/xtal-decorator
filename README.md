@@ -4,7 +4,7 @@
 
 <a href="https://nodei.co/npm/xtal-decorator/"><img src="https://nodei.co/npm/xtal-decorator.png"></a>
 
-<img src="http://img.badgesize.io/https://cdn.jsdelivr.net/npm/xtal-decorator@0.0.32/dist/xtal-deco.iife.min.js?compression=gzip">
+<img src="http://img.badgesize.io/https://cdn.jsdelivr.net/npm/xtal-decorator@0.0.33/dist/xtal-deco.iife.min.js?compression=gzip">
 
 Extend or Apply methods / properties onto other elements
 

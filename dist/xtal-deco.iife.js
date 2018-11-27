@@ -106,7 +106,16 @@ class XtalDeco extends HTMLElement {
         //this.attachBehavior(XtallatX)
         const evalObj = eval(scriptElement.innerHTML);
         XtalDeco.attachBehavior(target, evalObj);
-        this._nextSibling.removeAttribute('disabled');
+        const nS = this._nextSibling;
+        const da = nS.getAttribute('disabled');
+        if (da !== null) {
+            if (da.length === 0 || da === "1") {
+                nS.removeAttribute('disabled');
+            }
+            else {
+                nS.setAttribute('disabled', (parseInt(da) - 1).toString());
+            }
+        }
     }
     onDecoPropsChange() {
         if (!this._nextSibling || !this._script)
