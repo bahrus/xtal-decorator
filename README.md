@@ -63,6 +63,8 @@ xtal-decor, like xtal-deco, can also attach properties and functions to the next
 
 ###  Template insertion into neighboring web component's Shadow DOM.
 
+**NB II:** The benefits of this functionality should drop dramatically as ::part / ::theme become a ::thing.
+
 Syntax:
 
 ```html
@@ -80,7 +82,6 @@ Syntax:
 
 ### Template insertion deep inside neighboring web component's Shadow DOM [Not fully tested]
 
-** NB II:** The benefits of this functionality should drop dramatically as ::part / ::theme become a ::thing.
 
 ```html
 <xtal-decor insert-template and attach-script into-next-element>
