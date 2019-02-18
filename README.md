@@ -23,7 +23,7 @@ Syntax:
         ({
             on: {
                 click: function (e) {
-                    alert(this.dataset.drinkSelection + ' ice cream coming right up!');
+                    alert(this.dataset.drinkSelection + ' coming right up!');
                     this.numberOfDrinksSold++;
                 }
             },
