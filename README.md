@@ -6,7 +6,7 @@
 
 <img src="https://badgen.net/bundlephobia/minzip/xtal-decorator">
 
-Extend or Apply methods / properties onto other elements
+Add properties / methods to other DOM (custom) elements.
 
 xtal-deco, xtal-decor and xtal-decorator provide a way of adding behavior to other elements -- "decorating" the element.  The affected elements can be native DOM elements, or custom element instances. xtal-decorator extends xtal-decor, which extends xtal-deco, each extension adding more functionality. xtal-deco and xtal-decor only affect the next sibling element.  xtal-decorator can apply to multiple elements.
 
