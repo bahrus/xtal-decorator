@@ -2,13 +2,15 @@
   "name": "xtal-decorator",
   "version": "0.0.33",
   "description": "Extend or Apply methods / properties onto neighboring elements",
-  "main": "xtal-decorator.js",
+  "main": "xtal-deco.js",
+  "module": "xtal-deco.js",
   "repository": "https://github.com/bahrus/xtal-decorator",
   "author": "bahrus <anderson.bruce.b@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "xtal-latx": "0.0.76",
-    "xtal-shell": "0.0.10"
+    "xtal-latx": "0.0.88",
+    "xtal-shell": "0.0.18",
+    "trans-render": "0.0.68"
   },
   "devDependencies": {
     "@polymer/iron-demo-helpers": "^3.0.0-pre.21",

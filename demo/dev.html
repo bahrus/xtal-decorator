@@ -29,57 +29,23 @@
                     },
                     props: {
                         numberOfConesSold: 0,
-                        test: function(param1, param2, param3){
-                            return param1 + param2 + param3;
-                        },
                     },
-                    onPropsChange: function () {
-                        console.log('i am here');
+                    methods:{
+                        onPropsChange: function () {
+                            console.log('Thanks, Rosmerta');
+                        }
                     }
+
                 })
             </script>
         </xtal-decorator>
 
         <button data-ice-cream-selection="Chocolate">Click me to Order Your Ice Cream</button>
-        <p-d-x on="numberOfConesSold-changed" to="{innerText:target.numberOfConesSold}"></p-d-x>
+        <!-- Pass down(p-d) prop numberOfConesSold when it changes -->
+        <p-d on="numberOfConesSold-changed" to="{textContent:target.numberOfConesSold}"></p-d>
         <span></span> cones sold.
         
-        <!-- <xtal-decor import-template into-next-element>
-            <template>
-                <style>
-                    label {
-                        background-color: orange;
-                    }
-                </style>
-                
-            </template>
-            <template data-path="paper-input-container/iron-input">
-                <button>I am here</button>
-            </template>
-        </xtal-decor>
-        <paper-input label="testing"></paper-input>
 
-
-
-        <h3>xtal-decorator example</h3>
-        <xtal-decorator id="myDecorator" import-template where-target-selector="paper-input">
-            <template data-path="paper-input-container/iron-input">
-                <button>Hi</button>
-            </template>
-        </xtal-decorator>
-
-
-        <template id="shadowedTest">
-            <paper-input label="testing2"></paper-input>
-
-            <xtal-decorator id="Hi2" import-template where-target-selector="paper-input">
-                <template data-path="paper-input-container/iron-input">
-                    <button>Hi2</button>
-                </template>
-            </xtal-decorator>
-        </template>
-
-        <b-c-c copy from="/shadowedTest"></b-c-c> -->
     </div>
 </body>
 

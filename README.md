@@ -4,11 +4,13 @@
 
 <a href="https://nodei.co/npm/xtal-decorator/"><img src="https://nodei.co/npm/xtal-decorator.png"></a>
 
-<img src="http://img.badgesize.io/https://cdn.jsdelivr.net/npm/xtal-decorator@0.0.33/dist/xtal-deco.iife.min.js?compression=gzip">
+<img src="https://badgen.net/bundlephobia/minzip/xtal-decorator">
 
 Extend or Apply methods / properties onto other elements
 
-xtal-deco, xtal-decor and xtal-decorator provide a way of adding or overriding behavior of other elements -- "decorating" the element.  The affected elements can be native DOM elements, or custom element instances. xtal-decorator extends xtal-decor, which extends xtal-deco, each extension adding more functionality. xtal-deco and xtal-decor only affect the next sibling element.  xtal-decorator can apply to multiple elements.
+xtal-deco, xtal-decor and xtal-decorator provide a way of adding behavior to other elements -- "decorating" the element.  The affected elements can be native DOM elements, or custom element instances. xtal-decorator extends xtal-decor, which extends xtal-deco, each extension adding more functionality. xtal-deco and xtal-decor only affect the next sibling element.  xtal-decorator can apply to multiple elements.
+
+The syntax is heavily influeced by Vue.
 
 ## Adding behavior to the next element instance with xtal-deco
 
@@ -17,44 +19,30 @@ Syntax:
 
 ```html
     <xtal-deco><script nomodule>
-    ({
-        on: {
-            click: function (e) {
-                alert(this.dataset.drinkSelection + ' coming right up!');
-                this.numberOfDrinksSold++;
+        ({
+            on: {
+                click: function (e) {
+                    alert(this.dataset.iceCreamSelection + ' ice cream coming right up!');
+                    this.numberOfConesSold++;
+                }
+            },
+            props: {
+                numberOfConesSold: 0,
+            },
+            methods:{
+                onPropsChange: function () {
+                    console.log('Thanks, Rosmerta');
+                }
             }
-        },
-        props:{
-            numberOfDrinksSold: 0,
-        },
-        onPropsChange: function(){
-            console.log('Thanks, Rosmerta');
-        },
-        setters:{
-            someNativeButtonProp:{ //are there any?
-                foo:'bar'
-            }
-        }
-    })
+
+        })
     </script></xtal-deco>
     
-    <button data-drink-selection="Butterbeer">Click me to order your drink</button>
-    <p-d-x on="numberOfDrinksSold-changed" skip-init to="{innerText:target.numberOfDrinksSold}"></p-d-x>
+    <button data-ice-cream-selection="Chocolate">Click me to Order Your Ice Cream</button>
+    <!-- Pass down(p-d) prop numberOfConesSold when it changes -->
+    <p-d on="numberOfConesSold-changed" to="{textContent:target.numberOfConesSold}"></p-d>
     <span></span> drinks sold.
 
-```
-
-## Using the api only
-
-```JavaScript
-customElements.whenDefined('xtal-deco').then(() => {
-    customElements.get('xtal-deco').attachBehavior(target, {
-        on: {
-            ...
-        }
-        ...
-    })
-}
 ```
 
 ## xtal-decor, xtal-decorator
