@@ -1,6 +1,6 @@
 {
   "name": "xtal-decorator",
-  "version": "0.0.34",
+  "version": "0.0.35",
   "description": "Extend or Apply methods / properties onto neighboring elements",
   "main": "xtal-deco.js",
   "module": "xtal-deco.js",
