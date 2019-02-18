@@ -10,7 +10,7 @@ Extend or Apply methods / properties onto other elements
 
 xtal-deco, xtal-decor and xtal-decorator provide a way of adding behavior to other elements -- "decorating" the element.  The affected elements can be native DOM elements, or custom element instances. xtal-decorator extends xtal-decor, which extends xtal-deco, each extension adding more functionality. xtal-deco and xtal-decor only affect the next sibling element.  xtal-decorator can apply to multiple elements.
 
-The syntax is heavily influeced by Vue.
+The syntax is heavily influenced by Vue.
 
 ## Adding behavior to the next element instance with xtal-deco
 
@@ -18,16 +18,17 @@ Syntax:
 
 
 ```html
-    <xtal-deco><script nomodule>
+<xtal-decorator attach-script into-next-element>
+    <script nomodule>
         ({
             on: {
                 click: function (e) {
-                    alert(this.dataset.iceCreamSelection + ' ice cream coming right up!');
-                    this.numberOfConesSold++;
+                    alert(this.dataset.drinkSelection + ' ice cream coming right up!');
+                    this.numberOfDrinksSold++;
                 }
             },
             props: {
-                numberOfConesSold: 0,
+                numberOfDrinksSold: 0,
             },
             methods:{
                 onPropsChange: function () {
@@ -36,14 +37,17 @@ Syntax:
             }
 
         })
-    </script></xtal-deco>
-    
-    <button data-ice-cream-selection="Chocolate">Click me to Order Your Ice Cream</button>
-    <!-- Pass down(p-d) prop numberOfConesSold when it changes -->
-    <p-d on="numberOfConesSold-changed" to="{textContent:target.numberOfConesSold}"></p-d>
-    <span></span> drinks sold.
+    </script>
+</xtal-decorator>
+
+<button data-drink-selection="Butterbeer">Click me to Order Your Drink</button>
+<!-- Pass down(p-d) prop numberOfConesSold when it changes -->
+<p-d on="numberOfConesSold-changed" to="{textContent:target.numberOfConesSold}"></p-d>
+<span></span> drinks sold.
 
 ```
+
+**NB I:**  Note that we are adding a property onto an existing native DOM element -- button in this case.  Please act responsibly and only choose property names (or method names) -- in this example "numberOfDrinksSold" -- whose chance of getting added natively to the button DOM element are lower than seeing a Libertarian POTUS in your pet mouse's lifespan.
 
 ## xtal-decor, xtal-decorator
 
@@ -76,6 +80,7 @@ Syntax:
 
 ### Template insertion deep inside neighboring web component's Shadow DOM [Not fully tested]
 
+** NB II:** The benefits of this functionality should drop dramatically as ::part / ::theme become a ::thing.
 
 ```html
 <xtal-decor insert-template and attach-script into-next-element>
@@ -114,7 +119,38 @@ xtal-decorator extends xtal-decor, but rather than just target the next element,
 </xtal-decorator>
 ```
 
-All three of these components together weigh about 2.7kb minifed and gzipped.
+## Syntax Reference
+
+<!--
+```
+<custom-element-demo>
+<template>
+      <wc-info
+        package-name="npm.xtal-decorator"
+        href="https://unpkg.com/xtal-decorator@0.0.35/html.json"
+      >
+        <!-- Use experimental import maps -->
+        <script defer src="https://cdn.jsdelivr.net/npm/es-module-shims@0.2.0/dist/es-module-shims.js"></script>
+        <script type="importmap-shim">
+          {
+            "imports": {
+              "xtal-latx/": "https://cdn.jsdelivr.net/npm/xtal-latx@0.0.88/",
+              "trans-render/": "https://cdn.jsdelivr.net/npm/trans-render@0.0.60/",
+              "hypo-link/": "https://cdn.jsdelivr.net/npm/hypo-link@0.0.8/",
+              "xtal-element/": "https://cdn.jsdelivr.net/npm/xtal-element@0.0.23/",
+              "wc-info/": "https://cdn.jsdelivr.net/npm/wc-info@0.0.28/"
+              
+            }
+          }
+          </script>
+          
+        <script  type="module-shim">
+          import 'wc-info/wc-info.js';
+        </script>
+</template>
+</custom-element-demo>
+```
+-->
 
 ## Install the Polymer-CLI
 

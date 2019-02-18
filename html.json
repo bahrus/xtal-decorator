@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "tags": [
+    {
+      "name": "xtal-deco",
+      "description": "Add behavior to the next element",
+      "attributes": []
+    },
+    {
+      "name": "xtal-decor",
+      "description": "Add behavior to the next element",
+      "attributes": [
+        {
+          "name": "into-next-element",
+          "description": "Must be present / true for anything to happen."
+        },
+        {
+            "name": "import-template",
+            "description": "Look for inner templates to import."
+        },
+        {
+            "name": "attach-script",
+            "description": "Look for inner scripts to use to attach behavior."
+        }
+      ]
+    },
+    {
+        "name": "xtal-decorator",
+        "description": "Add behavior to multiple elements in the same Shadow DOM realm.",
+        "attributes": [
+            {
+              "name": "into-next-element",
+              "description": "Must be present / true for anything to happen."
+            },
+            {
+                "name": "import-template",
+                "description": "Look for inner templates to import."
+            },
+            {
+                "name": "attach-script",
+                "description": "Look for inner scripts to use to attach behavior."
+            }
+        ]       
+    }
+  ]
+}

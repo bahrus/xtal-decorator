@@ -23,12 +23,12 @@
                 ({
                     on: {
                         click: function (e) {
-                            alert(this.dataset.iceCreamSelection + ' ice cream coming right up!');
-                            this.numberOfConesSold++;
+                            alert(this.dataset.drinkSelection + ' ice cream coming right up!');
+                            this.numberOfDrinksSold++;
                         }
                     },
                     props: {
-                        numberOfConesSold: 0,
+                        numberOfDrinksSold: 0,
                     },
                     methods:{
                         onPropsChange: function () {
@@ -40,10 +40,10 @@
             </script>
         </xtal-decorator>
 
-        <button data-ice-cream-selection="Chocolate">Click me to Order Your Ice Cream</button>
+        <button data-drink-selection="Butterbeer">Click me to Order Your Drink</button>
         <!-- Pass down(p-d) prop numberOfConesSold when it changes -->
         <p-d on="numberOfConesSold-changed" to="{textContent:target.numberOfConesSold}"></p-d>
-        <span></span> cones sold.
+        <span></span> drinks sold.
         
 
     </div>
