@@ -34,8 +34,10 @@ Syntax:
                 onPropsChange: function () {
                     console.log('Thanks, Rosmerta');
                 }
+            },
+            vals:{
+                title: 'Clicker',
             }
-
         })
     </script>
 </xtal-decorator>
@@ -46,6 +48,10 @@ Syntax:
 <span></span> drinks sold.
 
 ```
+
+We can see there four top level categories of things that we can attach -- event handlers via "on", props create properties with setters / getters.  Any time a prop changes, the element fires an event:  [propName]-changed and also calls method onPropsChange (or an alias).
+
+"vals" is used to simply set some initial property values on the target element(s).
 
 **NB I:**  Note that we are adding a property onto an existing native DOM element -- button in this case.  Please act responsibly and only choose property names (or method names) -- in this example "numberOfDrinksSold" -- whose chance of getting added natively to the button DOM element are lower than seeing a Libertarian POTUS in your pet mouse's lifespan.
 
