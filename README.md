@@ -18,30 +18,27 @@ Syntax:
 
 
 ```html
-<xtal-decorator attach-script into-next-element>
-    <script nomodule>
-        ({
-            on: {
-                click: function (e) {
-                    alert(this.dataset.drinkSelection + ' coming right up!');
-                    this.numberOfDrinksSold++;
-                }
-            },
-            props: {
-                numberOfDrinksSold: 0,
-            },
-            methods:{
-                onPropsChange: function () {
-                    console.log('Thanks, Rosmerta');
-                }
-            },
-            vals:{
-                title: 'Clicker',
+<xtal-deco><script nomodule>
+    ({
+        on: {
+            click: function (e) {
+                alert(this.dataset.drinkSelection + ' coming right up!');
+                this.numberOfDrinksSold++;
             }
-        })
-    </script>
-</xtal-decorator>
-
+        },
+        props: {
+            numberOfDrinksSold: 0,
+        },
+        methods:{
+            onPropsChange: function () {
+                console.log('Thanks, Rosmerta');
+            }
+        },
+        vals:{
+            title: 'Clicker',
+        }
+    })
+</script></xtal-deco>
 <button data-drink-selection="Butterbeer">Click me to Order Your Drink</button>
 <!-- Pass down(p-d) prop numberOfConesSold when it changes -->
 <p-d on="numberOfConesSold-changed" to="{textContent:target.numberOfConesSold}"></p-d>
