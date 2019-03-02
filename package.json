@@ -8,18 +8,18 @@
   "author": "bahrus <anderson.bruce.b@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "xtal-latx": "0.0.88",
-    "xtal-shell": "0.0.18",
-    "trans-render": "0.0.68"
+    "trans-render": "0.0.78",
+    "xtal-element": "0.0.29",
+    "xtal-shell": "0.0.18"
   },
   "devDependencies": {
-    "@polymer/iron-demo-helpers": "^3.0.0-pre.21",
-    "@polymer/paper-input": "^3.0.0-pre.21",
-    "@polymer/polymer": "^3.0.5",
-    "@webcomponents/webcomponentsjs": "^2.0.4",
-    "jiife": "^0.0.6",
-    "tape": "^4.9.1",
-    "@types/tape": "4.2.32",
-    "xtal-test": "0.0.8"
+    "@polymer/iron-demo-helpers": "3.0.2",
+    "@polymer/paper-input": "3.0.1",
+    "@polymer/polymer": "3.1.0",
+    "@webcomponents/webcomponentsjs": "2.2.7",
+    "jiife": "0.0.12",
+    "tape": "4.10.1",
+    "@types/tape": "4.2.33",
+    "xtal-test": "0.0.10"
   }
 }

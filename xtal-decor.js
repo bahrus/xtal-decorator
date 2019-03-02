@@ -1,6 +1,5 @@
 import { XtalDeco } from './xtal-deco.js';
 import { define } from 'xtal-latx/define.js';
-import { XtallatX } from 'xtal-latx/xtal-latx.js';
 import { cd } from 'xtal-shell/cd.js';
 export function qsa(css, from) {
     return [].slice.call((from ? from : this).querySelectorAll(css));
@@ -19,7 +18,7 @@ const attach_script = 'attach-script';
  * @polymer
  * @demo demo/index.html
  */
-export class XtalDecor extends XtallatX(XtalDeco) {
+export class XtalDecor extends XtalDeco {
     static get is() { return 'xtal-decor'; }
     /**
      * Modify behavior of next element.
@@ -170,4 +169,3 @@ export class XtalDecor extends XtallatX(XtalDeco) {
 }
 XtalDecor._addedNodeInsertionStyle = false;
 define(XtalDecor);
-//# sourceMappingURL=xtal-decor.js.map

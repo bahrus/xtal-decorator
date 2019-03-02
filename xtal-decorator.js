@@ -53,4 +53,3 @@ export class XtalDecorator extends observeCssSelector(XtalDecor) {
     }
 }
 define(XtalDecorator);
-//# sourceMappingURL=xtal-decorator.js.map

@@ -13,21 +13,21 @@
         <script type="module" src="../xtal-deco.js"></script>
         <script type="module" src="../xtal-decor.js"></script>
         <script type="module" src="../xtal-decorator.js"></script>
-        <script type="module" src="https://unpkg.com/p-d.p-u@0.0.67/p-d-x.js?module"></script>
+        <script type="module" src="https://unpkg.com/p-d.p-u@0.0.105/p-d.js?module"></script>
         <script type="module" src="https://unpkg.com/carbon-copy@0.1.40/b-c-c.js?module"></script>
         <script type="module">
             import '@polymer/paper-input/paper-input.js';
         </script>
-        <xtal-deco><script nomodule>
+        <xtal-deco use-symbols='["numberOfDrinksSold"]'><script nomodule>
             ({
                 on: {
                     click: function (e) {
                         alert(this.dataset.drinkSelection + ' coming right up!');
-                        this.numberOfDrinksSold++;
+                        this[numberOfDrinksSold]++;
                     }
                 },
                 props: {
-                    numberOfDrinksSold: 0,
+                    [numberOfDrinksSold]: 0,
                 },
                 methods:{
                     onPropsChange: function () {
@@ -39,9 +39,8 @@
                 }
             })
         </script></xtal-deco>
-        <button data-drink-selection="Butterbeer">Click me to Order Your Drink</button>
-        <!-- Pass down(p-d) prop numberOfConesSold when it changes -->
-        <p-d on="numberOfConesSold-changed" to="{textContent:target.numberOfConesSold}"></p-d>
+        <button disabled data-drink-selection="Butterbeer">Click me to Order Your Drink</button>
+        <p-d on="Symbol-numberOfDrinksSold-changed" prop="textContent" val="detail.value"></p-d>
         <span></span> drinks sold.
         
 

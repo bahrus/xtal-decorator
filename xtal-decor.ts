@@ -1,6 +1,6 @@
 import { XtalDeco } from './xtal-deco.js';
 import { define } from 'xtal-latx/define.js';
-import { XtallatX } from 'xtal-latx/xtal-latx.js';
+
 import { cd } from 'xtal-shell/cd.js';
 
 export function qsa(css, from?: HTMLElement | Document | DocumentFragment): HTMLElement[] {
@@ -12,6 +12,7 @@ const into_next_element = 'into-next-element';
 const import_template = 'import-template';
 const attach_script = 'attach-script';
 
+
 /**
  * `xtal-decor`
  * Attach / override behavior in next element.  Insert template elements
@@ -22,7 +23,7 @@ const attach_script = 'attach-script';
  * @polymer
  * @demo demo/index.html
  */
-export class XtalDecor extends XtallatX(XtalDeco) {
+export class XtalDecor extends XtalDeco {
     static _addedNodeInsertionStyle = false;
 
     static get is() { return 'xtal-decor'; }
@@ -85,6 +86,7 @@ export class XtalDecor extends XtallatX(XtalDeco) {
             case into_next_element:
                 this._intoNextElement = (newVal !== null);
                 break;
+
         }
         this.onDecoPropsChange();
     }
