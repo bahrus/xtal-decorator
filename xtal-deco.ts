@@ -70,9 +70,9 @@ export class XtalDeco extends XtallatX(HTMLElement) {
             ${symbols} 
             return ${scriptElement.innerHTML};
         }`;
-        console.log(funS);
+        //console.log(funS);
         const evalObj = new Function(funS)()();
-        console.log(evalObj);
+        //console.log(evalObj);
         XtalDeco.attachBehavior(target, evalObj);
         const nS = this._nextSibling;
         const da = nS.getAttribute('disabled');
