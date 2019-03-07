@@ -10,7 +10,7 @@ Add properties / methods to other DOM (custom) elements.
 
 xtal-deco, xtal-decor and xtal-decorator provide a way of adding behavior to other elements -- "decorating" the element.  The affected elements can be native DOM elements, or custom element instances. xtal-decorator extends xtal-decor, which extends xtal-deco, each extension adding more functionality. xtal-deco and xtal-decor only affect the next sibling element.  xtal-decorator can apply to multiple elements.
 
-The syntax is heavily influenced by Vue.
+The syntax is heavily influenced by Vue / Polymer 1.
 
 ## Adding behavior to the next element instance with xtal-deco
 
@@ -50,7 +50,7 @@ We can see there are four top level categories of things that we can attach -- e
 
 "vals" is used to simply set some initial property values on the target element(s).
 
-**NB I:**  Note that we are adding a property onto an existing native DOM element -- button in this case.  Although the property is added onto the element, and no attempt to do any kind of super.prop or super.method call is made, I can't completely rule out the possibility that something could go horribly wrong should a property with the same name be introduced into the browser native button element.  Please act responsibly and only choose property names (or method names) -- in this example "numberOfDrinksSold" -- whose chance of getting added natively to the button DOM element are lower than seeing a Libertarian POTUS in your pet mouse's lifespan.  These web components have a protective curse -- anyone trying to add a property or a method which has a higher probability will result in the developer receiving a one-way ticket to Azkaban.
+**NB I:**  Here we are adding a property onto an existing native DOM element -- button in this case.  Although the property is added onto the element, and no attempt to do any kind of super.prop or super.method call is made, I can't completely rule out the possibility that something could go horribly wrong should a property with the same name be introduced into the browser native button element.  Please act responsibly and only choose property names (or method names) -- in this example "numberOfDrinksSold" -- whose chance of getting added natively to the button DOM element are lower than seeing a Libertarian POTUS in your pet mouse's lifespan.  These web components have a protective curse -- anyone trying to add a property or a method which has a higher probability will result in the developer receiving a one-way ticket to Azkaban.
 
 If you really want to play it safe, there is an attribute, "use-symbols", which allows you to use symbols, which should be 100% safe:
 
