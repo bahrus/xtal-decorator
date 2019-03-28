@@ -40,7 +40,7 @@ Syntax:
     })
 </script></xtal-deco>
 <button data-drink-selection="Butterbeer">Click me to Order Your Drink</button>
-<!-- Pass down(p-d) prop numberOfConesSold when it changes -->
+<!-- Pass down(p-d) prop numberOfDrinksSold when it changes -->
 <p-d on="numberOfDrinksSold-changed" prop="textContent" val="target.numberOfDrinksSold"></p-d>
 <span></span> drinks sold.
 
@@ -81,7 +81,7 @@ If you really want to play it safe, there is an attribute, "use-symbols", which 
 <span></span> drinks sold.
 ```
 
-I *think* using property and method names starting with an underscore should also allow you to steer clear of the dementors, which is easier to work with than symbols.
+I *think* using property and method names starting with an underscore should also allow you to steer clear of the dementors. That would be easier than working with symbols.
 
 ## xtal-decor, xtal-decorator
 
@@ -92,12 +92,12 @@ xtal-decor and xtal-decorator are the kind of web components you would find hang
 xtal-decor, like xtal-deco, can also attach properties and functions to the next element, but you need to be more explicit:
 
 ```html
-    <xtal-decor attach-script into-next-element></xtal-decorator
+    <xtal-decor attach-script into-next-element></xtal-decor>
 ```
 
 ###  Template insertion into neighboring web component's Shadow DOM.
 
-**NB II:** The benefits of this functionality should drop dramatically as ::part / ::theme become a ::thing.
+**NB II:** The benefits of this functionality should drop dramatically as ::part / ::theme becomes a [::thing](https://meowni.ca/posts/part-theme-explainer/).
 
 Syntax:
 

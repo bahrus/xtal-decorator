@@ -2,7 +2,7 @@ import { define } from 'xtal-latx/define.js';
 import { decorate } from 'trans-render/decorate.js';
 import { XtallatX } from 'xtal-element/xtal-latx';
 //import { XtallatX } from 'xtal-latx/xtal-latx.js';
-const spKey = '__xtal_deco_onPropsChange'; //special key
+//const spKey = '__xtal_deco_onPropsChange'; //special key
 const use_symbols = 'use-symbols';
 /**
  * `xtal-deco`
@@ -41,7 +41,7 @@ export class XtalDeco extends XtallatX(HTMLElement) {
         this.getElement('_script', t => t.querySelector('script'));
     }
     static attachBehavior(target, evalObj) {
-        decorate(target, evalObj.vals, evalObj);
+        decorate(target, evalObj);
     }
     getElement(fieldName, getter) {
         this[fieldName] = getter(this);
@@ -63,6 +63,8 @@ export class XtalDeco extends XtallatX(HTMLElement) {
         //console.log(funS);
         const evalObj = new Function(funS)()();
         //console.log(evalObj);
+        evalObj.propDefs = evalObj.props;
+        evalObj.propVals = evalObj.vals;
         XtalDeco.attachBehavior(target, evalObj);
         const nS = this._nextSibling;
         const da = nS.getAttribute('disabled');
