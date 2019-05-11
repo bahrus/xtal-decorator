@@ -48,7 +48,7 @@ export class XtalDecorator extends observeCssSelector(XtalDecor){
 
 
     connectedCallback(){
-        this._upgradeProperties(['whereTargetSelector']);
+        this.propUp(['whereTargetSelector']);
         super.connectedCallback();
     }
 

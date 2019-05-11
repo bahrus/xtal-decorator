@@ -94,7 +94,7 @@ export class XtalDecor extends XtalDeco {
     _connected: boolean;
     _mutationObserver: MutationObserver;
     connectedCallback() {
-        this._upgradeProperties(['disabled', 'attachScript', 'importTemplate', 'intoNextElement', 'whereCSSMatches']);
+        this.propUp(['disabled', 'attachScript', 'importTemplate', 'intoNextElement', 'whereCSSMatches']);
         this._connected = true;
         this.onDecoPropsChange();
         this.addMutationObserver();

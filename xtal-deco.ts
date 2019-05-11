@@ -1,7 +1,7 @@
 import {define} from 'xtal-latx/define.js';
 import {decorate} from 'trans-render/decorate.js';
 import {XtallatX} from 'xtal-element/xtal-latx';
-import { timingSafeEqual } from 'crypto';
+import {hydrate} from 'trans-render/hydrate.js';
 //import { XtallatX } from 'xtal-latx/xtal-latx.js';
 //const spKey = '__xtal_deco_onPropsChange'; //special key
 const use_symbols = 'use-symbols';
@@ -13,7 +13,7 @@ const use_symbols = 'use-symbols';
  * @polymer
  * @demo demo/index.html
  */
-export class XtalDeco extends XtallatX(HTMLElement) {
+export class XtalDeco extends XtallatX(hydrate(HTMLElement)) {
 
     static get is() { return 'xtal-deco'; }
     static get observedAttributes(){
@@ -42,7 +42,7 @@ export class XtalDeco extends XtallatX(HTMLElement) {
 
     connectedCallback() {
         this.style.display = 'none';
-        this._upgradeProperties(['useSymbols']);
+        this.propUp(['useSymbols']);
         this.getElement('_nextSibling', t => (t.nextElementSibling as HTMLElement));
         this.getElement('_script', t => t.querySelector('script'));
     }
