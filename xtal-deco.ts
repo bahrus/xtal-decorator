@@ -68,7 +68,7 @@ export class XtalDeco extends XtallatX(hydrate(HTMLElement)) {
         const symbols = this._useSymbols ? this._useSymbols.map(symbol => `const ${symbol} = Symbol('${symbol}');`).join('')  : '';
         const funS = `return function(){
             ${symbols} 
-            return ${scriptElement.innerHTML};
+            return ${scriptElement.innerHTML.trim()};
         }`;
         //console.log(funS);
         const evalObj = new Function(funS)()();
