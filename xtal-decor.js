@@ -1,5 +1,5 @@
 import { XtalDeco } from './xtal-deco.js';
-import { define } from 'xtal-latx/define.js';
+import { define } from 'trans-render/define.js';
 import { cd } from 'xtal-shell/cd.js';
 export function qsa(css, from) {
     return [].slice.call((from ? from : this).querySelectorAll(css));

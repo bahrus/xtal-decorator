@@ -1,4 +1,4 @@
-import { define } from 'xtal-latx/define.js';
+import { define } from 'trans-render/define.js';
 import { decorate } from 'trans-render/decorate.js';
 import { XtallatX } from 'xtal-element/xtal-latx';
 import { hydrate } from 'trans-render/hydrate.js';

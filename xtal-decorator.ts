@@ -1,6 +1,6 @@
 import {XtalDecor} from './xtal-decor.js';
-import { define } from 'xtal-latx/define.js';
-import {observeCssSelector} from 'xtal-latx/observeCssSelector.js';
+import { define } from 'trans-render/define.js';
+import {observeCssSelector} from 'xtal-element/observeCssSelector.js';
 
 const where_target_selector = 'where-target-selector';
 export class XtalDecorator extends observeCssSelector(XtalDecor){
