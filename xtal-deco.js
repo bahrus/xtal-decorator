@@ -1,6 +1,6 @@
 import { define } from 'trans-render/define.js';
 import { decorate } from 'trans-render/decorate.js';
-import { XtallatX } from 'xtal-element/xtal-latx';
+import { XtallatX } from 'xtal-element/xtal-latx.js';
 import { hydrate } from 'trans-render/hydrate.js';
 //import { XtallatX } from 'xtal-latx/xtal-latx.js';
 //const spKey = '__xtal_deco_onPropsChange'; //special key
