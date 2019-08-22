@@ -1,4 +1,4 @@
-import { XtalDecor } from './xtal-decor.js';
+import { XtalDecor } from 'xtal-decor/xtal-decor.js';
 import { define } from 'trans-render/define.js';
 import { observeCssSelector } from 'xtal-element/observeCssSelector.js';
 const where_target_selector = 'where-target-selector';

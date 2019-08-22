@@ -2,23 +2,24 @@
   "name": "xtal-decorator",
   "version": "0.0.46",
   "description": "Extend or Apply methods / properties onto neighboring elements",
-  "main": "xtal-deco.js",
-  "module": "xtal-deco.js",
+  "main": "xtal-decorator.js",
+  "module": "xtal-decorator.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "node node_modules/xtal-test/serve.js"
+  },
   "repository": "https://github.com/bahrus/xtal-decorator",
   "author": "bahrus <anderson.bruce.b@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "trans-render": "0.0.111",
-    "xtal-element": "0.0.59",
-    "xtal-shell": "0.0.18"
+    "trans-render": "0.0.131",
+    "xtal-element": "0.0.81",
+    "xtal-decor": "0.0.1"
   },
   "devDependencies": {
-    "@polymer/paper-input": "3.0.2",
-    "@polymer/polymer": "3.2.0",
     "@types/tape": "4.2.33",
-    "@webcomponents/webcomponentsjs": "2.2.10",
     "jiife": "0.0.12",
     "tape": "4.10.1",
-    "xtal-test": "0.0.18"
+    "xtal-test": "0.0.19"
   }
 }
