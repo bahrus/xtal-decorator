@@ -8,7 +8,7 @@
 
 Add properties / methods to other DOM (custom) elements.
 
-xtal-deco, xtal-decor and xtal-decorator provide a way of adding behavior to other elements -- "decorating" the element.  The affected elements can be native DOM elements, or custom element instances. xtal-decorator extends xtal-decor, which extends xtal-deco, each extension adding more functionality. xtal-deco and xtal-decor only affect the next sibling element.  xtal-decorator can apply to multiple elements.
+xtal-decorator extends [xtal-decor](https://www.npmjs.com/package/xtal-decor) which extends [xtal-deco](https://www.npmjs.com/package/xtal-deco).  They provide a way of adding behavior to other elements -- "decorating" the element.  The affected elements can be native DOM elements, or custom element instances. xtal-decorator extends xtal-decor, which extends xtal-deco, each extension adding more functionality. xtal-deco and xtal-decor only affect the next sibling element.  xtal-decorator can apply to multiple elements.
 
 The syntax is heavily influenced by Vue / Polymer 1.
 
@@ -102,7 +102,7 @@ xtal-decor, like xtal-deco, can also attach properties and functions to the next
 Syntax:
 
 ```html
-<xtal-decor insert-template into-next-element>
+<xtal-decor import-template into-next-element>
     <template>
         <style>
             label {
@@ -158,7 +158,7 @@ xtal-decorator extends xtal-decor, but rather than just target the next element,
 
 <!--
 ```
-<custom-element-demo>
+<custom-element-demox>
 <template>
       <wc-info
         package-name="npm.xtal-decorator"
@@ -183,18 +183,16 @@ xtal-decorator extends xtal-decor, but rather than just target the next element,
           import 'wc-info/wc-info.js';
         </script>
 </template>
-</custom-element-demo>
+</custom-element-demox>
 ```
 -->
 
-## Install the Polymer-CLI
 
-First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) and npm (packaged with [Node.js](https://nodejs.org)) installed. Run `npm install` to install your element's dependencies, then run `polymer serve` to serve your element locally.
 
 ## Viewing Your Element
 
 ```
-$ polymer serve
+$ npm run serve
 ```
 
 
