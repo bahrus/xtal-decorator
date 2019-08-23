@@ -4,11 +4,11 @@
         "**/*.js": {"when": "$(basename).ts"},
         "**/*.js.map" : true
     },
-    "html.experimental.customData": ["./html.json"],
+    "html.experimental.customData": ["./custom-elements.json"],
     "json.schemas": [
         {
-            "fileMatch": ["/html.json"],
-            "url": "https://raw.githubusercontent.com/Microsoft/vscode-html-languageservice/master/docs/customData.schema.json"
+            "fileMatch": ["/custom-elements.json"],
+            "url": "https://unpkg.com/wc-info@0.0.64/schema.json"
         },
         {
             "fileMatch": ["/css.json"],

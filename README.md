@@ -14,7 +14,7 @@ The syntax is heavily influenced by Vue / Polymer 1.
 
 ## Adding behavior to the next element instance with xtal-deco
 
-Syntax:
+Syntax example:
 
 
 ```html
@@ -156,36 +156,20 @@ xtal-decorator extends xtal-decor, but rather than just target the next element,
 
 ## Syntax Reference
 
+
 <!--
 ```
-<custom-element-demox>
+<custom-element-demo>
 <template>
-      <wc-info
-        package-name="npm.xtal-decorator"
-        href="https://unpkg.com/xtal-decorator@0.0.35/html.json"
-      >
-        <!-- Use experimental import maps -->
-        <script defer src="https://cdn.jsdelivr.net/npm/es-module-shims@0.2.0/dist/es-module-shims.js"></script>
-        <script type="importmap-shim">
-          {
-            "imports": {
-              "xtal-latx/": "https://cdn.jsdelivr.net/npm/xtal-latx@0.0.88/",
-              "trans-render/": "https://cdn.jsdelivr.net/npm/trans-render@0.0.60/",
-              "hypo-link/": "https://cdn.jsdelivr.net/npm/hypo-link@0.0.8/",
-              "xtal-element/": "https://cdn.jsdelivr.net/npm/xtal-element@0.0.23/",
-              "wc-info/": "https://cdn.jsdelivr.net/npm/wc-info@0.0.28/"
-              
-            }
-          }
-          </script>
-          
-        <script  type="module-shim">
-          import 'wc-info/wc-info.js';
-        </script>
+    <div>
+        <wc-info package-name="npm.hypo-link" href="https://unpkg.com/xtal-decorator@0.0.48/custom-elements.json"></wc-info>
+        <script type="module" src="https://unpkg.com/wc-info@0.0.29/wc-info.js?module"></script>
+    </div>
 </template>
-</custom-element-demox>
+</custom-element-demo>
 ```
 -->
+
 
 
 

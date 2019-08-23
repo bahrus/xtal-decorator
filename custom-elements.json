@@ -1,0 +1,130 @@
+{
+  "version": 1,
+  "tags": [
+    {
+      "name": "xtal-deco",
+      "description": "Add behavior to the next sibling element",
+      "attributes": [
+        {
+          "name": "where-target-selector",
+          "description": "Optional selector to search for within the next sibling element's light children. This will select the target elements(s) to which properties and methods will be attached."
+        },
+        {
+          "name": "use-symbols",
+          "description": "Symbols to use for properties and methods"
+        }
+       
+      ],
+      "properties": [
+        {
+          "name": "whereTargetSelector",
+          "description": "Optional selector to search for within the next sibling element's light children.. This will select the target elements(s) to which properties and methods will be attached." ,
+          "type": "string"           
+        },
+        {
+          "name": "useSymbols",
+          "description": "Symbols to use for properties and methods",
+          "type":"boolean"
+        } 
+      ]
+    },
+    {
+      "name": "xtal-decor",
+      "description": "Add behavior to the next sibling element",
+      "attributes": [
+        {
+          "name": "where-target-selector",
+          "description": "Optional selector to search for within the next sibling element's light children. This will select the target elements(s) to which properties and methods will be attached."
+        },
+        {
+          "name": "use-symbols",
+          "description": "Symbols to use for properties and methods"
+        },
+        {
+          "name": "into-next-element",
+          "description": "Must be present / true for anything to happen."
+        },
+        {
+            "name": "import-template",
+            "description": "Look for inner templates to import."
+        },
+        {
+            "name": "attach-script",
+            "description": "Look for inner scripts to use to attach behavior."
+        }
+      ],
+      "properties": [
+        {
+          "name": "whereTargetSelector",
+          "description": "Optional selector to search for within the next sibling element's light children.. This will select the target elements(s) to which properties and methods will be attached." ,
+          "type": "string"           
+        },
+        {
+          "name": "useSymbols",
+          "description": "Symbols to use for properties and methods",
+          "type":"boolean"
+        },
+        {
+          "name": "intoNextElement",
+          "description": "Must be present / true for anything to happen.",
+          "type": "boolean"
+        },
+        {
+          "name": "importTemplate",
+          "description": "Look for inner templates to import.",
+          "type": "boolean"
+        },
+        {
+          "name": "attachScript",
+          "description": "Look for inner scripts to use to attach behavior.",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+        "name": "xtal-decorator",
+        "description": "Add behavior to multiple elements in the same Shadow DOM realm.",
+        "attributes": [
+            {
+              "name": "where-target-selector",
+              "description": "Selector to search for within the hosting element's Shadow DOM. This will select the target elements(s) to which properties and methods will be attached."
+            },
+            {
+              "name": "use-symbols",
+              "description": "Symbols to use for properties and methods"
+            },
+            {
+                "name": "import-template",
+                "description": "Look for inner templates to import."
+            },
+            {
+                "name": "attach-script",
+                "description": "Look for inner scripts to use to attach behavior."
+            }
+
+        ],
+        "properties": [
+          {
+            "name": "whereTargetSelector",
+            "description": "Selector to search for within the hosting element's Shadow DOM. This will select the target elements(s) to which properties and methods will be attached." ,
+            "type": "string"           
+          },
+          {
+            "name": "useSymbols",
+            "description": "Symbols to use for properties and methods",
+            "type":"boolean"
+          },
+          {
+            "name": "importTemplate",
+            "description": "Look for inner templates to import.",
+            "type": "boolean"
+          },
+          {
+            "name": "attachScript",
+            "description": "Look for inner scripts to use to attach behavior.",
+            "type": "boolean"
+          }
+        ]    
+    }
+  ]
+}
