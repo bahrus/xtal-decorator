@@ -162,8 +162,8 @@ xtal-decorator extends xtal-decor, but rather than just target the next element,
 <custom-element-demo>
 <template>
     <div>
-        <wc-info package-name="npm.hypo-link" href="https://unpkg.com/xtal-decorator@0.0.48/custom-elements.json"></wc-info>
-        <script type="module" src="https://unpkg.com/wc-info@0.0.29/wc-info.js?module"></script>
+        <wc-info package-name="npm.xtal-decorator" href="https://unpkg.com/xtal-decorator@0.0.48/custom-elements.json"></wc-info>
+        <script type="module" src="https://unpkg.com/wc-info@0.0.65/wc-info.js?module"></script>
     </div>
 </template>
 </custom-element-demo>
