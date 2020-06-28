@@ -8,7 +8,7 @@
 
 Add properties / methods to other DOM (custom) elements.
 
-xtal-decorator extends [xtal-decor](https://www.npmjs.com/package/xtal-decor) which extends [xtal-deco](https://www.npmjs.com/package/xtal-deco).  They provide a way of adding behavior to other elements -- "decorating" the element.  The affected elements can be native DOM elements, or custom element instances. xtal-decorator extends xtal-decor, which extends xtal-deco, each extension adding more functionality. xtal-deco and xtal-decor only affect the next sibling element.  xtal-decorator can apply to multiple elements.
+xtal-decorator extends [xtal-decor](https://www.npmjs.com/package/xtal-decor) which extends [xtal-deco](https://www.npmjs.com/package/xtal-deco), each extension adding more functionality.  They provide a way of adding behavior to other elements -- "decorating" the element.  The affected elements can be native DOM elements, or custom element instances. xtal-deco and xtal-decor only affect the next sibling element.  xtal-decorator can apply to multiple elements.
 
 The syntax is heavily influenced by Vue / Polymer 1.
 
@@ -98,6 +98,8 @@ xtal-decor, like xtal-deco, can also attach properties and functions to the next
 ###  Template insertion into neighboring web component's Shadow DOM.
 
 **NB II:** The benefits of this functionality should drop dramatically as ::part / ::theme becomes a [::thing](https://meowni.ca/posts/part-theme-explainer/).
+
+**NB III:** Actually, [::part is a thing now](https://developer.mozilla.org/en-US/docs/Web/CSS/::part#Browser_compatibility)!
 
 Syntax:
 
