@@ -17,6 +17,7 @@
     "css-observe": "0.0.23"
   },
   "devDependencies": {
-    "xtal-test": "0.0.46"
+    "xtal-test": "0.0.46",
+    "es-module-shims": "0.5.2"
   }
 }

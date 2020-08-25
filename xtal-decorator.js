@@ -19,7 +19,34 @@ export const plantListeners = ({ self, selectorSequence, insertTemplate, templat
         return;
     plantListener(self, self, selectorSequence, false);
 };
+export function plantListener(host, shadowDOMCitizen, selectorSequence, inShadow) {
+    if (inShadow && shadowDOMCitizen.shadowRoot === null) {
+        setTimeout(() => {
+            plantListener(host, shadowDOMCitizen, selectorSequence, inShadow);
+        }, 50);
+        return;
+    }
+    let newShadowDOMCitizen = inShadow ? shadowDOMCitizen.shadowRoot : shadowDOMCitizen.getRootNode();
+    if (newShadowDOMCitizen === document) {
+        newShadowDOMCitizen = document.body;
+    }
+    const head = selectorSequence[0];
+    const tail = selectorSequence.slice(1);
+    const cssObserve = document.createElement('css-observe');
+    cssObserve[selSeq] = tail;
+    cssObserve.observe = true;
+    cssObserve.selector = head;
+    cssObserve.addEventListener('latest-match-changed', e => {
+        host.targetElement = e.detail.value;
+        if (tail.length > 0) {
+            plantListener(host, e.detail.value, tail, true);
+        }
+    });
+    newShadowDOMCitizen.appendChild(cssObserve);
+}
 export const doStuffToTargetElement = ({ targetElement, props, attribs, templateElement, insertTemplate }) => {
+    if (targetElement === undefined)
+        return;
     if (insertTemplate) {
         const clone = templateElement.content.cloneNode(true);
         switch (insertTemplate) {
@@ -59,33 +86,17 @@ export const doStuffToTargetElement = ({ targetElement, props, attribs, template
         }
     }
 };
-export function plantListener(host, shadowDOMCitizen, selectorSequence, inShadow) {
-    if (inShadow && shadowDOMCitizen.shadowRoot === null) {
-        setTimeout(() => {
-            plantListener(host, shadowDOMCitizen, selectorSequence, inShadow);
-        }, 50);
-        return;
-    }
-    const newShadowDOMCitizen = inShadow ? shadowDOMCitizen.shadowRoot : shadowDOMCitizen.getRootNode();
-    const head = selectorSequence[0];
-    const tail = selectorSequence.slice(1);
-    const cssObserve = document.createElement('css-observe');
-    cssObserve[selSeq] = tail;
-    cssObserve.observe = true;
-    cssObserve.selector = head;
-    cssObserve.addEventListener('latest-match-changed', e => {
-        host.targetElement = e.detail.value;
-        if (tail.length > 0) {
-            plantListener(host, e.detail.value, tail, true);
-        }
-    });
-    newShadowDOMCitizen.appendChild(cssObserve);
-}
+export const propActions = [linkTemplateElement, plantListeners, doStuffToTargetElement];
 export class XtalDecorator extends XtallatX(hydrate(HTMLElement)) {
+    constructor() {
+        super(...arguments);
+        this.propActions = propActions;
+    }
 }
 XtalDecorator.is = 'xtal-decorator';
 XtalDecorator.attributeProps = ({ disabled, props, attribs, insertTemplate, selectorSequence, targetElement, templateElement }) => ({
     obj: [props, attribs, selectorSequence, targetElement, templateElement],
+    jsonProp: [props, attribs, selectorSequence],
     str: [insertTemplate],
 });
 define(XtalDecorator);
