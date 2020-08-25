@@ -12,11 +12,11 @@
   "author": "bahrus <anderson.bruce.b@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "trans-render": "0.0.143",
-    "xtal-element": "0.0.101",
-    "xtal-decor": "0.0.1"
+    "trans-render": "0.0.255",
+    "xtal-element": "0.0.286",
+    "css-observe": "0.0.23"
   },
   "devDependencies": {
-    "xtal-test": "0.0.44"
+    "xtal-test": "0.0.46"
   }
 }

@@ -1,70 +1,104 @@
-import {XtalDecor} from 'xtal-decor/xtal-decor.js';
-import { define } from 'trans-render/define.js';
-import {observeCssSelector} from 'xtal-element/observeCssSelector.js';
+import { XtallatX, define, AttributeProps, PropAction, deconstruct, EventSettings} from 'xtal-element/xtal-latx.js';
+import { hydrate } from 'trans-render/hydrate.js';
+import('css-observe/css-observe.js');
 
-const where_target_selector = 'where-target-selector';
-export class XtalDecorator extends observeCssSelector(XtalDecor){
-    static get is(){return 'xtal-decorator';}
-    static get observedAttributes(){
-        return super.observedAttributes.concat([where_target_selector]);
+const selSeq = Symbol('selSeq');
+
+export const linkTemplateElement = ({self, insertTemplate}: XtalDecorator) => {
+    if(!insertTemplate) return;
+    const templateElement = self.querySelector('template');
+    if(templateElement === null){
+        setTimeout(() =>{
+            linkTemplateElement(self);
+        }, 50);
+        return;
     }
+    self.templateElement = templateElement;
+}
 
-     _whereTargetSelector: string;
-    /** @type {string} 
-     * Selector to search for within the parent element. 
-     * This will select the target elements(s) to which properties and methods will be attached.
-    */
-    get whereTargetSelector() {
-        return this._whereTargetSelector;
+export const plantListeners = ({self, selectorSequence, insertTemplate, templateElement}: XtalDecorator) => {
+    if(insertTemplate && templateElement === undefined) return;
+    plantListener(self, self, selectorSequence, false);
+}
+
+export const doStuffToTargetElement = ({targetElement, props, attribs, templateElement, insertTemplate}: XtalDecorator) => {
+    if(insertTemplate){
+        const clone = templateElement.content.cloneNode(true);
+        switch(insertTemplate){
+            case 'afterbegin':
+                targetElement.prepend(clone);
+                break;
+            case 'afterend':
+                targetElement.append(clone);
+                break;
+            // case 'beforebegin':
+            //     break;
+            // case 'beforeend':
+            //     break;
+            default: 
+                throw 'Not implemented yet';
+        }
     }
-
-    set whereTargetSelector(val) {
-        if (this._whereTargetSelector && this._whereTargetSelector !== val) throw 'Only supports one value';
-        this.attr(where_target_selector, val);
+    if(props !== undefined){
+        const copyOfProps = Object.assign({}, props);
+        const style = copyOfProps.style;
+        const dataset = copyOfProps.dataset;
+        delete copyOfProps.style;
+        delete copyOfProps.dataset;
+        Object.assign(targetElement, copyOfProps);
+        Object.assign(targetElement.dataset, dataset);
+        Object.assign(targetElement.style, style);
     }
-
-    insertListener(e: any){
-        if (e.animationName === this.id) {
-            const target = e.target;
-            setTimeout(() =>{
-                this.appendTemplates(target as HTMLElement);
-                this.attachScripts(target as HTMLElement);
-            }, 0);
+    if(attribs !== null){
+        for(const key in attribs){
+            const val = attribs[key];
+            if(val === null){
+                targetElement.removeAttribute(key);
+            }else{
+                targetElement.setAttribute(key, val);
+            }
             
         }
     }
-
-
-    attributeChangedCallback(name: string, oldVal: string, newVal: string) {
-        switch(name){
-            case where_target_selector:
-                this._whereTargetSelector = newVal;
-                break;
-
-        }
-        super.attributeChangedCallback(name, oldVal, newVal);
-    }
-
-
-
-    connectedCallback(){
-        this.propUp(['whereTargetSelector']);
-        super.connectedCallback();
-    }
-
-
-
-
-    onDecoPropsChange(){
-        if(!this._whereTargetSelector){
-            super.onDecoPropsChange();
-            return;
-        }
-        if(!this.id){
-            console.error('xtal-decorator requires an id');
-            return;
-        }
-        this.addCSSListener(this.id, this._whereTargetSelector, this.insertListener);
-    }
 }
+
+export function plantListener(host: XtalDecorator, shadowDOMCitizen: HTMLElement, selectorSequence: string[], inShadow: boolean){
+    if(inShadow && shadowDOMCitizen.shadowRoot === null){
+        setTimeout(() => {
+            plantListener(host, shadowDOMCitizen, selectorSequence, inShadow);
+        }, 50);
+        return;
+    }
+    const newShadowDOMCitizen = inShadow ? shadowDOMCitizen.shadowRoot : shadowDOMCitizen.getRootNode();
+    const head = selectorSequence[0];
+    const tail = selectorSequence.slice(1);
+    const cssObserve = document.createElement('css-observe') as any;
+    cssObserve[selSeq] = tail;
+    cssObserve.observe = true;
+    cssObserve.selector = head;
+    cssObserve.addEventListener('latest-match-changed', e => {
+        host.targetElement = e.detail.value;
+        if(tail.length > 0){
+            plantListener(host, e.detail.value, tail, true);
+        }
+    });
+    newShadowDOMCitizen.appendChild(cssObserve);
+}
+
+export class XtalDecorator extends XtallatX(hydrate(HTMLElement)) {
+    static is = 'xtal-decorator';
+
+    static attributeProps = ({disabled, props, attribs, insertTemplate, selectorSequence, targetElement, templateElement}: XtalDecorator) => ({
+        obj: [props, attribs, selectorSequence, targetElement, templateElement],
+        str: [insertTemplate],
+    } as AttributeProps);
+
+    props: {[key: string]: any} | undefined;
+    attribs: {[key: string]: any} | undefined;
+    insertTemplate: InsertPosition | undefined;
+    selectorSequence: string[] | undefined;
+    targetElement: HTMLElement | undefined;
+    templateElement: HTMLTemplateElement | undefined;
+}
+
 define(XtalDecorator);
