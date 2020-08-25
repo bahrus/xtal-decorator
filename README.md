@@ -34,7 +34,7 @@ xtal-decorator, on the other hand, searches far and deep -- like xtal-decor, it 
 ## Viewing Your Element
 
 ```
-$ npm run test
+$ npm install
 $ npm run serve
 ```
 
