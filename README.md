@@ -15,7 +15,7 @@ xtal-decorator is part of a family of components, along with [xtal-decor](https:
 xtal-decorator, on the other hand, searches far and deep -- like xtal-decor, it can target any DOM within its Shadow DOM realm, but in addition, xtal-decorator can recursively pierce inside the Shadow DOM of elements within its realm.  Once the target is found, though, it can only do quick one-time things like 1) Set Props, or 2)  Set Attributes, and/or 3) Insert a template.
 
 ```html
-<xtal-decorator selector-sequence='["ginny-weasly", "book-bag"]' props='...' attribs='...' insert-template=afterend>
+<xtal-decorator selector-sequence='["ginny-weasly", "book-bag"]' props='...' attribs='...' insert-template=beforeend>
     <template>
     ...
         <tom-riddles-diary></tom-riddles-diary>
@@ -29,6 +29,7 @@ xtal-decorator, on the other hand, searches far and deep -- like xtal-decor, it 
 </ginny-weasly>
 ```
 
+## [Syntax](https://bahrus.github.io/api-viewer/index.html?npmPackage=xtal-decorator&jsonPath=custom-elements.json)
 
 
 ## Viewing Your Element
