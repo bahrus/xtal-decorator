@@ -39,9 +39,10 @@ export function plantListener(host: XtalDecorator, shadowDOMCitizen: HTMLElement
     cssObserve.observe = true;
     cssObserve.selector = head;
     cssObserve.addEventListener('latest-match-changed', e => {
-        host.targetElement = e.detail.value;
         if(tail.length > 0){
             plantListener(host, e.detail.value, tail, true);
+        }else{
+            host.targetElement = e.detail.value;
         }
     });
     newShadowDOMCitizen.appendChild(cssObserve);
@@ -50,18 +51,23 @@ export function plantListener(host: XtalDecorator, shadowDOMCitizen: HTMLElement
 export const doStuffToTargetElement = ({targetElement, props, attribs, templateElement, insertTemplate}: XtalDecorator) => {
     if(targetElement === undefined) return;
     if(insertTemplate){
-        const clone = templateElement.content.cloneNode(true);
+        const clone = templateElement.content.cloneNode(true) as DocumentFragment;
         switch(insertTemplate){
             case 'afterbegin':
                 targetElement.prepend(clone);
                 break;
-            case 'afterend':
+            case 'beforeend':
                 targetElement.append(clone);
                 break;
-            // case 'beforebegin':
-            //     break;
-            // case 'beforeend':
-            //     break;
+            case 'beforebegin':
+                Array.from(clone.children).forEach(child => {
+                    targetElement.insertAdjacentElement('beforebegin', child);
+                });
+                break;
+            case 'afterend':
+                Array.from(clone.children).forEach(child => {
+                    targetElement.insertAdjacentElement('afterend', child);
+                });
             default: 
                 throw 'Not implemented yet';
         }
