@@ -67,6 +67,7 @@ export const doStuffToTargetElement = ({ targetElement, props, attribs, template
                 Array.from(clone.children).forEach(child => {
                     targetElement.insertAdjacentElement('afterend', child);
                 });
+                break;
             default:
                 throw 'Not implemented yet';
         }
