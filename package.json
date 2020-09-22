@@ -6,7 +6,8 @@
   "module": "xtal-decorator.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "node node_modules/xtal-test/serve.js"
+    "serve": "node node_modules/xtal-test/serve.js",
+    "doc": "wca analyze xtal-decorator-example0.js --outFile custom-elements.json"
   },
   "repository": "https://github.com/bahrus/xtal-decorator",
   "author": "bahrus <anderson.bruce.b@gmail.com>",

@@ -106,13 +106,39 @@ export class XtalDecorator extends XtallatX(hydrate(HTMLElement)) {
         str: [insertTemplate],
     } as AttributeProps);
 
+    /**
+     * Property values to set on target elements
+     * @attr props
+     */
     props: {[key: string]: any} | undefined;
+    /**
+     * Attribute values to set on target elements
+     * @attr attrib
+     */
     attribs: {[key: string]: any} | undefined;
+    /**
+     * If template is provided in the innerHTML, indicate the 
+     * placement of the cloned template relative to the target element.
+     * @type {"beforebegin"|"afterbegin"|"beforeend"|"afterend"}
+     */
     insertTemplate: InsertPosition | undefined;
+    /**
+     * Sequence of css selectors within nested ShadowDOM realms.
+     */
     selectorSequence: string[] | undefined;
+    /**
+     * Temporary holding place for found element.
+     * @private
+     */
     targetElement: HTMLElement | undefined;
+    /**
+     * @private
+     */
     templateElement: HTMLTemplateElement | undefined;
 
+    /**
+     * @private
+     */
     propActions = propActions;
 }
 

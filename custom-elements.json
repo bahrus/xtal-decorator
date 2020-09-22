@@ -1,130 +1,68 @@
 {
-  "version": 1,
+  "version": "experimental",
   "tags": [
     {
-      "name": "xtal-deco",
-      "description": "Add behavior to the next sibling element",
+      "name": "xtal-decorator",
+      "path": "./xtal-decorator-example0.js",
       "attributes": [
         {
-          "name": "where-target-selector",
-          "description": "Optional selector to search for within the next sibling element's light children. This will select the target elements(s) to which properties and methods will be attached."
+          "name": "props",
+          "description": "Property values to set on target elements",
+          "type": "{ [key: string]: any; } | undefined"
         },
         {
-          "name": "use-symbols",
-          "description": "Symbols to use for properties and methods"
-        }
-       
-      ],
-      "properties": [
-        {
-          "name": "whereTargetSelector",
-          "description": "Optional selector to search for within the next sibling element's light children.. This will select the target elements(s) to which properties and methods will be attached." ,
-          "type": "string"           
+          "name": "attrib",
+          "description": "Attribute values to set on target elements",
+          "type": "{ [key: string]: any; } | undefined"
         },
         {
-          "name": "useSymbols",
-          "description": "Symbols to use for properties and methods",
-          "type":"boolean"
-        } 
-      ]
-    },
-    {
-      "name": "xtal-decor",
-      "description": "Add behavior to the next sibling element",
-      "attributes": [
-        {
-          "name": "where-target-selector",
-          "description": "Optional selector to search for within the next sibling element's light children. This will select the target elements(s) to which properties and methods will be attached."
-        },
-        {
-          "name": "use-symbols",
-          "description": "Symbols to use for properties and methods"
-        },
-        {
-          "name": "into-next-element",
-          "description": "Must be present / true for anything to happen."
-        },
-        {
-            "name": "import-template",
-            "description": "Look for inner templates to import."
-        },
-        {
-            "name": "attach-script",
-            "description": "Look for inner scripts to use to attach behavior."
+          "name": "disabled",
+          "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
+          "type": "boolean"
         }
       ],
       "properties": [
         {
-          "name": "whereTargetSelector",
-          "description": "Optional selector to search for within the next sibling element's light children.. This will select the target elements(s) to which properties and methods will be attached." ,
-          "type": "string"           
+          "name": "is",
+          "type": "string",
+          "default": "\"xtal-decorator\""
         },
         {
-          "name": "useSymbols",
-          "description": "Symbols to use for properties and methods",
-          "type":"boolean"
+          "name": "props",
+          "attribute": "props",
+          "description": "Property values to set on target elements",
+          "type": "{ [key: string]: any; } | undefined"
         },
         {
-          "name": "intoNextElement",
-          "description": "Must be present / true for anything to happen.",
-          "type": "boolean"
+          "name": "attribs",
+          "attribute": "attrib",
+          "description": "Attribute values to set on target elements",
+          "type": "{ [key: string]: any; } | undefined"
         },
         {
-          "name": "importTemplate",
-          "description": "Look for inner templates to import.",
-          "type": "boolean"
+          "name": "insertTemplate",
+          "description": "If template is provided in the innerHTML, indicate the \r\nplacement of the cloned template relative to the target element.",
+          "type": "\"beforebegin\"|\"afterbegin\"|\"beforeend\"|\"afterend\"",
+          "default": "\"afterend\""
         },
         {
-          "name": "attachScript",
-          "description": "Look for inner scripts to use to attach behavior.",
+          "name": "selectorSequence",
+          "description": "Sequence of css selectors within nested ShadowDOM realms.",
+          "type": "never[]",
+          "default": "[]"
+        },
+        {
+          "name": "attributeProps",
+          "type": "({ disabled, props, attribs, insertTemplate, selectorSequence, targetElement, templateElement }: XtalDecorator) => AttributeProps",
+          "default": "\"({disabled, props, attribs, insertTemplate, selectorSequence, targetElement, templateElement}: XtalDecorator) => ({\\r\\n        obj: [props, attribs, selectorSequence, targetElement, templateElement],\\r\\n        jsonProp:[props, attribs, selectorSequence],\\r\\n        str: [insertTemplate],\\r\\n    } as AttributeProps)\""
+        },
+        {
+          "name": "disabled",
+          "attribute": "disabled",
+          "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
           "type": "boolean"
         }
       ]
-    },
-    {
-        "name": "xtal-decorator",
-        "description": "Add behavior to multiple elements in the same Shadow DOM realm.",
-        "attributes": [
-            {
-              "name": "where-target-selector",
-              "description": "Selector to search for within the hosting element's Shadow DOM. This will select the target elements(s) to which properties and methods will be attached."
-            },
-            {
-              "name": "use-symbols",
-              "description": "Symbols to use for properties and methods"
-            },
-            {
-                "name": "import-template",
-                "description": "Look for inner templates to import."
-            },
-            {
-                "name": "attach-script",
-                "description": "Look for inner scripts to use to attach behavior."
-            }
-
-        ],
-        "properties": [
-          {
-            "name": "whereTargetSelector",
-            "description": "Selector to search for within the hosting element's Shadow DOM. This will select the target elements(s) to which properties and methods will be attached." ,
-            "type": "string"           
-          },
-          {
-            "name": "useSymbols",
-            "description": "Symbols to use for properties and methods",
-            "type":"boolean"
-          },
-          {
-            "name": "importTemplate",
-            "description": "Look for inner templates to import.",
-            "type": "boolean"
-          },
-          {
-            "name": "attachScript",
-            "description": "Look for inner scripts to use to attach behavior.",
-            "type": "boolean"
-          }
-        ]    
     }
   ]
 }

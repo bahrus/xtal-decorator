@@ -98,6 +98,9 @@ export const propActions = [linkTemplateElement, plantListeners, doStuffToTarget
 export class XtalDecorator extends XtallatX(hydrate(HTMLElement)) {
     constructor() {
         super(...arguments);
+        /**
+         * @private
+         */
         this.propActions = propActions;
     }
 }
