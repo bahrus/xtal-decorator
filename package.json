@@ -13,12 +13,12 @@
   "author": "bahrus <anderson.bruce.b@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "trans-render": "0.0.255",
-    "xtal-element": "0.0.286",
-    "css-observe": "0.0.23"
+    "trans-render": "0.0.265",
+    "xtal-element": "0.0.305",
+    "css-observe": "0.0.25"
   },
   "devDependencies": {
-    "xtal-test": "0.0.46",
-    "es-module-shims": "0.5.2"
+    "xtal-test": "0.0.48",
+    "es-module-shims": "0.6.0"
   }
 }
