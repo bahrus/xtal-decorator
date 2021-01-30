@@ -1,5 +1,4 @@
-import { XtallatX, define } from 'xtal-element/xtal-latx.js';
-import { hydrate } from 'trans-render/hydrate.js';
+import { xc } from 'xtal-element/lib/XtalCore.js';
 import('css-observe/css-observe.js');
 const selSeq = Symbol('selSeq');
 export const linkTemplateElement = ({ self, insertTemplate }) => {
@@ -32,6 +31,13 @@ export function plantListener(host, shadowDOMCitizen, selectorSequence, inShadow
     }
     const head = selectorSequence[0];
     const tail = selectorSequence.slice(1);
+    const jsonTail = JSON.stringify(tail);
+    const observers = newShadowDOMCitizen.querySelectorAll('css-observe');
+    for (const observer of observers) {
+        if (JSON.stringify(observer[selSeq]) === JSON.stringify(tail) && observer.selector === head) {
+            return;
+        }
+    }
     const cssObserve = document.createElement('css-observe');
     cssObserve[selSeq] = tail;
     cssObserve.observe = true;
@@ -47,8 +53,6 @@ export function plantListener(host, shadowDOMCitizen, selectorSequence, inShadow
     newShadowDOMCitizen.appendChild(cssObserve);
 }
 export const doStuffToTargetElement = ({ targetElement, props, attribs, templateElement, insertTemplate }) => {
-    if (targetElement === undefined)
-        return;
     if (insertTemplate) {
         const clone = templateElement.content.cloneNode(true);
         switch (insertTemplate) {
@@ -95,19 +99,48 @@ export const doStuffToTargetElement = ({ targetElement, props, attribs, template
     }
 };
 export const propActions = [linkTemplateElement, plantListeners, doStuffToTargetElement];
-export class XtalDecorator extends XtallatX(hydrate(HTMLElement)) {
+const obj1 = {
+    type: Object,
+    dry: true,
+    async: true,
+};
+const obj2 = {
+    type: Object,
+    dry: true,
+    async: true,
+    parse: true,
+};
+const propDefMap = {
+    props: obj2, attribs: obj2, selectorSequence: obj2, templateElement: obj1,
+    targetElement: {
+        type: Object,
+        dry: true,
+        async: true,
+        stopReactionsIfFalsy: true,
+    },
+    insertTemplate: {
+        type: String,
+        dry: true
+    }
+};
+const slicedPropDefs = xc.getSlicedPropDefs(propDefMap);
+export class XtalDecorator extends HTMLElement {
     constructor() {
         super(...arguments);
+        this.self = this;
         /**
          * @private
          */
         this.propActions = propActions;
+        this.reactor = new xc.Reactor(this);
+    }
+    connectedCallback() {
+        xc.hydrate(this, slicedPropDefs);
+    }
+    onPropChange(n, propDef, newVal) {
+        this.reactor.addToQueue(propDef, newVal);
     }
 }
 XtalDecorator.is = 'xtal-decorator';
-XtalDecorator.attributeProps = ({ disabled, props, attribs, insertTemplate, selectorSequence, targetElement, templateElement }) => ({
-    obj: [props, attribs, selectorSequence, targetElement, templateElement],
-    jsonProp: [props, attribs, selectorSequence],
-    str: [insertTemplate],
-});
-define(XtalDecorator);
+xc.letThereBeProps(XtalDecorator, slicedPropDefs.propDefs, 'onPropChange');
+xc.define(XtalDecorator);
