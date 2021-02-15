@@ -132,7 +132,7 @@ export class XtalDecorator extends HTMLElement {
          * @private
          */
         this.propActions = propActions;
-        this.reactor = new xc.Reactor(this);
+        this.reactor = new xc.Rx(this);
     }
     connectedCallback() {
         xc.hydrate(this, slicedPropDefs);

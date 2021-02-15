@@ -138,7 +138,7 @@ export class XtalDecorator extends HTMLElement implements ReactiveSurface {
      * @private
      */
     propActions = propActions;
-    reactor = new xc.Reactor(this);
+    reactor = new xc.Rx(this);
     /**
      * Property values to set on target elements
      * @attr props
@@ -177,7 +177,7 @@ export class XtalDecorator extends HTMLElement implements ReactiveSurface {
     }
 }
 
-xc.letThereBeProps(XtalDecorator, slicedPropDefs.propDefs, 'onPropChange');
+xc.letThereBeProps<XtalDecorator>(XtalDecorator, slicedPropDefs.propDefs, 'onPropChange');
 xc.define(XtalDecorator);
 
 declare global {
