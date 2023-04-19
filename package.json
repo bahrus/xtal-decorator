@@ -19,6 +19,6 @@
   },
   "devDependencies": {
     "es-module-shims": "0.9.0",
-    "xtal-test": "0.0.48"
+    "xtal-test": "0.0.57"
   }
 }
